@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FikrLess - Internship and Training Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #a8e6cf 0%, #88d8c0 25%, #7fcdcd 50%, #81c3d7 75%, #88c5e3 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #a8e6cf 0%, #7fcdcd 50%, #88c5e3 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow, background;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform-origin: center center;
+            isolation: isolate;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.25);
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: inherit;
+        }
+        
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
+        .card-hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: inherit;
+        }
+        
+        .card-hover:hover::after {
+            opacity: 1;
+        }
+        
+        .card-glass {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        .card-gradient-border {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border: 2px solid;
+            border-image: linear-gradient(145deg, #3b82f6, #06b6d4, #10b981) 1;
+        }
+        
+        .animate-float {
+            animation: veryGentleFloat 8s ease-in-out infinite;
+            will-change: transform;
+        }
+        
+        .animate-float-delayed {
+            animation: veryGentleFloat 8s ease-in-out infinite;
+            animation-delay: 3s;
+            will-change: transform;
+        }
+        
+        @keyframes veryGentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .fade-in {
+            animation: smoothFadeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+        
+        .fade-in-delay-1 {
+            animation: smoothFadeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .fade-in-delay-2 {
+            animation: smoothFadeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+            opacity: 0;
+        }
+        
+        .fade-in-delay-3 {
+            animation: smoothFadeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.9s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes smoothFadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        
+        /* Ultra-responsive modern animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 40px, 0) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translate3d(-40px, 0, 0) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translate3d(40px, 0, 0) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(20px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05) translateY(-5px);
+            }
+            70% {
+                transform: scale(0.98) translateY(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(168, 230, 207, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(168, 230, 207, 0.8);
+                transform: scale(1.02);
+            }
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        
+        .animate-slide-left {
+            animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        
+        .animate-slide-right {
+            animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        
+        .animate-bounce-in {
+            animation: bounceIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        /* Ultra-responsive mobile-first design */
+        @media (max-width: 640px) {
+            .card-hover {
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            
+            .card-hover:hover {
+                transform: translateY(-4px) scale(1.01) !important;
+                box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.2) !important;
+            }
+            
+            .card-hover::before {
+                transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            
+            .hero-gradient {
+                background-attachment: scroll;
+            }
+            
+            .animate-slide-up,
+            .animate-slide-left,
+            .animate-slide-right {
+                animation-duration: 0.6s;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .card-hover:hover {
+                transform: translateY(-6px) scale(1.015) !important;
+                box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.22) !important;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .card-hover:hover {
+                transform: translateY(-10px) scale(1.025) !important;
+                box-shadow: 0 28px 70px -12px rgba(0, 0, 0, 0.28) !important;
+            }
+        }
+        
+        @media (min-width: 1440px) {
+            .card-hover:hover {
+                transform: translateY(-12px) scale(1.03) !important;
+                box-shadow: 0 32px 80px -15px rgba(0, 0, 0, 0.3) !important;
+            }
+        }
+        
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            .card-hover {
+                transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            
+            .card-hover:hover {
+                transform: scale(1.01) !important;
+                box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.15) !important;
+            }
+            
+            .card-hover:active {
+                transform: scale(0.99) !important;
+                transition: transform 0.1s ease;
+            }
+            
+            .card-hover::before {
+                display: none;
+            }
+        }
+        
+        /* High-performance animations */
+        .gpu-accelerated {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            will-change: transform, opacity;
+        }
+        
+        /* Enhanced card containment */
+        .card-hover {
+            contain: layout style paint;
+            border-radius: 1.5rem;
+        }
+        
+        .card-hover > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Smooth hover transition for all nested elements */
+        .card-hover * {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        /* Prevent layout shift during hover */
+        .card-hover:hover {
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+        
+        /* Optimize for 60fps */
+        @media (prefers-reduced-motion: no-preference) {
+            .card-hover {
+                animation-fill-mode: both;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .card-hover,
+            .card-hover::before,
+            .card-hover::after {
+                transition: none !important;
+                animation: none !important;
+            }
+            
+            .card-hover:hover {
+                transform: none !important;
+            }
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Enhanced focus states for accessibility */
+        button:focus,
+        input:focus,
+        textarea:focus {
+            outline: 2px solid rgba(168, 230, 207, 0.8);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(168, 230, 207, 0.2);
+        }
+        
+        /* Professional Header Styles */
+        header {
+            min-height: 450px;
+        }
+        
+        @media (min-width: 768px) {
+            header {
+                min-height: 550px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            header {
+                min-height: 600px;
+            }
+        }
+        
+        @media (min-width: 1440px) {
+            header {
+                min-height: 650px;
+            }
+        }
+        
+        /* Radial Gradient Utility */
+        .bg-gradient-radial {
+            background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+        }
+        
+        /* Header Image Optimization */
+        header img[src*="header"] {
+            object-position: center center;
+            transition: transform 10s ease-out;
+            transform-origin: center center;
+        }
+        
+        /* Smooth Parallax Effect on Scroll */
+        @media (min-width: 768px) {
+            header img[src*="header"] {
+                object-position: center 35%;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            header img[src*="header"] {
+                object-position: center 40%;
+            }
+        }
+        
+        /* Quick Search Tags Animation */
+        .quick-search-tag {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+        
+        .quick-search-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Professional Search Bar */
+        #searchInput {
+            transition: all 0.3s ease;
+        }
+        
+        #searchInput:focus {
+            transform: scale(1.01);
+        }
+        
+        /* Glassmorphism Enhancement */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Mobile Header Optimization */
+        @media (max-width: 640px) {
+            header {
+                min-height: 400px;
+            }
+            
+            header img[src*="header"] {
+                object-position: center 45%;
+                transform: scale(1.1);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                min-height: 380px;
+            }
+            
+            header img[src*="header"] {
+                object-position: center 50%;
+            }
+        }
+        
+        /* Enhanced Header Content Spacing */
+        .header-content {
+            backdrop-filter: blur(1px);
+        }
+        
+        /* Professional Logo Enhancement */
+        .logo-container {
+            position: relative;
+        }
+        
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            animation: spin 8s linear infinite;
+        }
+        
+        .logo-container:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .play-button {
+            transition: all 0.3s ease;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        /* Enhanced Responsive Design */
+        @media (max-width: 1024px) {
+            .mentor-card-enhanced {
+                padding: 1.75rem !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .card-hover {
+                transform: none !important;
+                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            }
+            
+            .card-hover:hover {
+                transform: translateY(-4px) scale(1.01) !important;
+            }
+            
+            .card-hover::before {
+                display: none !important;
+            }
+            
+            .hero-text {
+                font-size: 2.5rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            .mentor-card-enhanced {
+                padding: 1.5rem !important;
+                margin: 0.75rem !important;
+            }
+            
+            .professional-badge {
+                padding: 0.6rem 1.2rem !important;
+                font-size: 0.85rem !important;
+            }
+            
+            .duration-badge, .price-badge {
+                padding: 0.4rem 0.8rem !important;
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-text {
+                font-size: 2rem !important;
+            }
+            
+            .mentor-card-enhanced {
+                padding: 1.25rem !important;
+            }
+            
+            .mentor-name {
+                font-size: 1.75rem !important;
+            }
+            
+            .search-container {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+            
+            .search-input {
+                width: 100% !important;
+                max-width: none !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text {
+                font-size: 1.75rem !important;
+            }
+            
+            .mentor-card-enhanced {
+                padding: 1rem !important;
+                border-radius: 1.5rem !important;
+            }
+            
+            .professional-badge {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        /* Enhanced Card Styling */
+        .price-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            display: inline-block;
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+        }
+        
+        .duration-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            display: inline-block;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+        }
+        
+        .feature-item {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .feature-item::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #10b981;
+            animation: subtleSparkle 6s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+        
+        @keyframes subtleSparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: scale(1.05) rotate(45deg); opacity: 0.9; }
+        }
+        
+        .mentor-card-enhanced {
+            position: relative;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+            backdrop-filter: blur(25px);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 
+                0 32px 64px -12px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .mentor-card-enhanced::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 3px;
+            background: linear-gradient(145deg, #3b82f6, #06b6d4, #10b981, #8b5cf6);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            z-index: -1;
+        }
+        
+        .card-inner-glow {
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
+        }
+        
+        .professional-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .professional-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .professional-badge:hover::before {
+            left: 100%;
+        }
+        
+        /* Loading Animation */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #a8e6cf 0%, #7fcdcd 50%, #88c5e3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .loader-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .loader-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+        
+        .loader-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            animation: gentlePulse 3s ease-in-out infinite 1s;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4, #10b981);
+            z-index: 1000;
+            transition: width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: width;
+        }
+        
+        /* Enhanced Button Animations */
+        .btn-enhanced {
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1px) translateZ(0);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-enhanced:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+        
+        .btn-enhanced:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Performance Optimizations */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .card-hover,
+        .animate-float,
+        .animate-float-delayed,
+        .professional-badge,
+        .btn-enhanced {
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .animate-float,
+            .animate-float-delayed,
+            .feature-item::before {
+                animation: none !important;
+            }
+        }
+        
+        /* Smooth scrolling optimization */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Prevent layout shifts during animations */
+        .card-hover,
+        .mentor-card-enhanced {
+            contain: layout style paint;
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <!-- Loading Screen -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="/images/logo.png" alt="FikrLess Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="loader-text">FIKRLESS</div>
+            <div class="loader-subtitle">Let Your Mind Breathe</div>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+    
+    <!-- Professional Medical Header -->
+    <header class="relative z-10 overflow-hidden">
+        <!-- Background Image with Professional Overlay -->
+        <div class="absolute inset-0 z-0">
+            <div class="relative h-full w-full overflow-hidden">
+                <img src="/images/header.jpg" alt="Medical Healthcare Background" 
+                     class="w-full h-full object-cover object-center scale-105 hover:scale-110 transition-transform duration-[10s] ease-out"
+                     style="filter: brightness(0.75) contrast(1.15) saturate(1.1);">
+                
+                <!-- Professional Medical Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-br from-teal-500/85 via-cyan-500/75 to-blue-600/85"></div>
+                
+                <!-- Subtle Pattern Overlay for Texture -->
+                <div class="absolute inset-0 opacity-10">
+                    <div class="w-full h-full" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
+                </div>
+                
+                <!-- Bottom Fade for Content Transition -->
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
+                
+                <!-- Subtle Vignette Effect -->
+                <div class="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20"></div>
+            </div>
+        </div>
+        
+        <!-- Header Content -->
+        <div class="relative z-10 px-4 sm:px-6 lg:px-8 py-8 lg:py-12 header-content">
+            <div class="max-w-7xl mx-auto">
+                <!-- Brand Section - Centered -->
+                <div class="text-center mb-8 lg:mb-12 animate-slide-up">
+                    <div class="flex flex-col items-center space-y-4 lg:space-y-6">
+                        <div class="relative group logo-container">
+                            <div class="absolute -inset-4 bg-white/20 rounded-3xl blur-2xl group-hover:bg-white/30 transition-all duration-700"></div>
+                            <div class="relative bg-white/95 backdrop-blur-sm p-4 lg:p-6 rounded-3xl shadow-2xl border border-white/50 hover:border-white/70 transition-all duration-500">
+                                <img src="/images/logo.png" alt="FikrLess Logo" 
+                                     class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 object-contain drop-shadow-xl hover:scale-110 transition-all duration-500">
+                            </div>
+                        </div>
+                        <div class="space-y-2 lg:space-y-3">
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white drop-shadow-2xl">
+                                FIKRLESS
+                            </h1>
+                            <p class="text-white/95 text-sm sm:text-base lg:text-xl xl:text-2xl font-medium tracking-wide drop-shadow-lg">
+                                Mental Health & Psychology Training Platform
+                            </p>
+                            <div class="flex justify-center">
+                                <div class="h-px bg-gradient-to-r from-transparent via-white/80 to-transparent w-48 sm:w-64 lg:w-80"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search Section -->
+                <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-white/20 rounded-2xl blur-lg group-hover:bg-white/30 transition-all duration-500"></div>
+                            <div class="relative flex flex-col sm:flex-row items-center bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/50 overflow-hidden">
+                                <div class="flex-1 flex items-center p-4 lg:p-6">
+                                    <i class="fas fa-search text-gray-500 mr-4 text-lg"></i>
+                                    <input 
+                                        id="searchInput"
+                                        type="text" 
+                                        placeholder="Search internships, mentors, or specializations..." 
+                                        class="flex-1 bg-transparent text-gray-700 placeholder-gray-500 text-base lg:text-lg focus:outline-none"
+                                    >
+                                </div>
+                                <button id="searchButton" class="w-full sm:w-auto px-8 py-4 lg:py-6 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold text-base lg:text-lg hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 shadow-lg">
+                                    <i class="fas fa-search mr-2"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Search Tags -->
+                        <div class="flex flex-wrap justify-center gap-2 lg:gap-3 mt-4 lg:mt-6">
+                            <span class="quick-search-tag px-3 py-1 lg:px-4 lg:py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs lg:text-sm font-medium hover:bg-white/30 cursor-pointer border border-white/20" data-search="Psychology">
+                                🧠 Psychology
+                            </span>
+                            <span class="quick-search-tag px-3 py-1 lg:px-4 lg:py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs lg:text-sm font-medium hover:bg-white/30 cursor-pointer border border-white/20" data-search="CBT">
+                                💭 CBT Therapy
+                            </span>
+                            <span class="quick-search-tag px-3 py-1 lg:px-4 lg:py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs lg:text-sm font-medium hover:bg-white/30 cursor-pointer border border-white/20" data-search="Free">
+                                🆓 Free Training
+                            </span>
+                            <span class="quick-search-tag px-3 py-1 lg:px-4 lg:py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs lg:text-sm font-medium hover:bg-white/30 cursor-pointer border border-white/20" data-search="Rawalpindi">
+                                📍 Rawalpindi
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative px-4 sm:px-6 py-12 sm:py-16 lg:py-20 overflow-hidden gpu-accelerated">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div class="space-y-6 sm:space-y-8 animate-slide-left">
+                    <div class="space-y-3 sm:space-y-4">
+                        <h1 class="hero-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-blue-900 leading-tight">
+                            Welcome to the<br>
+                            <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-cyan-600 bg-clip-text text-transparent animate-pulse-glow">
+                                FikrLess
+                            </span><br>
+                            <span class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">Internship and<br>
+                            Training Site</span>
+                        </h1>
+                    </div>
+                    <button class="play-button btn-enhanced bg-white/80 backdrop-blur-sm hover:bg-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 animate-bounce-in gpu-accelerated" style="animation-delay: 0.3s;">
+                        <i class="fas fa-play text-blue-900 text-lg sm:text-xl ml-1"></i>
+                    </button>
+                </div>
+                <div class="relative animate-slide-right gpu-accelerated" style="animation-delay: 0.5s;">
+                    <div class="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-3xl animate-float"></div>
+                    <div class="relative p-4 sm:p-6 lg:p-8 rounded-3xl">
+                        <div class="space-y-4 sm:space-y-6">
+                            <div class="animate-float-delayed">
+                                <div class="w-full h-24 sm:h-28 lg:h-32 bg-white/30 backdrop-blur-sm rounded-2xl"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 sm:gap-4 animate-float">
+                                <div class="h-20 sm:h-22 lg:h-24 bg-white/40 backdrop-blur-sm rounded-xl"></div>
+                                <div class="h-20 sm:h-22 lg:h-24 bg-white/40 backdrop-blur-sm rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="bg-blue-900 px-6 py-12">
+        <div class="max-w-7xl mx-auto text-center space-y-6">
+            <h2 class="text-2xl lg:text-3xl font-semibold text-white leading-relaxed fade-in">
+                Here you can browse our experts and see which Internship best suits your goals.
+            </h2>
+            <p class="text-xl text-blue-100 fade-in-delay-1">
+                To secure a place, contact FikrLess on 
+                <a href="mailto:fikriess01@gmail.com" class="text-cyan-300 hover:text-cyan-200 underline transition-colors duration-300">
+                    fikriess01@gmail.com
+                </a> 
+                with your details and selected Mentor and Internship Option.
+            </p>
+        </div>
+    </section>
+
+    <!-- Mentor Cards Section -->
+    <section class="gradient-bg px-4 sm:px-6 py-12 sm:py-16 gpu-accelerated">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-8 sm:mb-12 animate-slide-up">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-3 sm:mb-4">
+                    Meet Our Expert Mentors
+                </h2>
+                <p class="text-base sm:text-lg text-blue-700 max-w-2xl mx-auto">
+                    Discover incredible internship opportunities with industry professionals
+                </p>
+            </div>
+            
+            <!-- Dynamic Internships Container -->
+            <div id="mentor-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                <!-- Loading placeholder -->
+                <div class="col-span-full flex justify-center items-center py-12 sm:py-16">
+                    <div class="text-center animate-bounce-in">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p class="text-gray-600 font-medium text-sm sm:text-base">Loading amazing internships...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section class="bg-blue-900 px-6 py-16">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8 fade-in">
+                Get in touch at fikriess01@gmail.com
+            </h2>
+            
+            <!-- Social Media Icons -->
+            <div class="flex justify-center space-x-8 fade-in-delay-1">
+                <a href="#" class="social-icon block">
+                    <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
+                        <i class="fab fa-linkedin-in text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="social-icon block">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
+                        <i class="fab fa-instagram text-white text-2xl"></i>
+                    </div>
+                </a>
+                <a href="#" class="social-icon block">
+                    <div class="w-16 h-16 bg-blue-700 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
+                        <i class="fab fa-facebook-f text-white text-2xl"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Enhanced JavaScript for perfect interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Search functionality with regex support
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const mentorCards = document.querySelectorAll('.mentor-card-enhanced, .card-glass');
+            
+            async function performSearch() {
+                const searchTerm = searchInput.value.trim();
+                
+                if (!searchTerm) {
+                    // Load all internships
+                    await loadInternships();
+                    return;
+                }
+                
+                try {
+                    // Use API search endpoint
+                    const response = await fetch(`/api/internships/search?q=${encodeURIComponent(searchTerm)}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        renderInternships(data.data);
+                        const message = data.count > 0 
+                            ? `🔍 Found ${data.count} internship${data.count !== 1 ? 's' : ''} matching "${searchTerm}"`
+                            : `❌ No internships found matching "${searchTerm}"`;
+                        showNotification(message);
+                    } else {
+                        console.error('Search failed:', data.message);
+                        showNotification('❌ Search failed', 'error');
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                    showNotification('❌ Network error during search', 'error');
+                }
+            }
+            
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Real-time search as user types (debounced)
+            let searchTimeout;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(performSearch, 300);
+            });
+            
+            // Load internships from API
+            async function loadInternships() {
+                try {
+                    const response = await fetch('/api/internships');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        renderInternships(data.data);
+                    } else {
+                        console.error('Failed to load internships:', data.message);
+                        showNotification('❌ Failed to load internships', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error loading internships:', error);
+                    showNotification('❌ Network error loading internships', 'error');
+                }
+            }
+            
+            // Render internships dynamically
+            function renderInternships(internships) {
+                const container = document.querySelector('#mentor-cards-container');
+                if (!container) return;
+                
+                // Clear container with fade out animation
+                container.style.opacity = '0';
+                container.style.transform = 'translateY(20px)';
+                container.style.transition = 'all 0.3s ease';
+                
+                setTimeout(() => {
+                    container.innerHTML = internships.map((internship, index) => {
+                        const colors = getGradientColors(index);
+                    const cheapestProgram = internship.programs.reduce((min, program) => 
+                        program.fees < min.fees ? program : min
+                    );
+                    
+                    return `
+                        <div class="mentor-card-enhanced rounded-3xl p-8 shadow-2xl card-hover fade-in relative overflow-hidden group" data-internship-id="${internship._id}">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${colors.bg1} rounded-full -translate-y-20 translate-x-20 group-hover:scale-125 transition-all duration-1000 blur-sm"></div>
+                            <div class="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr ${colors.bg2} rounded-full translate-y-16 -translate-x-16 group-hover:scale-125 transition-all duration-1000 blur-sm"></div>
+                            <div class="absolute inset-0 bg-gradient-to-br ${colors.overlay} opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="text-center space-y-8 relative z-10">
+                                <div class="relative">
+                                    <div class="absolute -inset-2 bg-gradient-to-r ${colors.glow} rounded-2xl blur-lg opacity-15 group-hover:opacity-30 transition-opacity duration-600"></div>
+                                    <h3 class="relative text-3xl sm:text-4xl font-bold bg-gradient-to-r ${colors.text} bg-clip-text text-transparent drop-shadow-sm">${internship.mentorName.toUpperCase()}</h3>
+                                </div>
+                                <div class="relative">
+                                    <div class="professional-badge mx-auto">${internship.profession}${internship.specialization ? ` (${internship.specialization})` : ''}</div>
+                                </div>
+                                <div class="h-px bg-gradient-to-r from-transparent ${colors.divider} to-transparent opacity-60"></div>
+                                
+                                <div class="space-y-4 text-left">
+                                    ${internship.programs.length === 1 ? `
+                                        <div class="flex flex-wrap gap-3 justify-center">
+                                            <span class="duration-badge">${internship.programs[0].duration}</span>
+                                            <span class="price-badge">${internship.programs[0].fees === 0 ? 'Free of cost' : `₨${internship.programs[0].fees.toLocaleString()}`}</span>
+                                        </div>
+                                    ` : `
+                                        <div class="space-y-3">
+                                            ${internship.programs.map((program, pIndex) => `
+                                                <div class="${internship.programs.length > 1 ? 'border-l-4 border-blue-200 pl-4' : ''}">
+                                                    <p class="font-semibold text-blue-900 ${internship.programs.length > 1 ? 'underline' : ''} mb-1">${internship.programs.length > 1 ? `${program.title}` : ''}</p>
+                                                    <div class="flex flex-wrap gap-2 text-sm">
+                                                        <span class="duration-badge text-xs">${program.duration}</span>
+                                                        <span class="price-badge text-xs">${program.fees === 0 ? 'Free' : `₨${program.fees.toLocaleString()}`}</span>
+                                                        ${program.mode !== 'online' ? `<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">${program.mode}</span>` : ''}
+                                                    </div>
+                                                    ${program.description ? `<p class="text-xs text-gray-600 mt-1">${program.description}</p>` : ''}
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    `}
+                                    
+                                    ${internship.includes.length > 0 ? `
+                                        <div>
+                                            <p class="font-semibold text-blue-900 mb-2">Includes:</p>
+                                            <ul class="space-y-2 text-gray-700 text-sm">
+                                                ${internship.includes.map(include => `
+                                                    <li class="feature-item">${include}</li>
+                                                `).join('')}
+                                            </ul>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    <div>
+                                        <p class="font-semibold text-blue-900">City: <span class="font-normal text-gray-700">${internship.city}</span></p>
+                                        ${internship.cityNote ? `<p class="text-sm text-gray-600 mt-2">${internship.cityNote}</p>` : ''}
+                                    </div>
+                                    
+                                    ${internship.additionalInfo ? `
+                                        <div class="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
+                                            ${internship.additionalInfo}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                
+                                <div class="pt-6">
+                                    <div class="flex items-center justify-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl border border-blue-100 group-hover:from-blue-100 group-hover:to-cyan-100 transition-all duration-300">
+                                        <img src="/images/logo.png" alt="FikrLess" class="w-6 h-6 object-contain">
+                                        <span class="font-bold text-lg bg-gradient-to-r from-blue-900 to-cyan-600 bg-clip-text text-transparent">FIKRLESS</span>
+                                        <div class="w-8 h-px bg-gradient-to-r from-blue-400 to-cyan-400"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                    // Fade in the new content with staggered animation
+                    requestAnimationFrame(() => {
+                        container.style.opacity = '1';
+                        container.style.transform = 'translateY(0)';
+                        
+                        // Add staggered animation to each card with proper GPU acceleration
+                        const cards = container.querySelectorAll('.card-hover');
+                        cards.forEach((card, index) => {
+                            // Enable GPU acceleration immediately
+                            card.classList.add('gpu-accelerated');
+                            card.style.opacity = '0';
+                            card.style.transform = 'translate3d(0, 30px, 0) scale(0.95)';
+                            card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                            card.style.willChange = 'transform, opacity';
+                            
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                                
+                                // Reset will-change after animation completes
+                                setTimeout(() => {
+                                    card.style.willChange = 'auto';
+                                }, 600);
+                            }, index * 80);
+                        });
+                    });
+                    
+                    // Re-observe new elements for animations
+                    document.querySelectorAll('.fade-in').forEach(el => {
+                        if (!el.classList.contains('observed')) {
+                            observer.observe(el);
+                        }
+                    });
+                    
+                    // Re-optimize performance for new cards
+                    setTimeout(() => {
+                        const newCards = container.querySelectorAll('.card-hover:not(.optimized)');
+                        newCards.forEach(card => {
+                            card.classList.add('optimized');
+                            card.addEventListener('mouseenter', function() {
+                                this.style.willChange = 'transform, box-shadow, background';
+                            });
+                            
+                            card.addEventListener('mouseleave', function() {
+                                setTimeout(() => {
+                                    this.style.willChange = 'auto';
+                                }, 400);
+                            });
+                        });
+                    }, 100);
+                }, 300);
+            }
+            
+            // Get gradient colors based on index
+            function getGradientColors(index) {
+                const colorSchemes = [
+                    {
+                        bg1: 'from-blue-400/25 to-cyan-400/25',
+                        bg2: 'from-teal-400/25 to-blue-400/25',
+                        overlay: 'from-blue-50/50 via-transparent to-cyan-50/50',
+                        glow: 'from-blue-600 via-cyan-500 to-teal-500',
+                        text: 'from-blue-900 via-blue-700 to-cyan-600',
+                        divider: 'via-blue-400'
+                    },
+                    {
+                        bg1: 'from-cyan-400/25 to-teal-400/25',
+                        bg2: 'from-blue-400/25 to-purple-400/25',
+                        overlay: 'from-cyan-50/50 via-transparent to-teal-50/50',
+                        glow: 'from-cyan-600 to-teal-600',
+                        text: 'from-cyan-900 via-teal-700 to-blue-600',
+                        divider: 'via-cyan-400'
+                    },
+                    {
+                        bg1: 'from-green-400/25 to-emerald-400/25',
+                        bg2: 'from-teal-400/25 to-cyan-400/25',
+                        overlay: 'from-emerald-50/50 via-transparent to-green-50/50',
+                        glow: 'from-green-600 to-emerald-600',
+                        text: 'from-emerald-900 via-green-700 to-teal-600',
+                        divider: 'via-emerald-400'
+                    },
+                    {
+                        bg1: 'from-purple-400/25 to-pink-400/25',
+                        bg2: 'from-indigo-400/25 to-purple-400/25',
+                        overlay: 'from-purple-50/50 via-transparent to-pink-50/50',
+                        glow: 'from-purple-600 to-pink-600',
+                        text: 'from-purple-900 via-indigo-700 to-pink-600',
+                        divider: 'via-purple-400'
+                    },
+                    {
+                        bg1: 'from-rose-400/25 to-orange-400/25',
+                        bg2: 'from-pink-400/25 to-rose-400/25',
+                        overlay: 'from-rose-50/50 via-transparent to-orange-50/50',
+                        glow: 'from-rose-600 to-orange-600',
+                        text: 'from-rose-900 via-pink-700 to-orange-600',
+                        divider: 'via-rose-400'
+                    },
+                    {
+                        bg1: 'from-violet-400/25 to-indigo-400/25',
+                        bg2: 'from-blue-400/25 to-violet-400/25',
+                        overlay: 'from-violet-50/50 via-transparent to-indigo-50/50',
+                        glow: 'from-violet-600 to-indigo-600',
+                        text: 'from-violet-900 via-indigo-700 to-blue-600',
+                        divider: 'via-violet-400'
+                    }
+                ];
+                
+                return colorSchemes[index % colorSchemes.length];
+            }
+            
+            // Load internships on page load
+            loadInternships();
+            
+            // Enhanced Loading Animation
+            const pageLoader = document.getElementById('pageLoader');
+            const scrollProgress = document.getElementById('scrollProgress');
+            
+            // Hide loader after content loads
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    pageLoader.classList.add('hidden');
+                }, 1500);
+            });
+            
+            // Ultra-smooth scroll progress bar (heavily throttled)
+            let progressTicking = false;
+            let lastScrollTime = 0;
+            
+            function updateScrollProgress() {
+                const now = Date.now();
+                if (now - lastScrollTime > 16) { // Limit to ~60fps max
+                    const scrollTop = window.pageYOffset;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPercent = Math.min((scrollTop / docHeight) * 100, 100);
+                    scrollProgress.style.width = scrollPercent + '%';
+                    lastScrollTime = now;
+                }
+                progressTicking = false;
+            }
+            
+            window.addEventListener('scroll', () => {
+                if (!progressTicking) {
+                    requestAnimationFrame(updateScrollProgress);
+                    progressTicking = true;
+                }
+            }, { passive: true });
+
+            // Simplified Intersection Observer - minimal animations to prevent blinking
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('observed')) {
+                        entry.target.classList.add('observed');
+                        entry.target.style.animationPlayState = 'running';
+                        // Only run once per element to prevent re-triggering
+                    }
+                });
+            }, observerOptions);
+
+            // Observe fade-in elements only once
+            document.querySelectorAll('.fade-in, .fade-in-delay-1, .fade-in-delay-2, .fade-in-delay-3').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Enhanced card hover effects (smooth and non-conflicting)
+            document.querySelectorAll('.card-hover').forEach((card, index) => {
+                // Remove any existing inline styles that might conflict
+                card.style.transform = '';
+                card.style.transition = '';
+                
+                card.addEventListener('mouseenter', function() {
+                    // Let CSS handle the transforms to avoid conflicts
+                    this.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '1';
+                });
+
+                // Add gentle click animation
+                card.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const clickEffect = document.createElement('div');
+                    clickEffect.className = 'absolute w-3 h-3 bg-blue-400/30 rounded-full animate-pulse pointer-events-none';
+                    clickEffect.style.left = x - 6 + 'px';
+                    clickEffect.style.top = y - 6 + 'px';
+                    this.appendChild(clickEffect);
+                    setTimeout(() => clickEffect.remove(), 800);
+                });
+            });
+
+            // Enhanced play button with multiple effects
+            const playButton = document.querySelector('.play-button');
+            if (playButton) {
+                playButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Scale animation
+                    this.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.15)';
+                    }, 100);
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                    
+                    // Rotation animation
+                    const icon = this.querySelector('i');
+                    icon.style.transform = 'rotate(360deg)';
+                    icon.style.transition = 'transform 0.5s ease-in-out';
+                    setTimeout(() => {
+                        icon.style.transform = 'rotate(0deg)';
+                    }, 500);
+                    
+                    // Show a beautiful notification
+                    showNotification('🎥 Video coming soon!');
+                });
+            }
+
+            // Smooth scroll for any internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Disabled parallax effect to prevent scroll blinking
+            // The floating elements will use pure CSS animations instead
+
+            // Beautiful notification system
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-white/90 backdrop-blur-sm text-blue-900 px-6 py-3 rounded-2xl shadow-2xl z-50 transform translate-x-full transition-transform duration-300 border border-blue-200';
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(full)';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+
+            // Performance optimizations
+            function optimizeForPerformance() {
+                // Enable hardware acceleration for all animated elements
+                const animatedElements = document.querySelectorAll('.animate-slide-up, .animate-slide-left, .animate-slide-right, .animate-bounce-in, .card-hover, .animate-float');
+                animatedElements.forEach(el => {
+                    el.classList.add('gpu-accelerated');
+                    el.style.transform = 'translateZ(0)';
+                });
+                
+                // Optimize card hover performance
+                const cards = document.querySelectorAll('.card-hover');
+                cards.forEach(card => {
+                    // Add smooth hover event listeners
+                    card.addEventListener('mouseenter', function() {
+                        this.style.willChange = 'transform, box-shadow, background';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        // Reset will-change after transition
+                        setTimeout(() => {
+                            this.style.willChange = 'auto';
+                        }, 400);
+                    });
+                });
+                
+                // Optimize images for better loading
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                });
+            }
+            
+            // Initialize performance optimizations
+            optimizeForPerformance();
+            
+            // Quick search tags functionality
+            document.querySelectorAll('.quick-search-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const searchTerm = this.getAttribute('data-search');
+                    const searchInput = document.getElementById('searchInput');
+                    
+                    searchInput.value = searchTerm;
+                    searchInput.focus();
+                    
+                    // Add visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        performSearch();
+                    }, 150);
+                });
+            });
+            
+            // Add smooth scrolling to anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+
+            document.addEventListener('mousedown', () => {
+                document.body.classList.remove('keyboard-navigation');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+[
+  {
+    "_id": "internship_001",
+    "mentorName": "Dr. Hira Fatima",
+    "profession": "Clinical Psychologist",
+    "specialization": "CBT & DBT Specialist",
+    "city": "Rawalpindi",
+    "cityNote": "Student can be debuted across cities (depends on city)",
+    "programs": [
+      {
+        "_id": "program_1758047683294_1tdma19x1",
+        "title": "Basic Clinical Training",
+        "duration": "2 months",
+        "fees": 15000,
+        "mode": "online",
+        "description": "Foundation course in clinical psychology"
+      },
+      {
+        "_id": "program_1758047683294_68x3tcl5l",
+        "title": "Advanced Clinical Training",
+        "duration": "3 months",
+        "fees": 22000,
+        "mode": "hybrid",
+        "description": "Advanced techniques and real case studies"
+      }
+    ],
+    "includes": [
+      "DSM, V TR",
+      "Assessment",
+      "History Taking",
+      "CBT, DBT",
+      "Acceptance and Commitment therapy",
+      "Supportive Psychotherapy"
+    ],
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": "2024-12-16T18:00:00.000Z",
+    "updatedAt": "2025-09-16T18:34:43.294Z",
+    "additionalInfo": "",
+    "isMultipleCity": false
+  },
+  {
+    "_id": "internship_002",
+    "mentorName": "Dr. Anas Malik",
+    "profession": "Clinical Psychologist",
+    "specialization": "Child Psychology & Therapy",
+    "city": "Sialkot",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "programs": [
+      {
+        "_id": "program_1758046418186_3gw16m4iw",
+        "title": "Child Psychology Internship",
+        "duration": "3 months",
+        "fees": 2,
+        "mode": "online",
+        "description": "Comprehensive child psychology training"
+      }
+    ],
+    "includes": [
+      "DSM V",
+      "Psychotherapy",
+      "Adult Psychopathology",
+      "Clinical Rotations",
+      "Group Therapy",
+      "Music Therapy",
+      "Contemporary practices in Clinical Psychology"
+    ],
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": "2024-12-16T18:00:00.000Z",
+    "updatedAt": "2025-09-16T18:13:38.186Z",
+    "additionalInfo": "",
+    "isMultipleCity": false
+  },
+  {
+    "_id": "internship_003",
+    "mentorName": "Dr. Saiqa Parveen",
+    "profession": "Clinical Psychologist",
+    "specialization": "Hypnotherapy & Counseling",
+    "city": "Lahore",
+    "cityNote": "Delivered online and in person - Student can be debuted across Lahore",
+    "programs": [
+      {
+        "_id": "program_005",
+        "title": "Hypnotherapy Certification",
+        "duration": "2 months",
+        "fees": 20000,
+        "mode": "hybrid",
+        "description": "2 sessions per week - Evening: 7:00 PM - 8:00 PM (best for working professionals)"
+      }
+    ],
+    "includes": [
+      "History and science of hypnosis",
+      "Conscious, subconscious, and unconscious mind",
+      "Levels of trance (light, medium, deep)",
+      "Voice modulation, relaxation, and breathing and much more",
+      "Each week will have a practical / practice session"
+    ],
+    "additionalInfo": "Suggested days: Saturday & Wednesday. Timing options: Evening: 7:00 PM - 8:00PM (best for working professionals)",
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": "2024-12-16T18:00:00.000Z",
+    "updatedAt": "2024-12-16T18:00:00.000Z"
+  }
+]
