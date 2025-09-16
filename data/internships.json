@@ -1,27 +1,35 @@
 [
   {
     "_id": "internship_001",
-    "mentorName": "Dr. Hira Fatima",
+    "mentorName": "Hira Fatima",
     "profession": "Clinical Psychologist",
-    "specialization": "CBT & DBT Specialist",
+    "specialization": "",
     "city": "Rawalpindi",
     "cityNote": "Student can be debuted across cities (depends on city)",
     "programs": [
       {
-        "_id": "program_1758047683294_1tdma19x1",
-        "title": "Basic Clinical Training",
-        "duration": "2 months",
+        "_id": "program_1758052853820_t4szpwce1",
+        "title": "Basic Internship",
+        "duration": "2 Months",
         "fees": 15000,
         "mode": "online",
-        "description": "Foundation course in clinical psychology"
+        "description": ""
       },
       {
-        "_id": "program_1758047683294_68x3tcl5l",
-        "title": "Advanced Clinical Training",
-        "duration": "3 months",
+        "_id": "program_1758052853820_fisvo61c3",
+        "title": "Intermediate Internship",
+        "duration": "3 Months",
         "fees": 22000,
-        "mode": "hybrid",
-        "description": "Advanced techniques and real case studies"
+        "mode": "online",
+        "description": ""
+      },
+      {
+        "_id": "program_1758052853820_1id0zvnne",
+        "title": "Advanced Internship",
+        "duration": "6 Months",
+        "fees": 42000,
+        "mode": "online",
+        "description": ""
       }
     ],
     "includes": [
@@ -35,53 +43,54 @@
     "isActive": true,
     "sortOrder": 1,
     "createdAt": "2024-12-16T18:00:00.000Z",
-    "updatedAt": "2025-09-16T18:34:43.294Z",
-    "additionalInfo": "",
+    "updatedAt": "2025-09-16T20:00:53.820Z",
+    "additionalInfo": "All internships cover the listed topics.\nDepth of Training depends on Internship Duration selected.",
     "isMultipleCity": false
   },
   {
     "_id": "internship_002",
-    "mentorName": "Dr. Anas Malik",
-    "profession": "Clinical Psychologist",
-    "specialization": "Child Psychology & Therapy",
-    "city": "Sialkot",
+    "mentorName": "Anas Malik",
+    "profession": "Clinical Psychologist (BS-17)",
+    "specialization": "",
+    "city": "Sillanwali District Sargodha",
     "cityNote": "Student can be debuted across multiple cities (depends on city)",
     "programs": [
       {
-        "_id": "program_1758046418186_3gw16m4iw",
-        "title": "Child Psychology Internship",
+        "_id": "program_1758052670475_7ivj16ar8",
+        "title": "Clinical Psychology Internship",
         "duration": "3 months",
-        "fees": 2,
+        "fees": 0,
         "mode": "online",
-        "description": "Comprehensive child psychology training"
+        "description": "-Child Psychology (All Facets)\n-DSM V\n- Psychotherapy\n- Adult Psychopathology\n- Clinical Rotations\n- Group Therapy\n- Music Therapy\n- Contemporary Practices in Clinical Psychology"
       }
     ],
     "includes": [
+      "Child Psychology (All Facets)",
       "DSM V",
       "Psychotherapy",
       "Adult Psychopathology",
       "Clinical Rotations",
       "Group Therapy",
       "Music Therapy",
-      "Contemporary practices in Clinical Psychology"
+      "Contemporary Practices in Clinical Psychology"
     ],
     "isActive": true,
     "sortOrder": 2,
     "createdAt": "2024-12-16T18:00:00.000Z",
-    "updatedAt": "2025-09-16T18:13:38.186Z",
+    "updatedAt": "2025-09-16T19:57:50.475Z",
     "additionalInfo": "",
     "isMultipleCity": false
   },
   {
     "_id": "internship_003",
-    "mentorName": "Dr. Saiqa Parveen",
+    "mentorName": "Saiqa Parveen",
     "profession": "Clinical Psychologist",
-    "specialization": "Hypnotherapy & Counseling",
+    "specialization": "",
     "city": "Lahore",
     "cityNote": "Delivered online and in person - Student can be debuted across Lahore",
     "programs": [
       {
-        "_id": "program_005",
+        "_id": "program_1758052834347_w3dpjb5j9",
         "title": "Hypnotherapy Certification",
         "duration": "2 months",
         "fees": 20000,
@@ -100,6 +109,44 @@
     "isActive": true,
     "sortOrder": 3,
     "createdAt": "2024-12-16T18:00:00.000Z",
-    "updatedAt": "2024-12-16T18:00:00.000Z"
+    "updatedAt": "2025-09-16T20:00:34.347Z",
+    "isMultipleCity": false
+  },
+  {
+    "_id": "internship_1758052982503_na860eaeg",
+    "mentorName": "Rabia Khan",
+    "profession": "Mental Health Professional",
+    "specialization": "",
+    "city": "Multan",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 0,
+    "programs": [
+      {
+        "_id": "program_1758053105042_d19lgacs4",
+        "title": "Internship",
+        "duration": "1.5 Months",
+        "fees": 15000,
+        "mode": "hybrid",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "Identify the Difference between a Psychologist and an Advisor and talk like a psychologist",
+      "Practical History taking",
+      "Diagnosis (with real patients)",
+      "Clinical Interview Practice",
+      "Marking clinical disorders significantly",
+      "Complete understanding of Neurotic Disorders (according to DSM5TR)",
+      "Complete understanding of Psychotic Disorders (according to DSM5TR)",
+      "Usage of 5 Psychotherapies",
+      "5 Lifestyle Modification Techniques",
+      "5 Relaxation Techniques",
+      "Training of counselling sessions"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-16T20:03:02.503Z",
+    "updatedAt": "2025-09-16T20:05:05.042Z"
   }
 ]
