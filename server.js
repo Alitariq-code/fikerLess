@@ -65,20 +65,44 @@ const initializeDatabase = async () => {
 
 initializeDatabase();
 
-// Security middleware
+// Security middleware - configured for HTTP deployment
 app.use(helmet({
+    // Disable HTTPS enforcement for HTTP deployment
+    hsts: false,
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
             styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com"],
             scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com"],
             fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
-            imgSrc: ["'self'", "data:", "https:"],
+            imgSrc: ["'self'", "data:", "https:", "http:"],
             connectSrc: ["'self'"]
+            // Note: upgradeInsecureRequests is disabled by default when not specified
         }
     }
 }));
 
+
+// Custom middleware to ensure HTTP-only deployment
+app.use((req, res, next) => {
+    // Remove any HTTPS enforcement headers
+    res.removeHeader('Strict-Transport-Security');
+    
+    // Set headers to prevent HTTPS redirects
+    res.setHeader('X-Forwarded-Proto', 'http');
+    
+    // Ensure mixed content is allowed
+    res.setHeader('Content-Security-Policy', 
+        "default-src 'self'; " +
+        "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; " +
+        "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; " +
+        "font-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; " +
+        "img-src 'self' data: https: http:; " +
+        "connect-src 'self'"
+    );
+    
+    next();
+});
 
 // CORS
 app.use(cors({
