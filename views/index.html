@@ -1031,17 +1031,17 @@
             
             <!-- Social Media Icons -->
             <div class="flex justify-center space-x-8 fade-in-delay-1">
-                <a href="#" class="social-icon block">
+                <a href="https://www.linkedin.com/company/fikrless/" target="_blank" rel="noopener noreferrer" class="social-icon block">
                     <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
                         <i class="fab fa-linkedin-in text-white text-2xl"></i>
                     </div>
                 </a>
-                <a href="#" class="social-icon block">
+                <a href="https://instagram.com/fikrless01" target="_blank" rel="noopener noreferrer" class="social-icon block">
                     <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
                         <i class="fab fa-instagram text-white text-2xl"></i>
                     </div>
                 </a>
-                <a href="#" class="social-icon block">
+                <a href="https://www.facebook.com/profile.php?id=61579763852926" target="_blank" rel="noopener noreferrer" class="social-icon block">
                     <div class="w-16 h-16 bg-blue-700 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
                         <i class="fab fa-facebook-f text-white text-2xl"></i>
                     </div>
@@ -1549,5 +1549,40 @@
             });
         });
     </script>
+
+
+    <style>
+        /* Social Media Icons Animation */
+        .social-icon {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .social-icon:hover::before {
+            left: 100%;
+        }
+        
+        .social-icon:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Footer responsive adjustments */
+        @media (max-width: 768px) {
+            .social-icon {
+                padding: 0.75rem;
+            }
+        }
+    </style>
 </body>
 </html>

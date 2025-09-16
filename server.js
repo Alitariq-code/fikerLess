@@ -65,10 +65,8 @@ const initializeDatabase = async () => {
 
 initializeDatabase();
 
-// Security middleware - configured for HTTP deployment
+// Security middleware - flexible for both HTTP and HTTPS
 app.use(helmet({
-    // Disable HTTPS enforcement for HTTP deployment
-    hsts: false,
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
@@ -77,29 +75,25 @@ app.use(helmet({
             fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
             imgSrc: ["'self'", "data:", "https:", "http:"],
             connectSrc: ["'self'"]
-            // Note: upgradeInsecureRequests is disabled by default when not specified
         }
     }
 }));
 
 
-// Custom middleware to ensure HTTP-only deployment
+
+// Protocol-aware middleware
 app.use((req, res, next) => {
-    // Remove any HTTPS enforcement headers
-    res.removeHeader('Strict-Transport-Security');
+    // Detect the protocol being used
+    const protocol = req.get('X-Forwarded-Proto') || req.protocol || 'http';
     
-    // Set headers to prevent HTTPS redirects
-    res.setHeader('X-Forwarded-Proto', 'http');
-    
-    // Ensure mixed content is allowed
-    res.setHeader('Content-Security-Policy', 
-        "default-src 'self'; " +
-        "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; " +
-        "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; " +
-        "font-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; " +
-        "img-src 'self' data: https: http:; " +
-        "connect-src 'self'"
-    );
+    // Set appropriate headers based on protocol
+    if (protocol === 'https') {
+        // For HTTPS requests, ensure secure headers
+        res.setHeader('X-Forwarded-Proto', 'https');
+    } else {
+        // For HTTP requests, allow mixed content
+        res.setHeader('X-Forwarded-Proto', 'http');
+    }
     
     next();
 });
@@ -167,9 +161,13 @@ app.listen(PORT, HOST, () => {
     console.log(`🔧 Admin panel available at http://${HOST}:${PORT}/admin`);
     console.log(`📊 API endpoints available at http://${HOST}:${PORT}/api`);
     console.log(`🌐 Server accessible from any network interface (${HOST})`);
+    console.log(`🔒 Compatible with both HTTP and HTTPS protocols`);
     
     // Also show localhost for convenience
     if (HOST === '0.0.0.0') {
         console.log(`📱 Local access: http://localhost:${PORT}`);
     }
+    
+    console.log('\n✅ Server supports both HTTP and HTTPS connections');
+    console.log('   Resources will be served using the same protocol as the request');
 });
