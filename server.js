@@ -18,7 +18,8 @@ const { runSeeders } = require('./utils/seeders');
 const NetworkDiagnostic = require('./utils/networkDiagnostic');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 5000;
+const HOST = '0.0.0.0';
 
 // Connect to MongoDB and run seeders
 const initializeDatabase = async () => {
@@ -58,7 +59,7 @@ const initializeDatabase = async () => {
         console.log('   - Check for special characters in password');
         console.log('');
         console.log('⚠️  Running in offline mode - Admin panel available but data won\'t persist');
-        console.log('📱 You can still test the UI at http://localhost:3000');
+        console.log(`📱 You can still test the UI at http://localhost:${PORT}`);
     }
 };
 
@@ -136,9 +137,15 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 FikrLess server is running on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+    console.log(`🚀 FikrLess server is running on http://${HOST}:${PORT}`);
     console.log('🎨 Beautiful internship website is ready!');
-    console.log(`🔧 Admin panel available at http://localhost:${PORT}/admin`);
-    console.log(`📊 API endpoints available at http://localhost:${PORT}/api`);
+    console.log(`🔧 Admin panel available at http://${HOST}:${PORT}/admin`);
+    console.log(`📊 API endpoints available at http://${HOST}:${PORT}/api`);
+    console.log(`🌐 Server accessible from any network interface (${HOST})`);
+    
+    // Also show localhost for convenience
+    if (HOST === '0.0.0.0') {
+        console.log(`📱 Local access: http://localhost:${PORT}`);
+    }
 });
