@@ -7,17 +7,37 @@ class AdminPanel {
     }
 
     async init() {
-        this.setupEventListeners();
-        await this.checkAuth();
-        await this.loadDashboardData();
-        
-        // Load internships data immediately
-        await this.loadInternships();
-        
-        // Check if we should show a specific tab based on URL or localStorage
-        const urlParams = new URLSearchParams(window.location.search);
-        const tab = urlParams.get('tab') || localStorage.getItem('activeTab') || 'dashboard';
-        this.showTab(tab);
+        try {
+            console.log('🚀 Initializing admin panel...');
+            this.setupEventListeners();
+            await this.checkAuth();
+            
+            // Load dashboard data first
+            await this.loadDashboardData();
+            
+            // Load internships data
+            await this.loadInternships();
+            
+            // Check if we should show a specific tab based on URL or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab') || localStorage.getItem('activeTab') || 'dashboard';
+            console.log('📊 Showing tab:', tab);
+            this.showTab(tab);
+            
+            console.log('✅ Admin panel initialized successfully');
+            
+            // Add periodic check to ensure dashboard stays visible
+            setInterval(() => {
+                const currentTab = localStorage.getItem('activeTab') || 'dashboard';
+                if (currentTab === 'dashboard') {
+                    this.ensureDashboardVisible();
+                }
+            }, 2000);
+            
+        } catch (error) {
+            console.error('❌ Error initializing admin panel:', error);
+            this.showNotification('Failed to initialize admin panel', 'error');
+        }
     }
 
     setupEventListeners() {
@@ -110,40 +130,59 @@ class AdminPanel {
     }
 
     showTab(tabName) {
-        // Save active tab
-        localStorage.setItem('activeTab', tabName);
-        
-        // Update navigation
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active', 'bg-blue-600', 'text-white');
-            link.classList.add('text-gray-300');
-        });
+        try {
+            console.log('🔄 Switching to tab:', tabName);
+            
+            // Save active tab
+            localStorage.setItem('activeTab', tabName);
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'bg-blue-600', 'text-white');
+                link.classList.add('text-gray-300');
+            });
 
-        const activeLink = document.querySelector(`[data-tab="${tabName}"]`);
-        if (activeLink) {
-            activeLink.classList.add('active', 'bg-blue-600', 'text-white');
-            activeLink.classList.remove('text-gray-300');
-        }
+            const activeLink = document.querySelector(`[data-tab="${tabName}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active', 'bg-blue-600', 'text-white');
+                activeLink.classList.remove('text-gray-300');
+            }
 
-        // Show/hide content
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.add('hidden');
-        });
+            // Show/hide content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
 
-        const activeContent = document.getElementById(`${tabName}-tab`);
-        if (activeContent) {
-            activeContent.classList.remove('hidden');
-            activeContent.classList.add('fade-in');
-        }
+            const activeContent = document.getElementById(`${tabName}-tab`);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+                activeContent.classList.add('fade-in');
+                console.log('✅ Tab content shown:', tabName);
+            } else {
+                console.error('❌ Tab content not found:', `${tabName}-tab`);
+            }
 
-        // Ensure internships are rendered if switching to internships tab
-        if (tabName === 'internships' && this.internships.length > 0) {
-            this.renderInternships();
+            // Ensure internships are rendered if switching to internships tab
+            if (tabName === 'internships' && this.internships.length > 0) {
+                this.renderInternships();
+            }
+            
+            // Ensure dashboard data is shown if switching to dashboard tab
+            if (tabName === 'dashboard') {
+                this.updateDashboardDisplay();
+                // Add a small delay to ensure content is rendered
+                setTimeout(() => {
+                    this.ensureDashboardVisible();
+                }, 100);
+            }
+        } catch (error) {
+            console.error('❌ Error switching tab:', error);
         }
     }
 
     async loadDashboardData() {
         try {
+            console.log('📊 Loading dashboard data...');
             const response = await fetch('/api/admin/stats', {
                 credentials: 'include'
             });
@@ -151,20 +190,83 @@ class AdminPanel {
             
             if (data.success) {
                 const stats = data.data;
-                document.getElementById('totalInternships').textContent = stats.totalInternships;
-                document.getElementById('activeInternships').textContent = stats.activeInternships;
-                document.getElementById('totalMentors').textContent = stats.totalMentors;
-                document.getElementById('totalCities').textContent = stats.totalCities;
+                console.log('📈 Dashboard stats:', stats);
+                
+                // Update dashboard elements
+                const totalInternshipsEl = document.getElementById('totalInternships');
+                const activeInternshipsEl = document.getElementById('activeInternships');
+                const totalMentorsEl = document.getElementById('totalMentors');
+                const totalCitiesEl = document.getElementById('totalCities');
+                
+                if (totalInternshipsEl) totalInternshipsEl.textContent = stats.totalInternships || 0;
+                if (activeInternshipsEl) activeInternshipsEl.textContent = stats.activeInternships || 0;
+                if (totalMentorsEl) totalMentorsEl.textContent = stats.totalMentors || 0;
+                if (totalCitiesEl) totalCitiesEl.textContent = stats.totalCities || 0;
+                
+                console.log('✅ Dashboard data loaded successfully');
+            } else {
+                console.error('❌ Failed to load dashboard data:', data.message);
             }
         } catch (error) {
-            console.error('Failed to load dashboard data:', error);
+            console.error('❌ Error loading dashboard data:', error);
+        }
+    }
+
+    updateDashboardDisplay() {
+        try {
+            console.log('🔄 Updating dashboard display...');
+            
+            // Ensure dashboard tab is visible
+            const dashboardTab = document.getElementById('dashboard-tab');
+            if (dashboardTab) {
+                dashboardTab.classList.remove('hidden');
+                dashboardTab.style.display = 'block';
+                dashboardTab.style.opacity = '1';
+                dashboardTab.style.visibility = 'visible';
+                console.log('✅ Dashboard tab is visible');
+            } else {
+                console.error('❌ Dashboard tab not found');
+            }
+            
+            // Force visibility of dashboard content
+            const dashboardCards = document.querySelectorAll('#dashboard-tab .glass-card');
+            dashboardCards.forEach(card => {
+                card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.visibility = 'visible';
+            });
+            
+            // Update stats if they exist
+            this.updateDashboardStats();
+            
+            console.log('✅ Dashboard display updated');
+        } catch (error) {
+            console.error('❌ Error updating dashboard display:', error);
+        }
+    }
+
+    // Add a method to ensure dashboard persistence
+    ensureDashboardVisible() {
+        try {
+            const dashboardTab = document.getElementById('dashboard-tab');
+            if (dashboardTab && !dashboardTab.classList.contains('hidden')) {
+                // Force all dashboard elements to be visible
+                const allElements = dashboardTab.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.visibility = 'visible';
+                });
+                console.log('✅ Dashboard visibility ensured');
+            }
+        } catch (error) {
+            console.error('❌ Error ensuring dashboard visibility:', error);
         }
     }
 
 
     async loadInternships() {
-        this.showLoading();
         try {
+            console.log('📚 Loading internships...');
             const response = await fetch('/api/admin/internships', {
                 credentials: 'include'
             });
@@ -172,14 +274,63 @@ class AdminPanel {
             
             if (data.success) {
                 this.internships = data.data;
-                this.renderInternships();
-                await this.loadDashboardData(); // Refresh stats after loading internships
+                console.log(`📊 Loaded ${this.internships.length} internships`);
+                
+                // Only render internships if we're on the internships tab
+                const currentTab = localStorage.getItem('activeTab') || 'dashboard';
+                if (currentTab === 'internships') {
+                    this.renderInternships();
+                }
+                
+                // Update dashboard stats without interfering with display
+                this.updateDashboardStats();
+                
+                console.log('✅ Internships loaded successfully');
+            } else {
+                console.error('❌ Failed to load internships:', data.message);
             }
         } catch (error) {
-            console.error('Failed to load internships:', error);
+            console.error('❌ Error loading internships:', error);
             this.showNotification('Failed to load internships', 'error');
-        } finally {
-            this.hideLoading();
+        }
+    }
+
+    updateDashboardStats() {
+        try {
+            console.log('📊 Updating dashboard stats...');
+            
+            // Update stats elements if they exist
+            const totalInternshipsEl = document.getElementById('totalInternships');
+            const activeInternshipsEl = document.getElementById('activeInternships');
+            const totalMentorsEl = document.getElementById('totalMentors');
+            const totalCitiesEl = document.getElementById('totalCities');
+            
+            if (this.internships && this.internships.length > 0) {
+                if (totalInternshipsEl) {
+                    totalInternshipsEl.textContent = this.internships.length;
+                }
+                
+                if (activeInternshipsEl) {
+                    const activeCount = this.internships.filter(i => i.isActive).length;
+                    activeInternshipsEl.textContent = activeCount;
+                }
+                
+                // Calculate unique mentors and cities
+                const uniqueMentors = new Set(this.internships.map(i => i.mentorName));
+                const uniqueCities = new Set(this.internships.map(i => i.city));
+                
+                if (totalMentorsEl) {
+                    totalMentorsEl.textContent = uniqueMentors.size;
+                }
+                
+                if (totalCitiesEl) {
+                    totalCitiesEl.textContent = uniqueCities.size;
+                }
+                
+                console.log('✅ Dashboard stats updated successfully');
+            }
+        } catch (error) {
+            console.error('❌ Error updating dashboard stats:', error);
         }
     }
 

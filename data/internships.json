@@ -8,7 +8,7 @@
     "cityNote": "Student can be debuted across cities (depends on city)",
     "programs": [
       {
-        "_id": "program_1758052853820_t4szpwce1",
+        "_id": "program_1758054631888_hvtxlbnun",
         "title": "Basic Internship",
         "duration": "2 Months",
         "fees": 15000,
@@ -16,7 +16,7 @@
         "description": ""
       },
       {
-        "_id": "program_1758052853820_fisvo61c3",
+        "_id": "program_1758054631888_mk8r7y8kt",
         "title": "Intermediate Internship",
         "duration": "3 Months",
         "fees": 22000,
@@ -24,7 +24,7 @@
         "description": ""
       },
       {
-        "_id": "program_1758052853820_1id0zvnne",
+        "_id": "program_1758054631888_7tz85oqyc",
         "title": "Advanced Internship",
         "duration": "6 Months",
         "fees": 42000,
@@ -43,7 +43,7 @@
     "isActive": true,
     "sortOrder": 1,
     "createdAt": "2024-12-16T18:00:00.000Z",
-    "updatedAt": "2025-09-16T20:00:53.820Z",
+    "updatedAt": "2025-10-14T17:52:57.610Z",
     "additionalInfo": "All internships cover the listed topics.\nDepth of Training depends on Internship Duration selected.",
     "isMultipleCity": false
   },
@@ -56,7 +56,7 @@
     "cityNote": "Student can be debuted across multiple cities (depends on city)",
     "programs": [
       {
-        "_id": "program_1758052670475_7ivj16ar8",
+        "_id": "program_1758054641163_q7eque43u",
         "title": "Clinical Psychology Internship",
         "duration": "3 months",
         "fees": 0,
@@ -77,7 +77,7 @@
     "isActive": true,
     "sortOrder": 2,
     "createdAt": "2024-12-16T18:00:00.000Z",
-    "updatedAt": "2025-09-16T19:57:50.475Z",
+    "updatedAt": "2025-09-16T20:30:41.163Z",
     "additionalInfo": "",
     "isMultipleCity": false
   },
@@ -90,7 +90,7 @@
     "cityNote": "Delivered online and in person - Student can be debuted across Lahore",
     "programs": [
       {
-        "_id": "program_1758052834347_w3dpjb5j9",
+        "_id": "program_1758103695390_xfchuzrpy",
         "title": "Hypnotherapy Certification",
         "duration": "2 months",
         "fees": 20000,
@@ -103,13 +103,14 @@
       "Conscious, subconscious, and unconscious mind",
       "Levels of trance (light, medium, deep)",
       "Voice modulation, relaxation, and breathing and much more",
-      "Each week will have a practical / practice session"
+      "Each week will have a practical / practice session",
+      "EARLY BIRD OFFER: Gain 2 Hypnotherapy Sessions for free worth Rs 10,000/- each!  Limited Time Only."
     ],
     "additionalInfo": "Suggested days: Saturday & Wednesday. Timing options: Evening: 7:00 PM - 8:00PM (best for working professionals)",
     "isActive": true,
     "sortOrder": 3,
     "createdAt": "2024-12-16T18:00:00.000Z",
-    "updatedAt": "2025-09-16T20:00:34.347Z",
+    "updatedAt": "2025-09-17T10:08:15.390Z",
     "isMultipleCity": false
   },
   {
@@ -121,10 +122,10 @@
     "cityNote": "Student can be debuted across multiple cities (depends on city)",
     "additionalInfo": "",
     "isActive": true,
-    "sortOrder": 0,
+    "sortOrder": 4,
     "programs": [
       {
-        "_id": "program_1758053105042_d19lgacs4",
+        "_id": "program_1758198206753_jx4vdv6r3",
         "title": "Internship",
         "duration": "1.5 Months",
         "fees": 15000,
@@ -139,7 +140,6 @@
       "Clinical Interview Practice",
       "Marking clinical disorders significantly",
       "Complete understanding of Neurotic Disorders (according to DSM5TR)",
-      "Complete understanding of Psychotic Disorders (according to DSM5TR)",
       "Usage of 5 Psychotherapies",
       "5 Lifestyle Modification Techniques",
       "5 Relaxation Techniques",
@@ -147,6 +147,538 @@
     ],
     "isMultipleCity": false,
     "createdAt": "2025-09-16T20:03:02.503Z",
-    "updatedAt": "2025-09-16T20:05:05.042Z"
+    "updatedAt": "2025-09-18T12:23:26.753Z"
+  },
+  {
+    "_id": "internship_1758054354841_1rra0yi6e",
+    "mentorName": "Khadija Aslam",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Lahore",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 5,
+    "programs": [
+      {
+        "_id": "program_1758208033988_56p3vn6ap",
+        "title": "Clinical Psychology Internship",
+        "duration": "6 Months",
+        "fees": 15000,
+        "mode": "hybrid",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "CBT, DBT, REBT",
+      "DSM 5 TR",
+      "Acceptance and Commitment Therapy",
+      "Schema Therapy",
+      "Interpersonal Therapy",
+      "Worksheets, assessments and Diagnosis",
+      "Family Therapy"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-16T20:25:54.841Z",
+    "updatedAt": "2025-09-18T15:07:13.988Z"
+  },
+  {
+    "_id": "internship_1758054524338_ogh7knyeg",
+    "mentorName": "Afrah Arshad",
+    "profession": "Clinical and Counselling Psychologist",
+    "specialization": "",
+    "city": "Online",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 6,
+    "programs": [
+      {
+        "_id": "program_1758054616858_gxgt7d8bj",
+        "title": "Internship 1",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "This internship includes:\n- History Taking\n- Rapport Building\n- Taking notes\n- Creating Case conceptualisation with practical tools and strategies"
+      },
+      {
+        "_id": "program_1758054616858_f0j4w2pcp",
+        "title": "Internship 2",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "This internship includes:\n- CBT Techniques and Tools\n- CBT for different disorders\n-Creating Case conceptualisation with practical tools and strategies"
+      }
+    ],
+    "includes": [
+      "Read individual options for topics covered."
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-16T20:28:44.338Z",
+    "updatedAt": "2025-09-16T20:30:16.858Z"
+  },
+  {
+    "_id": "internship_1758055033042_etgd9irfq",
+    "mentorName": "Eman Awad",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Islamabad",
+    "cityNote": "Student can be debuted across multiple cities (Depends on city)",
+    "additionalInfo": "1 hour per week for 3 months",
+    "isActive": true,
+    "sortOrder": 5,
+    "programs": [
+      {
+        "_id": "program_1758055033042_u7las0jum",
+        "title": "Clinical Psychology Internship",
+        "duration": "3 Months",
+        "fees": 6000,
+        "mode": "online",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "DBT basic techniques",
+      "CBT basic techniques",
+      "TAT and HTP application and assessment",
+      "Conducting initial sessions",
+      "Making diagnosis and Treatment plan",
+      "Acceptance and Commitment therapy"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-16T20:37:13.042Z",
+    "updatedAt": "2025-09-16T20:37:13.042Z"
+  },
+  {
+    "_id": "internship_1758110375787_i3gs6bx1c",
+    "mentorName": "Saima Mumtaz",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Islamabad",
+    "cityNote": "This is an On-Site Internship in Islamabad",
+    "additionalInfo": "3 Hours Daily\nMonday - Friday\nThis internship is an excellent opportunity for psychology students to strengthen their professional skills and bridge the gap between theory and practice.",
+    "isActive": true,
+    "sortOrder": 5,
+    "programs": [
+      {
+        "_id": "program_1758110375787_qqy1oo7br",
+        "title": "Clinical Psychology Internship",
+        "duration": "3 Months",
+        "fees": 30000,
+        "mode": "hybrid",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "ON-SITE Internship",
+      "In-depth learning of DSM-5-TR",
+      "Psychological assessments training and practice",
+      "Psychotherapeutic interventions exposure",
+      "Direct interaction with patients under supervision",
+      "Case discussions and reflective learning",
+      "Quizzes and evaluations for knowledge enhancement",
+      "Certificate of Completion at the end of the program"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-17T11:59:35.787Z",
+    "updatedAt": "2025-09-17T11:59:35.787Z"
+  },
+  {
+    "_id": "internship_1758113455779_0t7hm29c1",
+    "mentorName": "Fareeha Zameer",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Online",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 5,
+    "programs": [
+      {
+        "_id": "program_1758201317439_px5jmmyr3",
+        "title": "Clinical Psychology Internship",
+        "duration": "4 Months",
+        "fees": 7000,
+        "mode": "online",
+        "description": "DSM V, Psychological testing and assessment, Treatment plans, All Points are delivered with Real Case examples"
+      },
+      {
+        "_id": "program_1758201317439_faebaa0qu",
+        "title": "Therapy Internship 1",
+        "duration": "5 Months",
+        "fees": 7000,
+        "mode": "online",
+        "description": "Learn The following Therapies: \n1. Behavioral therapy\n2. Cognitive processing therapy\n3. Art therapy\n4. Acceptance and commitment therapy\n5. Psychodynamic therapy\n6. Relaxation techniques"
+      },
+      {
+        "_id": "program_1758201317439_tuf9x0nlq",
+        "title": "Therapy Internship 2",
+        "duration": "5 Months",
+        "fees": 7000,
+        "mode": "online",
+        "description": "Learn the following Therapies:\n1. Group therapy\n2. Grief Counseling\n3. Guided effective imagery\n4. Family therapy\n5. Cognitive behavioral therapy\n6. Exposure therapy"
+      }
+    ],
+    "includes": [
+      "Read individual options for topics covered."
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-17T12:50:55.779Z",
+    "updatedAt": "2025-09-18T13:15:17.439Z"
+  },
+  {
+    "_id": "internship_1758116445735_wnemsj2j1",
+    "mentorName": "Saman Arshad",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Online",
+    "cityNote": "Student can be debuted across cities (Depends on the City)",
+    "additionalInfo": "Read individual options for topics covered.",
+    "isActive": true,
+    "sortOrder": 10,
+    "programs": [
+      {
+        "_id": "program_1758116744987_qtovh0grv",
+        "title": "Hypnotherapy Course",
+        "duration": "3 Months",
+        "fees": 15000,
+        "mode": "online",
+        "description": "- History & Basics\n- Clinical Techniques\n- Advanced Methods\n- Online Practical Workshops\n- Certification"
+      },
+      {
+        "_id": "program_1758116744987_oclk1f04b",
+        "title": "Psychoanalysis Course",
+        "duration": "3 Months",
+        "fees": 15000,
+        "mode": "online",
+        "description": "- 3-Month In-Depth Training\n- Freudian Theory & Practice\n- Dream Analysis\n- Case Studies & Practical Applications"
+      },
+      {
+        "_id": "program_1758116744987_uejtp0sop",
+        "title": "NLP Course",
+        "duration": "3 Months",
+        "fees": 15000,
+        "mode": "online",
+        "description": "- 3-Month Comprehensive Course\n- Understanding NLP Principles\n- Communication & Rapport Building\n- Anchoring & Submodalities"
+      },
+      {
+        "_id": "program_1758116744987_5fl15moxx",
+        "title": "Reiki Course",
+        "duration": "3 Months",
+        "fees": 15000,
+        "mode": "online",
+        "description": "- Introduction to Reiki\n- Principles & History\n- Level 1, 2 & 3 Training\n- Hands-on Healing Techniques\n- Distance Healing\n- Certification"
+      },
+      {
+        "_id": "program_1758116744987_j4zu7t6m6",
+        "title": "Handwriting Analysis Course",
+        "duration": "25 Days",
+        "fees": 12000,
+        "mode": "online",
+        "description": "- 25-Day Intensive Course\n- Understanding Personality Traits\n- Analysing Emotional Patterns\n- Practical Applications"
+      },
+      {
+        "_id": "program_1758116744987_mhpgt6u13",
+        "title": "Body Language Analysis Course",
+        "duration": "25 Days",
+        "fees": 12000,
+        "mode": "online",
+        "description": "- 25-Day Course\n- Decoding Non-Verbal Cues\n- Understanding Emotional Intelligence\n- Improving Communication Skills"
+      },
+      {
+        "_id": "program_1758116744987_l47xc4gt0",
+        "title": "Parapsychology course",
+        "duration": "2 Months",
+        "fees": 20000,
+        "mode": "online",
+        "description": "- 2-Month Course\n- Introduction to Parapsychology\n- Subtypes:\n- Telepathy: Mind-to-Mind Communication\n- Clairvoyance: Perceiving Information about Objects or Events\n- Precognition: Predicting Future Events\n- Psychokinesis (PK): Mind Over Matter\n- Out-of-Body Experiences (OBEs): Experiencing Reality Beyond the Physical Body\n\n- Channeling: Receiving Information from Higher Sources\n- Reincarnation: Exploring Past-Life Experiences\n- Paranormal Investigation: Researching Unusual Phenomena"
+      },
+      {
+        "_id": "program_1758116744987_mvlc03esf",
+        "title": "Trading Psychology Course",
+        "duration": "20 Days",
+        "fees": 12000,
+        "mode": "online",
+        "description": "Course Highlights:\n    - Understanding Trading Psychology\n    - Managing Emotions in Trading\n    - Developing a Trading Mindset\n    - Risk Management Strategies\n    - Building Confidence and Discipline\n    - Overcoming Trading Fears and Biases\n    - Practical Exercises and Case Studies"
+      }
+    ],
+    "includes": [
+      "Certification: Opportunity to earn a certification upon completing the course.",
+      "Personalised Support: Guidance and mentorship throughout the course to ensure success.",
+      "Online Practical Workshops: Hands-on training and immersive experiences to master hypnotherapy skills."
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-17T13:40:45.735Z",
+    "updatedAt": "2025-09-17T13:48:03.551Z"
+  },
+  {
+    "_id": "internship_1758116701310_ys8n9nldx",
+    "mentorName": "Saman Arshad",
+    "profession": "Clinical Psychologist",
+    "specialization": "Workshops",
+    "city": "Online",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 11,
+    "programs": [
+      {
+        "_id": "program_1758116701310_dx5xkhtox",
+        "title": "Trading Psychology Workshop",
+        "duration": "2 Hours",
+        "fees": 700,
+        "mode": "online",
+        "description": "Workshop Highlights:\n    - Understanding the role of emotions in trading\n    - Developing a trading plan and risk management strategies\n    - Building confidence and discipline in trading\n    - Practical exercises for managing trading psychology"
+      }
+    ],
+    "includes": [
+      "Implement your skills and Learn how to apply them in Real life."
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-17T13:45:01.310Z",
+    "updatedAt": "2025-09-17T13:45:01.310Z"
+  },
+  {
+    "_id": "internship_1758118576653_9c5z2uszu",
+    "mentorName": "Mehwish Murad",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Wah Cantt",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 12,
+    "programs": [
+      {
+        "_id": "program_1758118576654_r4tw9zxr9",
+        "title": "Clinical Psychologist Internship",
+        "duration": "2 Months",
+        "fees": 4000,
+        "mode": "online",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "DSM V",
+      "History taking",
+      "Psychometric assessment",
+      "How to Deal with Patients",
+      "Diagnosis and Treatment Plans",
+      "REBT, DBT, CBT",
+      "Deep Breathing",
+      "Relaxation Techniques"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-17T14:16:16.654Z",
+    "updatedAt": "2025-09-17T14:16:16.654Z"
+  },
+  {
+    "_id": "internship_1758198536713_9s8k2h1ge",
+    "mentorName": "Laiba Fatima",
+    "profession": "Psychoanalyst & Integrative Therapist",
+    "specialization": "",
+    "city": "Online",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "Classes will be according to the mutual flexibility & student availability.Which includes interactive exercises, group discussions, and demonstrations of NLP techniques.",
+    "isActive": true,
+    "sortOrder": 13,
+    "programs": [
+      {
+        "_id": "program_1758198536713_dlo4piphh",
+        "title": "NLP Course: How to become a NLP Practitioner",
+        "duration": "1.5 Months",
+        "fees": 3500,
+        "mode": "online",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "Managing Stress and Anxiety: Learn NLP techniques to calm your mind and body",
+      "Overcoming Fear and Phobias: Use NLP to break free from limiting fears",
+      "Healing Emotional Wounds: Apply NLP to resolve past traumas and emotional pain",
+      "Challenging Negative Thoughts: Master NLP techniques to reframe negative self-talk",
+      "Using Affirmations and Positive Self-Talk: Develop a positive mindset with NLP",
+      "NLP Models and Techniques: Explore key NLP models, visualizing guided techniques, and cognitive filters",
+      "Assignments and feedback sessions will be included to ensure participants are applying NLP techniques effectively",
+      "Participants will have access to additional resources, such as video lectures, articles, and exercises to practice outside of class",
+      "No Prior Experience Required",
+      "THIS COURSE IS OPEN TO ANYONE DEDICATED TO PERSONAL GROWTH AND DEVELOPMENT, INCLUDING, PSYCHOLOGIST, THERAPISTS & STUDENTS.",
+      "E-CERTIFICATE & Rewards certificates"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-18T12:28:56.713Z",
+    "updatedAt": "2025-09-18T12:28:56.713Z"
+  },
+  {
+    "_id": "internship_1758200841252_1d6npr136",
+    "mentorName": "Aimen Shafique Awan",
+    "profession": "Psychologist & Internationally Certified Coach",
+    "specialization": "",
+    "city": "Islamabad (Remote Training)",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 14,
+    "programs": [
+      {
+        "_id": "program_1758200942653_lnddkmdry",
+        "title": "One to One Coaching",
+        "duration": "6 Hours",
+        "fees": 5000,
+        "mode": "online",
+        "description": "1 Hour session per week or twice a Week"
+      },
+      {
+        "_id": "program_1758200942653_nour9q6c2",
+        "title": "One to One Coaching",
+        "duration": "12 Hours",
+        "fees": 5000,
+        "mode": "online",
+        "description": "1 Hour session per Week or twice a Week"
+      },
+      {
+        "_id": "program_1758200942653_cyijejd9t",
+        "title": "Coaching Workshop",
+        "duration": "3 Days",
+        "fees": 15000,
+        "mode": "online",
+        "description": "3 Days Training, This is a 9 Hour total Program, 3 hours per day. \nCertificate is Provided. Learn about: \nEmotional Management, Relationship Management, Financial Aspect, Communication Skills, Punctuality and Time management"
+      },
+      {
+        "_id": "program_1758200942653_koixkpmdp",
+        "title": "Training and Development",
+        "duration": "Varies",
+        "fees": 0,
+        "mode": "online",
+        "description": "FEES DEPENDS ON DURATION DECIDED.\nLearn how to: Customise training program in Corporate, education and mental health sector, Leadership and skill development, Team building skills, Goal setting and learn to achievable outcomes, Sales and performance enhancement"
+      },
+      {
+        "_id": "program_1758200942653_6r1n2djd5",
+        "title": "Sales and Branding",
+        "duration": "3 Months",
+        "fees": 60000,
+        "mode": "online",
+        "description": "3 month program only for coaches and psychologist who want to build their own identity and get consistent client through organic reach, Sales and conversions, Help them to build their sales pitch, Step by step personal guidance, Help to learn about objection handling 28 or 30 individual meetings in 3 months"
+      }
+    ],
+    "includes": [
+      "Read Individual Options for Topics Covered."
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-18T13:07:21.253Z",
+    "updatedAt": "2025-09-18T13:09:02.653Z"
+  },
+  {
+    "_id": "internship_1758201067372_zvy5f77lz",
+    "mentorName": "Baneen Rafique",
+    "profession": "Clinical Psychologist",
+    "specialization": "",
+    "city": "Online",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "",
+    "isActive": true,
+    "sortOrder": 15,
+    "programs": [
+      {
+        "_id": "program_1758201067372_e1figs910",
+        "title": "Clinical Psychology Internship",
+        "duration": "15 Days",
+        "fees": 1800,
+        "mode": "online",
+        "description": ""
+      }
+    ],
+    "includes": [
+      "Step towards being psychologist",
+      "Use of Rorschach Test  (Projective personality assessment instrument)",
+      "HFD test (free+bonus opportunity)",
+      "Certificate is Provided"
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-18T13:11:07.372Z",
+    "updatedAt": "2025-09-18T13:11:07.372Z"
+  },
+  {
+    "_id": "internship_1758208587418_33ip4cq34",
+    "mentorName": "Kiran Daud",
+    "profession": "Clinical Psychologist (Member of PPA)",
+    "specialization": "",
+    "city": "Online",
+    "cityNote": "Student can be debuted across multiple cities (depends on city)",
+    "additionalInfo": "Sessions are online for 1 Hr 30 min\n4 Days a week\nCertificate will be provided for all Internships",
+    "isActive": true,
+    "sortOrder": 16,
+    "programs": [
+      {
+        "_id": "program_1758212040621_5qadczu29",
+        "title": "Mental Disorders Internship",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about Mental disorders (depression, anxiety, schizophrenia), Psychological assessment, CBT, diagnosis, Report writing, Crisis intervention."
+      },
+      {
+        "_id": "program_1758212040621_hgue0njer",
+        "title": "Counselling Internship",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn how to Counsel as a Psychologist, Emotional and social issues  (grief, relationships, stress), Active listening, empathy, client-centered therapy and communication skills."
+      },
+      {
+        "_id": "program_1758212040621_ztw101ro2",
+        "title": "Child Psychology",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about Developmental issues and behavioral problems in children. Play therapy, developmental assessment, parent counseling and patience."
+      },
+      {
+        "_id": "program_1758212040621_k1lh6rltu",
+        "title": "School Psychology",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about Academic, behavioral, and emotional issues in school-aged children\tEducational testing, collaboration with teachers/parents, IEPs, behavioral intervention."
+      },
+      {
+        "_id": "program_1758212040621_lkwy7yupm",
+        "title": "Industrial/ Organisational Psychology",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about Workplace behavior and performance. Employee assessment, organisational development and leadership training."
+      },
+      {
+        "_id": "program_1758212040621_ql0mmskss",
+        "title": "Addiction Counselling",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about Substance use, disorders and recovery. Motivational interviewing, relapse prevention, group therapy."
+      },
+      {
+        "_id": "program_1758212040622_ila618j2d",
+        "title": "Marriage and Family Therapist (MFT)",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about Relationship and family dynamics. Systems theory, conflict resolution, family therapy techniques."
+      },
+      {
+        "_id": "program_1758212040622_3k77ti7r2",
+        "title": "Trauma Therapy",
+        "duration": "1 Month",
+        "fees": 5000,
+        "mode": "online",
+        "description": "Learn about PTSD, Abuse recovery, Complex trauma, EMDR, trauma-focused CBT, grounding techniques and crisis management."
+      }
+    ],
+    "includes": [
+      "Read individual options for topics covered."
+    ],
+    "isMultipleCity": false,
+    "createdAt": "2025-09-18T15:16:27.418Z",
+    "updatedAt": "2025-09-18T16:14:00.622Z"
   }
 ]

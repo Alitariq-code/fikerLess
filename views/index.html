@@ -10,22 +10,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
         
         body {
+            font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        
+        p, a, li, span {
             font-family: 'Inter', sans-serif;
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #a8e6cf 0%, #88d8c0 25%, #7fcdcd 50%, #81c3d7 75%, #88c5e3 100%);
+            background: linear-gradient(135deg, #e8f5f7 0%, #d4f1f4 25%, #c0e8f0 50%, #b5e3ef 75%, #a8dff0 100%);
             background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            animation: gradientShift 20s ease infinite;
         }
         
         .hero-gradient {
-            background: linear-gradient(135deg, #a8e6cf 0%, #7fcdcd 50%, #88c5e3 100%);
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
             background-size: 400% 400%;
-            animation: gradientShift 20s ease infinite;
+            animation: gradientShift 25s ease infinite;
+        }
+        
+        /* Soft pastel palette for mental health */
+        .calm-gradient {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 25%, #fcd34d 50%, #fbbf24 75%, #f59e0b 100%);
+        }
+        
+        .serene-gradient {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 25%, #93c5fd 50%, #60a5fa 75%, #3b82f6 100%);
+        }
+        
+        .peaceful-gradient {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 25%, #a7f3d0 50%, #6ee7b7 75%, #34d399 100%);
         }
         
         @keyframes gradientShift {
@@ -35,22 +60,25 @@
         }
         
         .card-hover {
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
             will-change: transform, box-shadow, background;
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(30px) saturate(180%);
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.8);
             transform-origin: center center;
             isolation: isolate;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
         }
         
         .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.25);
-            background: rgba(255, 255, 255, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 30px 70px -15px rgba(59, 130, 246, 0.3), 
+                        0 0 0 1px rgba(59, 130, 246, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 1);
+            border: 2px solid rgba(147, 197, 253, 0.5);
         }
         
         .card-hover::before {
@@ -60,11 +88,19 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(147, 197, 253, 0.3), 
+                rgba(59, 130, 246, 0.2),
+                rgba(147, 197, 253, 0.3),
+                transparent
+            );
+            transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
             pointer-events: none;
             z-index: 1;
             border-radius: inherit;
+            filter: blur(5px);
         }
         
         .card-hover:hover::before {
@@ -361,6 +397,168 @@
         /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        /* Ultra-smooth scrolling */
+        * {
+            scroll-behavior: smooth;
+            scroll-padding-top: 2rem;
+        }
+        
+        /* Smooth color transitions */
+        *, *::before, *::after {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-duration: 300ms;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Ultra-relaxing floating elements */
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.4);
+            animation: gentleFloat 12s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(0.5px);
+        }
+
+        .floating-star {
+            position: absolute;
+            color: rgba(255, 215, 0, 0.3);
+            animation: gentleFloat 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(0.3px);
+        }
+
+        .floating-leaf {
+            position: absolute;
+            color: rgba(144, 238, 144, 0.5);
+            animation: gentleFloat 18s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(0.2px);
+        }
+
+        .floating-butterfly {
+            position: absolute;
+            color: rgba(255, 192, 203, 0.4);
+            animation: gentleFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(0.4px);
+        }
+
+        @keyframes gentleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.6;
+                transform: translateY(80vh) rotate(45deg) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(40vh) rotate(90deg) scale(1.1);
+            }
+            85% {
+                opacity: 0.4;
+                transform: translateY(10vh) rotate(180deg) scale(0.9);
+            }
+            100% {
+                transform: translateY(-50px) rotate(360deg) scale(0.6);
+                opacity: 0;
+            }
+        }
+
+        /* Ultra-soothing background patterns */
+        .zen-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 182, 193, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(144, 238, 144, 0.06) 0%, transparent 50%);
+            background-size: 300px 300px, 400px 400px, 500px 500px;
+            animation: zenMove 30s ease-in-out infinite;
+        }
+
+        @keyframes zenMove {
+            0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+            50% { background-position: 100% 100%, 0% 0%, 25% 75%; }
+        }
+
+        /* Breathing animation for calming effect */
+        .breathing {
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Soft glow effects */
+        .soft-glow {
+            box-shadow: 
+                0 0 20px rgba(173, 216, 230, 0.3),
+                0 0 40px rgba(255, 182, 193, 0.2),
+                0 0 60px rgba(144, 238, 144, 0.1);
+        }
+
+        .therapeutic-gradient {
+            background: linear-gradient(135deg, 
+                rgba(240, 248, 255, 0.9) 0%,
+                rgba(230, 244, 255, 0.8) 25%,
+                rgba(255, 240, 245, 0.7) 50%,
+                rgba(240, 255, 240, 0.8) 75%,
+                rgba(248, 250, 255, 0.9) 100%);
+        }
+
+        /* Navigation styles */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Cute button animations */
+        .cute-button {
+            position: relative;
+            overflow: hidden;
+            transform: perspective(1px) translateZ(0);
+        }
+
+        .cute-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .cute-button:hover::before {
+            width: 300px;
+            height: 300px;
         }
         
         /* Enhanced focus states for accessibility */
@@ -849,8 +1047,66 @@
     <!-- Scroll Progress Bar -->
     <div id="scrollProgress" class="scroll-progress"></div>
     
+    <!-- Cute Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-blue-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                        <img src="/images/logo.png" alt="FikrLess" class="w-8 h-8 object-contain">
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                        FikrLess
+                    </span>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Home</a>
+                    <a href="#about" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">About</a>
+                    <a href="#founders" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Founders</a>
+                    <a href="#services" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Services</a>
+                    <a href="#internships" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Internships</a>
+                    <a href="#faq" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">FAQ</a>
+                    <a href="#contact" class="nav-link text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Contact</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        Get Started ✨
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors duration-300">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden bg-white/95 backdrop-blur-md rounded-2xl mt-2 p-4 shadow-xl border border-blue-100">
+                <div class="flex flex-col space-y-3">
+                    <a href="#home" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">🏠 Home</a>
+                    <a href="#about" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">ℹ️ About</a>
+                    <a href="#founders" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">👥 Founders</a>
+                    <a href="#services" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">🛠️ Services</a>
+                    <a href="#internships" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">🎓 Internships</a>
+                    <a href="#faq" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">❓ FAQ</a>
+                    <a href="#contact" class="mobile-nav-link text-gray-600 hover:text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-300">📞 Contact</a>
+                    <div class="pt-2 border-t border-blue-100">
+                        <a href="#contact" class="block bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-center py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                            Get Started ✨
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Professional Medical Header -->
-    <header class="relative z-10 overflow-hidden">
+    <header class="relative z-10 overflow-hidden pt-20" id="home">
         <!-- Background Image with Professional Overlay -->
         <div class="absolute inset-0 z-0">
             <div class="relative h-full w-full overflow-hidden">
@@ -858,8 +1114,11 @@
                      class="w-full h-full object-cover object-center scale-105 hover:scale-110 transition-transform duration-[10s] ease-out"
                      style="filter: brightness(0.75) contrast(1.15) saturate(1.1);">
                 
-                <!-- Professional Medical Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-br from-teal-500/85 via-cyan-500/75 to-blue-600/85"></div>
+                <!-- Soft, Calming Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-br from-sky-400/80 via-cyan-400/75 to-teal-500/80"></div>
+                
+                <!-- Gentle shimmer effect -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-50"></div>
                 
                 <!-- Subtle Pattern Overlay for Texture -->
                 <div class="absolute inset-0 opacity-10">
@@ -875,7 +1134,7 @@
         </div>
         
         <!-- Header Content -->
-        <div class="relative z-10 px-4 sm:px-6 lg:px-8 py-8 lg:py-12 header-content">
+        <div class="relative z-10 px-4 sm:px-6 lg:px-8 py-12 lg:py-16 header-content">
             <div class="max-w-7xl mx-auto">
                 <!-- Brand Section - Centered -->
                 <div class="text-center mb-8 lg:mb-12 animate-slide-up">
@@ -892,7 +1151,7 @@
                                 FIKRLESS
                             </h1>
                             <p class="text-white/95 text-sm sm:text-base lg:text-xl xl:text-2xl font-medium tracking-wide drop-shadow-lg">
-                                Mental Health & Psychology Training Platform
+                                Making mental-health care accessible, comfortable, and stigma-free
                             </p>
                             <div class="flex justify-center">
                                 <div class="h-px bg-gradient-to-r from-transparent via-white/80 to-transparent w-48 sm:w-64 lg:w-80"></div>
@@ -946,37 +1205,236 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative px-4 sm:px-6 py-12 sm:py-16 lg:py-20 overflow-hidden gpu-accelerated">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                <div class="space-y-6 sm:space-y-8 animate-slide-left">
-                    <div class="space-y-3 sm:space-y-4">
-                        <h1 class="hero-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-blue-900 leading-tight">
-                            Welcome to the<br>
-                            <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-cyan-600 bg-clip-text text-transparent animate-pulse-glow">
-                                FikrLess
-                            </span><br>
-                            <span class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">Internship and<br>
-                            Training Site</span>
-                        </h1>
-                    </div>
-                    <button class="play-button btn-enhanced bg-white/80 backdrop-blur-sm hover:bg-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 animate-bounce-in gpu-accelerated" style="animation-delay: 0.3s;">
-                        <i class="fas fa-play text-blue-900 text-lg sm:text-xl ml-1"></i>
-                    </button>
+    <section class="relative px-4 sm:px-6 py-8 sm:py-12 lg:py-16 overflow-hidden gpu-accelerated therapeutic-gradient zen-pattern" id="home">
+        <!-- Ultra-relaxing floating elements -->
+        <div class="floating-heart" style="left: 5%; animation-delay: 0s;">💖</div>
+        <div class="floating-star" style="left: 15%; animation-delay: 3s;">⭐</div>
+        <div class="floating-leaf" style="left: 25%; animation-delay: 6s;">🍃</div>
+        <div class="floating-butterfly" style="left: 35%; animation-delay: 9s;">🦋</div>
+        <div class="floating-heart" style="left: 65%; animation-delay: 12s;">💕</div>
+        <div class="floating-star" style="left: 75%; animation-delay: 15s;">✨</div>
+        <div class="floating-leaf" style="left: 85%; animation-delay: 18s;">🌿</div>
+        <div class="floating-butterfly" style="left: 95%; animation-delay: 21s;">🦋</div>
+        <div class="floating-heart" style="left: 50%; animation-delay: 24s;">💝</div>
+        <div class="floating-star" style="left: 45%; animation-delay: 27s;">🌟</div>
+        
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center space-y-4 sm:space-y-6 animate-slide-up">
+                <div class="breathing">
+                    <h1 class="hero-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-blue-900 leading-tight">
+                        Welcome to
+                        <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-cyan-600 bg-clip-text text-transparent animate-pulse-glow">
+                            FikrLess
+                        </span>
+                    </h1>
                 </div>
-                <div class="relative animate-slide-right gpu-accelerated" style="animation-delay: 0.5s;">
-                    <div class="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-3xl animate-float"></div>
-                    <div class="relative p-4 sm:p-6 lg:p-8 rounded-3xl">
-                        <div class="space-y-4 sm:space-y-6">
-                            <div class="animate-float-delayed">
-                                <div class="w-full h-24 sm:h-28 lg:h-32 bg-white/30 backdrop-blur-sm rounded-2xl"></div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 sm:gap-4 animate-float">
-                                <div class="h-20 sm:h-22 lg:h-24 bg-white/40 backdrop-blur-sm rounded-xl"></div>
-                                <div class="h-20 sm:h-22 lg:h-24 bg-white/40 backdrop-blur-sm rounded-xl"></div>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-light">
+                    Making mental-health care accessible, comfortable, and stigma-free. We connect people with qualified professionals while training the next generation of compassionate psychologists.
+                </p>
+                
+                <!-- Ultra-relaxing CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
+                    <a href="#about" class="cute-button soft-glow bg-gradient-to-r from-sky-400 to-cyan-400 text-white px-10 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-500 breathing">
+                        Learn More 🌸
+                    </a>
+                    <a href="#contact" class="cute-button soft-glow bg-gradient-to-r from-rose-400 to-pink-400 text-white px-10 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-500 breathing" style="animation-delay: 2s;">
+                        Get Started 🦋
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About FikrLess Section -->
+    <section class="therapeutic-gradient zen-pattern px-4 sm:px-6 py-12 sm:py-16 lg:py-20" id="about">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10 sm:mb-12 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-900 mb-6">
+                    About FikrLess
+                </h2>
+                <div class="max-w-4xl mx-auto space-y-4 text-base sm:text-lg text-gray-600 leading-relaxed font-light">
+                    <p class="fade-in">
+                        FikrLess is a <strong class="text-blue-900 font-semibold">Mental Health and Psychology Training Platform</strong> bridging the gap between academic learning and real-world practice — making mental health support accessible, compassionate, and stigma-free.
+                    </p>
+                    <p class="fade-in-delay-1">
+                        We help people reach out for support without fear, connecting them with qualified professionals. Our structured internship programs link psychology students with experienced mentors across Pakistan to strengthen practical skills.
+                    </p>
+                    <div class="pt-4 fade-in-delay-2 bg-white/50 backdrop-blur-sm rounded-2xl p-6 mt-6 border-2 border-cyan-200">
+                        <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent mb-3">Our Goal</h3>
+                        <p class="text-base sm:text-lg text-gray-700">
+                            Building a community that values openness, empathy, and healing — where anyone can seek help confidently, and future psychologists serve with compassion and excellence.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision & Values Section -->
+            <div class="mt-4 sm:mt-6">
+                <h3 class="text-2xl sm:text-3xl font-bold text-blue-900 text-center mb-6 sm:mb-8 animate-slide-up">
+                    Our Vision & Values
+                </h3>
+                <div class="grid md:grid-cols-3 gap-4 sm:gap-6">
+                    <!-- Accessibility -->
+                    <div class="card-hover rounded-3xl p-6 sm:p-8 text-center bg-white/95 backdrop-blur-sm animate-slide-up soft-glow breathing">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-sky-400 to-cyan-400 rounded-3xl flex items-center justify-center shadow-2xl transform hover:rotate-6 hover:scale-110 transition-all duration-500 soft-glow">
+                            <i class="fas fa-universal-access text-white text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold bg-gradient-to-r from-sky-600 to-cyan-600 bg-clip-text text-transparent mb-3">Accessibility</h4>
+                        <p class="text-gray-600 text-base leading-relaxed font-light">
+                            Quality training to every corner of Pakistan
+                        </p>
+                    </div>
+
+                    <!-- Empathy -->
+                    <div class="card-hover rounded-3xl p-6 sm:p-8 text-center bg-white/95 backdrop-blur-sm animate-slide-up soft-glow breathing" style="animation-delay: 0.2s;">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-rose-400 to-pink-400 rounded-3xl flex items-center justify-center shadow-2xl transform hover:rotate-6 hover:scale-110 transition-all duration-500 soft-glow">
+                            <i class="fas fa-heart text-white text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-3">Empathy</h4>
+                        <p class="text-gray-600 text-base leading-relaxed font-light">
+                            Compassion, connection, and growth
+                        </p>
+                    </div>
+
+                    <!-- Professionalism -->
+                    <div class="card-hover rounded-3xl p-6 sm:p-8 text-center bg-white/95 backdrop-blur-sm animate-slide-up soft-glow breathing" style="animation-delay: 0.4s;">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-violet-400 to-purple-400 rounded-3xl flex items-center justify-center shadow-2xl transform hover:rotate-6 hover:scale-110 transition-all duration-500 soft-glow">
+                            <i class="fas fa-award text-white text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-3">Professionalism</h4>
+                        <p class="text-gray-600 text-base leading-relaxed font-light">
+                            Ethical and evidence-based practice
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet the Founders Section -->
+    <section class="gradient-bg px-4 sm:px-6 py-8 sm:py-12 lg:py-16" id="founders">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-8 sm:mb-10 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-900 mb-6">
+                    Meet the Founders
+                </h2>
+                <p class="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                    Behind FikrLess are two individuals driven by one vision — to make mental-health support accessible, compassionate, and stigma-free for everyone.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+                <!-- Hina Ahmad -->
+                <div class="card-hover rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-pink-50 via-purple-50 to-white shadow-2xl animate-slide-left border-2 border-pink-100">
+                    <div class="text-center mb-6">
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                            <div class="relative w-28 h-28 mx-auto mb-6 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-12 transition-all duration-500">
+                                <i class="fas fa-lightbulb text-white text-6xl"></i>
                             </div>
                         </div>
+                        <h3 class="text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">Hina Ahmad</h3>
+                        <p class="text-xl text-purple-600 font-semibold mb-4">Co-Founder & CEO</p>
                     </div>
+                    <p class="text-gray-600 text-lg leading-relaxed font-light">
+                        Hina is the visionary behind FikrLess — leading the initiative to make mental health training and support accessible to everyone. With a strong background in psychology and project development, she oversees FikrLess' growth, partnerships, and strategic direction, ensuring the platform remains community-focused and impact-driven.
+                    </p>
+                </div>
+
+                <!-- Ali Tariq -->
+                <div class="card-hover rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-sky-50 via-cyan-50 to-white shadow-2xl animate-slide-right border-2 border-cyan-100">
+                    <div class="text-center mb-6">
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-sky-400 to-cyan-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                            <div class="relative w-28 h-28 mx-auto mb-6 bg-gradient-to-br from-sky-400 to-cyan-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-12 transition-all duration-500">
+                                <i class="fas fa-code text-white text-6xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold bg-gradient-to-r from-sky-600 to-cyan-600 bg-clip-text text-transparent mb-2">Ali Tariq</h3>
+                        <p class="text-xl text-cyan-600 font-semibold mb-4">Co-Founder & CTO</p>
+                    </div>
+                    <p class="text-gray-600 text-lg leading-relaxed font-light">
+                        Ali is responsible for the technical backbone of FikrLess. With expertise in full-stack development and system architecture, he ensures the platform remains secure, scalable, and user-friendly. His work enables students and mentors to connect seamlessly and access high-quality training resources.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 animate-slide-up" style="animation-delay: 0.6s;">
+                <p class="text-xl text-gray-700 font-medium italic max-w-3xl mx-auto">
+                    Together, they strive to create a space where care, learning, and technology come together to make a lasting difference.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="relative bg-gradient-to-br from-indigo-900 via-blue-900 to-cyan-900 px-4 sm:px-6 py-16 sm:py-20 lg:py-24 overflow-hidden" id="services">
+        <!-- Animated background circles -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+                    Our Services
+                </h2>
+                <p class="text-lg sm:text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    FikrLess provides meaningful programs and initiatives designed to support both personal growth and professional development.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+                <!-- Mental Health App -->
+                <div class="relative card-hover rounded-3xl p-8 sm:p-10 bg-white/95 backdrop-blur-sm shadow-2xl animate-slide-up border-2 border-emerald-100">
+                    <div class="text-center mb-6">
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-emerald-400 to-green-500 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                            <div class="relative w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-emerald-400 to-green-500 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-6 transition-all duration-500">
+                                <i class="fas fa-mobile-alt text-white text-5xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-4">Mental Health App</h3>
+                        <span class="inline-block px-5 py-2.5 bg-gradient-to-r from-amber-400 via-orange-400 to-pink-500 text-white text-sm font-bold rounded-full shadow-xl mb-4 animate-pulse">
+                            Coming Soon! 🌱
+                        </span>
+                    </div>
+                    <p class="text-gray-600 text-lg leading-relaxed font-light">
+                        A self-care and wellness mobile app that gamifies your mental-wellbeing journey. Users can track progress, complete goals, and grow their own virtual "plant" as they nurture their mental health. Stay tuned for updates!
+                    </p>
+                </div>
+
+                <!-- Internships -->
+                <div class="relative card-hover rounded-3xl p-8 sm:p-10 bg-white/95 backdrop-blur-sm shadow-2xl animate-slide-up border-2 border-sky-100" style="animation-delay: 0.2s;">
+                    <div class="text-center mb-6">
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-sky-400 to-cyan-500 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                            <div class="relative w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-sky-400 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-6 transition-all duration-500">
+                                <i class="fas fa-user-graduate text-white text-5xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-sky-600 to-cyan-600 bg-clip-text text-transparent mb-4">Internships</h3>
+                    </div>
+                    <p class="text-gray-600 text-lg leading-relaxed font-light mb-4">
+                        Practical training programs under expert mentors — learn real-world therapy skills, diagnostic methods, and client interaction.
+                    </p>
+                    <p class="text-cyan-600 font-semibold text-base">
+                        👇 Explore current internships below
+                    </p>
+                </div>
+
+                <!-- Counselling & Training -->
+                <div class="relative card-hover rounded-3xl p-8 sm:p-10 bg-white/95 backdrop-blur-sm shadow-2xl animate-slide-up border-2 border-purple-100" style="animation-delay: 0.4s;">
+                    <div class="text-center mb-6">
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-purple-400 to-fuchsia-500 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                            <div class="relative w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-purple-400 to-fuchsia-500 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 hover:rotate-6 transition-all duration-500">
+                                <i class="fas fa-brain text-white text-5xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent mb-4">Counselling & Training</h3>
+                    </div>
+                    <p class="text-gray-600 text-lg leading-relaxed font-light">
+                        Specialized workshops and structured training sessions for students and professionals. Topics include CBT, DBT, stress management, and psychological assessments — designed to enhance both skill and self-awareness.
+                    </p>
                 </div>
             </div>
         </div>
@@ -999,7 +1457,7 @@
     </section>
 
     <!-- Mentor Cards Section -->
-    <section class="gradient-bg px-4 sm:px-6 py-12 sm:py-16 gpu-accelerated">
+    <section class="gradient-bg px-4 sm:px-6 py-12 sm:py-16 gpu-accelerated" id="internships">
         <div class="max-w-7xl mx-auto">
             <!-- Section Header -->
             <div class="text-center mb-8 sm:mb-12 animate-slide-up">
@@ -1025,30 +1483,173 @@
     </section>
 
 
+    <!-- FAQs Section -->
+    <section class="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 px-4 sm:px-6 py-16 sm:py-20 lg:py-24" id="faq" style="background-image: radial-gradient(circle at 10% 20%, rgba(147, 197, 253, 0.2) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(196, 181, 253, 0.2) 0%, transparent 50%);">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-900 mb-6">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto">
+                    Got questions? We've got answers!
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- FAQ 1 -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/95 backdrop-blur-sm shadow-xl animate-slide-up border-2 border-blue-100">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 hover:rotate-6 transition-all duration-300">
+                            <i class="fas fa-question text-white text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-3">
+                                Are internships online or in-person?
+                            </h3>
+                            <p class="text-lg text-emerald-700 font-medium leading-relaxed">
+                                ✓ We offer both In-person and Online internships.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/95 backdrop-blur-sm shadow-xl animate-slide-up border-2 border-indigo-100" style="animation-delay: 0.1s;">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 hover:rotate-6 transition-all duration-300">
+                            <i class="fas fa-question text-white text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">
+                                Can international students join?
+                            </h3>
+                            <p class="text-lg text-emerald-700 font-medium leading-relaxed">
+                                ✓ Of course! We welcome all students.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/95 backdrop-blur-sm shadow-xl animate-slide-up border-2 border-cyan-100" style="animation-delay: 0.2s;">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 hover:rotate-6 transition-all duration-300">
+                            <i class="fas fa-question text-white text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent mb-3">
+                                Do I get a certificate?
+                            </h3>
+                            <p class="text-lg text-emerald-700 font-medium leading-relaxed">
+                                ✓ Yes, you will be provided a certificate upon completion.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/95 backdrop-blur-sm shadow-xl animate-slide-up border-2 border-purple-100" style="animation-delay: 0.3s;">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-violet-400 to-fuchsia-500 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-110 hover:rotate-6 transition-all duration-300">
+                            <i class="fas fa-question text-white text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent mb-3">
+                                How can I become a mentor?
+                            </h3>
+                            <p class="text-lg text-emerald-700 font-medium leading-relaxed">
+                                ✓ Get in contact at <a href="https://wa.me/923290045694" target="_blank" class="text-cyan-600 hover:text-cyan-500 underline font-semibold transition-colors duration-300">+92 329 004 5694</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
-    <section class="bg-blue-900 px-6 py-16">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8 fade-in">
-                Get in touch at fikrless01@gmail.com
-            </h2>
+    <section class="bg-gradient-to-br from-blue-900 via-cyan-900 to-teal-900 px-6 py-16 sm:py-20" id="contact">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 fade-in">
+                    Get In Touch
+                </h2>
+                <p class="text-xl sm:text-2xl text-blue-100 mb-8 fade-in-delay-1">
+                    We'd love to hear from you! Reach out to us through any of these channels.
+                </p>
+            </div>
+
+            <!-- Contact Methods -->
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8 mb-12 max-w-5xl mx-auto">
+                <!-- Email -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/10 backdrop-blur-sm border border-white/20 text-center animate-slide-up">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center shadow-xl">
+                        <i class="fas fa-envelope text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Email Us</h3>
+                    <a href="mailto:fikrless01@gmail.com" class="text-cyan-300 hover:text-cyan-200 text-lg underline transition-colors duration-300 break-all">
+                        fikrless01@gmail.com
+                    </a>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/10 backdrop-blur-sm border border-white/20 text-center animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center shadow-xl">
+                        <i class="fab fa-whatsapp text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">WhatsApp</h3>
+                    <a href="https://wa.me/923290045694" target="_blank" class="text-green-300 hover:text-green-200 text-lg underline transition-colors duration-300">
+                        +92 329 004 5694
+                    </a>
+                </div>
+
+                <!-- Phone -->
+                <div class="card-hover rounded-3xl p-6 sm:p-8 bg-white/10 backdrop-blur-sm border border-white/20 text-center animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
+                        <i class="fas fa-phone text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Call Us</h3>
+                    <a href="tel:+923290045694" class="text-purple-300 hover:text-purple-200 text-lg underline transition-colors duration-300">
+                        +92 329 004 5694
+                    </a>
+                </div>
+            </div>
             
             <!-- Social Media Icons -->
-            <div class="flex justify-center space-x-8 fade-in-delay-1">
-                <a href="https://www.linkedin.com/company/fikrless/" target="_blank" rel="noopener noreferrer" class="social-icon block">
-                    <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
-                        <i class="fab fa-linkedin-in text-white text-2xl"></i>
-                    </div>
-                </a>
-                <a href="https://instagram.com/fikrless01" target="_blank" rel="noopener noreferrer" class="social-icon block">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
-                        <i class="fab fa-instagram text-white text-2xl"></i>
-                    </div>
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=61579763852926" target="_blank" rel="noopener noreferrer" class="social-icon block">
-                    <div class="w-16 h-16 bg-blue-700 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl">
-                        <i class="fab fa-facebook-f text-white text-2xl"></i>
-                    </div>
-                </a>
+            <div class="text-center">
+                <h3 class="text-2xl font-bold text-white mb-6 fade-in">Follow Us On Social Media</h3>
+                <div class="flex justify-center space-x-6 sm:space-x-8 fade-in-delay-1">
+                    <a href="https://www.linkedin.com/company/fikrless/" target="_blank" rel="noopener noreferrer" class="social-icon block group">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
+                            <i class="fab fa-linkedin-in text-white text-2xl sm:text-3xl"></i>
+                        </div>
+                    </a>
+                    <a href="https://instagram.com/fikrless01" target="_blank" rel="noopener noreferrer" class="social-icon block group">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
+                            <i class="fab fa-instagram text-white text-2xl sm:text-3xl"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61579763852926" target="_blank" rel="noopener noreferrer" class="social-icon block group">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-700 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
+                            <i class="fab fa-facebook-f text-white text-2xl sm:text-3xl"></i>
+                        </div>
+                    </a>
+                    <a href="https://wa.me/923290045694" target="_blank" rel="noopener noreferrer" class="social-icon block group">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-600 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
+                            <i class="fab fa-whatsapp text-white text-2xl sm:text-3xl"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Text -->
+            <div class="text-center mt-12 pt-8 border-t border-white/20">
+                <p class="text-blue-200 text-base sm:text-lg">
+                    © 2025 FikrLess - Mental Health & Psychology Training Platform
+                </p>
+                <p class="text-blue-300 text-sm sm:text-base mt-2">
+                    Making mental-health care accessible, comfortable, and stigma-free for everyone.
+                </p>
             </div>
         </div>
     </section>
@@ -1056,6 +1657,113 @@
     <script>
         // Enhanced JavaScript for perfect interactions
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // Mobile menu functionality
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                });
+            }
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            const icon = mobileMenuBtn.querySelector('i');
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
+                    }
+                });
+            });
+            
+            // Navbar scroll effect
+            const navbar = document.querySelector('nav');
+            let lastScrollY = window.scrollY;
+            
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > 100) {
+                    navbar.classList.add('bg-white/95', 'shadow-xl');
+                    navbar.classList.remove('bg-white/90');
+                } else {
+                    navbar.classList.remove('bg-white/95', 'shadow-xl');
+                    navbar.classList.add('bg-white/90');
+                }
+                
+                lastScrollY = currentScrollY;
+            });
+            
+            // Active navigation highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            function highlightNavigation() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('text-blue-600', 'font-semibold');
+                    link.classList.add('text-gray-600');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.remove('text-gray-600');
+                        link.classList.add('text-blue-600', 'font-semibold');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', highlightNavigation);
+            
+            // Create ultra-relaxing floating elements periodically
+            function createFloatingElement() {
+                const therapeuticElements = ['💖', '💕', '💝', '⭐', '✨', '🌟', '💫', '🦋', '🌸', '🌺', '🍃', '🌿', '🌱', '🌼', '🕊️', '🌈', '☁️', '🌙', '🌅', '🌺'];
+                const element = document.createElement('div');
+                
+                // Randomly choose element type for variety
+                const elementTypes = ['floating-heart', 'floating-star', 'floating-leaf', 'floating-butterfly'];
+                element.className = elementTypes[Math.floor(Math.random() * elementTypes.length)];
+                
+                element.textContent = therapeuticElements[Math.floor(Math.random() * therapeuticElements.length)];
+                element.style.left = Math.random() * 100 + '%';
+                element.style.animationDelay = Math.random() * 8 + 's';
+                element.style.animationDuration = (Math.random() * 8 + 12) + 's';
+                
+                document.body.appendChild(element);
+                
+                // Remove element after animation
+                setTimeout(() => {
+                    if (element.parentNode) {
+                        element.parentNode.removeChild(element);
+                    }
+                }, 20000);
+            }
+            
+            // Create floating elements every 4 seconds for more relaxed feel
+            setInterval(createFloatingElement, 4000);
             
             // Search functionality with regex support
             const searchInput = document.getElementById('searchInput');

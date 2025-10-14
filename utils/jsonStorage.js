@@ -99,13 +99,17 @@ class JsonStorage {
         return internships.filter(internship => {
             return searchRegex.test(internship.mentorName) ||
                    searchRegex.test(internship.profession) ||
-                   searchRegex.test(internship.specialization) ||
+                   searchRegex.test(internship.specialization || '') ||
                    searchRegex.test(internship.city) ||
-                   internship.includes.some(item => searchRegex.test(item)) ||
-                   internship.programs.some(program => 
+                   searchRegex.test(internship.cityNote || '') ||
+                   searchRegex.test(internship.additionalInfo || '') ||
+                   (internship.includes && internship.includes.some(item => searchRegex.test(item))) ||
+                   (internship.programs && internship.programs.some(program => 
                        searchRegex.test(program.title) || 
-                       searchRegex.test(program.duration)
-                   );
+                       searchRegex.test(program.duration) ||
+                       searchRegex.test(program.description || '') ||
+                       searchRegex.test(program.mode || '')
+                   ));
         });
     }
 

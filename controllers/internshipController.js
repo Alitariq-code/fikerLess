@@ -80,28 +80,15 @@ const searchInternships = async (req, res) => {
 // Admin: Get all internships (including inactive)
 const getAllInternshipsAdmin = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
-
         const allInternships = await jsonStorage.getInternships();
         const sortedInternships = allInternships.sort((a, b) => {
             if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
             return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        
-        const internships = sortedInternships.slice(skip, skip + limit);
-        const total = allInternships.length;
 
         res.json({
             success: true,
-            data: internships,
-            pagination: {
-                current: page,
-                pages: Math.ceil(total / limit),
-                total,
-                limit
-            }
+            data: sortedInternships
         });
     } catch (error) {
         console.error('Error fetching internships for admin:', error);
