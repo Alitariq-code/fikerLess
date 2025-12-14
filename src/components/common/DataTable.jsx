@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
 function DataTable({
   data = [],
@@ -18,6 +18,18 @@ function DataTable({
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
   const [localPage, setLocalPage] = useState(currentPage)
 
+  // Sync localPage with currentPage prop
+  useEffect(() => {
+    setLocalPage(currentPage)
+  }, [currentPage])
+
+  // Reset to page 1 when data changes significantly
+  useEffect(() => {
+    if (localPage > 1 && data.length === 0) {
+      setLocalPage(1)
+    }
+  }, [data.length, localPage])
+
   // Handle sorting
   const handleSort = (key) => {
     let direction = 'asc'
@@ -25,38 +37,73 @@ function DataTable({
       direction = 'desc'
     }
     setSortConfig({ key, direction })
+    // Reset to page 1 when sorting changes
+    setLocalPage(1)
+    if (onPageChange) {
+      onPageChange(1)
+    }
   }
 
-  // Sort data locally if no server-side pagination
+  // Sort data locally (client-side sorting)
   const sortedData = useMemo(() => {
-    if (!sortConfig.key || totalItems > data.length) {
-      // Server-side sorting or no sorting
+    if (!sortConfig.key) {
       return data
     }
 
     const sorted = [...data].sort((a, b) => {
-      const aValue = a[sortConfig.key]
-      const bValue = b[sortConfig.key]
+      let aValue = a[sortConfig.key]
+      let bValue = b[sortConfig.key]
 
+      // Handle nested values (e.g., for arrays or objects)
+      if (Array.isArray(aValue)) {
+        aValue = aValue.length
+      }
+      if (Array.isArray(bValue)) {
+        bValue = bValue.length
+      }
+
+      // Handle null/undefined values
       if (aValue === null || aValue === undefined) return 1
       if (bValue === null || bValue === undefined) return -1
 
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
+      // Handle boolean values
+      if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
         return sortConfig.direction === 'asc'
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue)
+          ? (aValue === bValue ? 0 : aValue ? 1 : -1)
+          : (aValue === bValue ? 0 : aValue ? -1 : 1)
       }
 
-      return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue
+      // Handle string values
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortConfig.direction === 'asc'
+          ? aValue.localeCompare(bValue, undefined, { numeric: true, sensitivity: 'base' })
+          : bValue.localeCompare(aValue, undefined, { numeric: true, sensitivity: 'base' })
+      }
+
+      // Handle numeric values
+      const aNum = Number(aValue)
+      const bNum = Number(bValue)
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return sortConfig.direction === 'asc' ? aNum - bNum : bNum - aNum
+      }
+
+      // Fallback to string comparison
+      const aStr = String(aValue)
+      const bStr = String(bValue)
+      return sortConfig.direction === 'asc'
+        ? aStr.localeCompare(bStr)
+        : bStr.localeCompare(aStr)
     })
 
     return sorted
   }, [data, sortConfig])
 
-  // Calculate pagination
-  const totalPages = Math.ceil(totalItems / pageSize)
-  const startItem = (localPage - 1) * pageSize + 1
-  const endItem = Math.min(localPage * pageSize, totalItems)
+  // Calculate pagination - use local data length for client-side pagination
+  const displayData = sortedData
+  const totalPages = Math.ceil(displayData.length / pageSize)
+  const startItem = (localPage - 1) * pageSize
+  const endItem = Math.min(localPage * pageSize, displayData.length)
+  const paginatedData = displayData.slice(startItem, endItem)
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -118,7 +165,7 @@ function DataTable({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {sortedData.length === 0 ? (
+            {paginatedData.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length + (showActions ? 1 : 0)}
@@ -129,7 +176,7 @@ function DataTable({
                 </td>
               </tr>
             ) : (
-              sortedData.map((row, rowIndex) => (
+              paginatedData.map((row, rowIndex) => (
                 <tr
                   key={row.id || row._id || rowIndex}
                   className="hover:bg-blue-50 transition-colors"
@@ -187,9 +234,9 @@ function DataTable({
       {totalPages > 1 && (
         <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
           <div className="text-sm text-gray-700">
-            Showing <span className="font-medium">{startItem}</span> to{' '}
+            Showing <span className="font-medium">{startItem + 1}</span> to{' '}
             <span className="font-medium">{endItem}</span> of{' '}
-            <span className="font-medium">{totalItems}</span> results
+            <span className="font-medium">{displayData.length}</span> results
           </div>
           <div className="flex items-center space-x-2">
             <button

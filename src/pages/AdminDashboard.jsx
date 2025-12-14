@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import AdminSidebar from '../components/admin/AdminSidebar'
 import DashboardTab from '../components/admin/DashboardTab'
 import InternshipsTab from '../components/admin/InternshipsTab'
+import ArticlesTab from '../components/admin/ArticlesTab'
+import UsersTab from '../components/admin/UsersTab'
+import QuotesTab from '../components/admin/QuotesTab'
+import NotificationsTab from '../components/admin/NotificationsTab'
+import AchievementsTab from '../components/admin/AchievementsTab'
 import AnalyticsTab from '../components/admin/AnalyticsTab'
 import SettingsTab from '../components/admin/SettingsTab'
 
 function AdminDashboard() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('dashboard')
   const [loading, setLoading] = useState(true)
   const [userInfo, setUserInfo] = useState(null)
@@ -14,6 +20,20 @@ function AdminDashboard() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [breadcrumbItems, setBreadcrumbItems] = useState([])
   const navigate = useNavigate()
+
+  // Initialize activeTab from URL on mount and sync with URL changes
+  useEffect(() => {
+    const tabFromUrl = searchParams.get('tab')
+    const validTabs = ['dashboard', 'internships', 'articles', 'users', 'analytics', 'settings']
+    
+    if (tabFromUrl && validTabs.includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl)
+    } else if (!tabFromUrl) {
+      // If no tab in URL, set default and update URL
+      setSearchParams({ tab: 'dashboard' }, { replace: true })
+      setActiveTab('dashboard')
+    }
+  }, [searchParams, setSearchParams])
 
   useEffect(() => {
     // Add admin-page class to body to show default cursor
@@ -57,6 +77,8 @@ function AdminDashboard() {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab)
+    // Update URL without page reload
+    setSearchParams({ tab })
   }
 
   if (loading) {
@@ -76,6 +98,16 @@ function AdminDashboard() {
         return <DashboardTab />
       case 'internships':
         return <InternshipsTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'articles':
+        return <ArticlesTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'users':
+        return <UsersTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'quotes':
+        return <QuotesTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'notifications':
+        return <NotificationsTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'achievements':
+        return <AchievementsTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'analytics':
         return <AnalyticsTab />
       case 'settings':

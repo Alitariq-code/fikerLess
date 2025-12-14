@@ -4,6 +4,11 @@ function AdminSidebar({ activeTab, onTabChange, onLogout, isMobileOpen, setIsMob
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'fa-tachometer-alt' },
     { id: 'internships', label: 'Internships', icon: 'fa-graduation-cap' },
+    { id: 'articles', label: 'Articles', icon: 'fa-newspaper' },
+    { id: 'users', label: 'Users', icon: 'fa-users' },
+    { id: 'quotes', label: 'Quotes', icon: 'fa-quote-left' },
+    { id: 'notifications', label: 'Notifications', icon: 'fa-bell' },
+    { id: 'achievements', label: 'Achievements', icon: 'fa-trophy' },
     { id: 'analytics', label: 'Analytics', icon: 'fa-chart-bar' },
     { id: 'settings', label: 'Settings', icon: 'fa-cog' },
   ]

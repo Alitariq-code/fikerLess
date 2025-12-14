@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import api from '../../services/api'
 
 function InternshipForm({ internship, onSave, onCancel }) {
@@ -17,6 +17,9 @@ function InternshipForm({ internship, onSave, onCancel }) {
   const [loading, setLoading] = useState(false)
   const [programErrors, setProgramErrors] = useState({})
   const [touchedFields, setTouchedFields] = useState({})
+  const [errors, setErrors] = useState({})
+  const [successMessage, setSuccessMessage] = useState('')
+  const programsRef = useRef(null)
 
   useEffect(() => {
     if (internship) {
@@ -48,6 +51,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
       })
       setProgramErrors({})
       setTouchedFields({})
+      setErrors({})
     } else {
       setFormData({
         mentorName: '',
@@ -63,12 +67,27 @@ function InternshipForm({ internship, onSave, onCancel }) {
       })
       setProgramErrors({})
       setTouchedFields({})
+      setErrors({})
     }
   }, [internship])
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
     setTouchedFields((prev) => ({ ...prev, [field]: true }))
+    
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors[field]
+        return newErrors
+      })
+    }
+
+    // Clear success message when user makes changes
+    if (successMessage) {
+      setSuccessMessage('')
+    }
   }
 
   const handleProgramChange = (index, field, value) => {
@@ -99,7 +118,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
 
   const removeProgram = (index) => {
     if (formData.programs.length <= 1) {
-      alert('At least one program is required')
+      setErrors({ submit: 'At least one program is required' })
       return
     }
     const newPrograms = formData.programs.filter((_, i) => i !== index)
@@ -134,58 +153,72 @@ function InternshipForm({ internship, onSave, onCancel }) {
     setFormData((prev) => ({ ...prev, includes: newIncludes.length > 0 ? newIncludes : [''] }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setProgramErrors({})
+  const validateForm = () => {
+    const newErrors = {}
 
-    // Validate required fields
     if (!formData.mentorName.trim()) {
-      alert('Mentor Name is required')
-      setLoading(false)
-      return
+      newErrors.mentorName = 'Mentor Name is required'
     }
 
     if (!formData.profession.trim()) {
-      alert('Profession is required')
-      setLoading(false)
-      return
+      newErrors.profession = 'Profession is required'
     }
 
     if (!formData.city.trim()) {
-      alert('City is required')
-      setLoading(false)
-      return
+      newErrors.city = 'City is required'
     }
 
     // Validate programs
     const validPrograms = formData.programs.filter((p) => p.title?.trim() && p.duration?.trim())
     
     if (validPrograms.length === 0) {
-      alert('At least one program with title and duration is required')
-      setLoading(false)
-      return
+      newErrors.programs = 'At least one program with title and duration is required'
     }
 
-    const errors = {}
+    const programErrors = {}
     formData.programs.forEach((program, index) => {
       if (!program.title?.trim() || !program.duration?.trim()) {
-        errors[index] = 'Title and duration are required'
+        programErrors[index] = 'Title and duration are required'
       }
     })
 
-    if (Object.keys(errors).length > 0) {
-      setProgramErrors(errors)
-      setLoading(false)
-      const firstErrorIndex = parseInt(Object.keys(errors)[0])
-      const errorElement = document.querySelector(`[data-program-index="${firstErrorIndex}"]`)
-      if (errorElement) {
-        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    if (Object.keys(programErrors).length > 0) {
+      setProgramErrors(programErrors)
+      newErrors.programs = 'Please fill in all required program fields'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0 && Object.keys(programErrors).length === 0
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setProgramErrors({})
+    setErrors({})
+    setSuccessMessage('')
+
+    // Mark all fields as touched
+    setTouchedFields({
+      mentorName: true,
+      profession: true,
+      city: true,
+    })
+
+    if (!validateForm()) {
+      // Scroll to first error
+      if (errors.programs || Object.keys(programErrors).length > 0) {
+        if (programsRef.current) {
+          programsRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
       }
+      setLoading(false)
       return
     }
 
     try {
+      const validPrograms = formData.programs.filter((p) => p.title?.trim() && p.duration?.trim())
+      
       const payload = {
         mentorName: formData.mentorName.trim(),
         profession: formData.profession.trim(),
@@ -207,21 +240,26 @@ function InternshipForm({ internship, onSave, onCancel }) {
 
       if (internship?._id) {
         await api.put(`/internships/${internship._id}`, payload)
+        setSuccessMessage('Internship updated successfully!')
       } else {
         await api.post('/internships', payload)
+        setSuccessMessage('Internship created successfully!')
       }
 
-      onSave()
+      // Wait a moment to show success message, then call onSave
+      setTimeout(() => {
+        onSave()
+      }, 1000)
     } catch (error) {
       console.error('Error saving internship:', error)
       const errorMessage = error.response?.data?.message || error.message || 'Failed to save internship'
-      alert(errorMessage)
-    } finally {
+      setErrors({ submit: errorMessage })
       setLoading(false)
     }
   }
 
   const getFieldError = (field) => {
+    if (errors[field]) return errors[field]
     if (!touchedFields[field]) return null
     if (field === 'mentorName' && !formData.mentorName.trim()) return 'Mentor Name is required'
     if (field === 'profession' && !formData.profession.trim()) return 'Profession is required'
@@ -230,12 +268,46 @@ function InternshipForm({ internship, onSave, onCancel }) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto animate-fade-in">
+      {/* Success Message */}
+      {successMessage && (
+        <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg flex items-center animate-slide-down shadow-lg">
+          <div className="flex-shrink-0">
+            <i className="fas fa-check-circle text-green-500 text-xl"></i>
+          </div>
+          <div className="ml-3">
+            <p className="text-sm font-semibold text-green-800">{successMessage}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error Message */}
+      {errors.submit && (
+        <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg flex items-center animate-slide-down shadow-lg">
+          <div className="flex-shrink-0">
+            <i className="fas fa-exclamation-circle text-red-500 text-xl"></i>
+          </div>
+          <div className="ml-3 flex-1">
+            <p className="text-sm font-semibold text-red-800">{errors.submit}</p>
+          </div>
+          <button
+            onClick={() => setErrors((prev) => {
+              const newErrors = { ...prev }
+              delete newErrors.submit
+              return newErrors
+            })}
+            className="ml-4 text-red-500 hover:text-red-700"
+          >
+            <i className="fas fa-times"></i>
+          </button>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Basic Information Section */}
-        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100">
+        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <div className="flex items-center mb-6 pb-4 border-b border-gray-200">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mr-4 shadow-lg transform hover:scale-105 transition-transform">
               <i className="fas fa-user-tie text-white text-xl"></i>
             </div>
             <div>
@@ -268,7 +340,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
                 />
               </div>
               {getFieldError('mentorName') && (
-                <p className="mt-1.5 text-sm text-red-600 flex items-center">
+                <p className="mt-1.5 text-sm text-red-600 flex items-center animate-fade-in">
                   <i className="fas fa-exclamation-circle mr-1.5"></i>
                   {getFieldError('mentorName')}
                 </p>
@@ -298,7 +370,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
                 />
               </div>
               {getFieldError('profession') && (
-                <p className="mt-1.5 text-sm text-red-600 flex items-center">
+                <p className="mt-1.5 text-sm text-red-600 flex items-center animate-fade-in">
                   <i className="fas fa-exclamation-circle mr-1.5"></i>
                   {getFieldError('profession')}
                 </p>
@@ -346,7 +418,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
                 />
               </div>
               {getFieldError('city') && (
-                <p className="mt-1.5 text-sm text-red-600 flex items-center">
+                <p className="mt-1.5 text-sm text-red-600 flex items-center animate-fade-in">
                   <i className="fas fa-exclamation-circle mr-1.5"></i>
                   {getFieldError('city')}
                 </p>
@@ -356,10 +428,10 @@ function InternshipForm({ internship, onSave, onCancel }) {
         </div>
 
         {/* Programs Section */}
-        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100">
+        <div ref={programsRef} className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 via-emerald-600 to-teal-600 rounded-xl flex items-center justify-center mr-4 shadow-lg transform hover:scale-105 transition-transform">
                 <i className="fas fa-graduation-cap text-white text-xl"></i>
               </div>
               <div>
@@ -370,12 +442,21 @@ function InternshipForm({ internship, onSave, onCancel }) {
             <button
               type="button"
               onClick={addProgram}
-              className="flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105"
+              className="flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
             >
               <i className="fas fa-plus mr-2"></i>
               Add Program
             </button>
           </div>
+
+          {errors.programs && (
+            <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
+              <p className="text-red-700 text-sm font-medium flex items-center">
+                <i className="fas fa-exclamation-triangle mr-2"></i>
+                {errors.programs}
+              </p>
+            </div>
+          )}
 
           <div className="space-y-5">
             {formData.programs.map((program, index) => (
@@ -416,7 +497,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
                 
                 {/* Error Message */}
                 {programErrors[index] && (
-                  <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 rounded-lg">
+                  <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 rounded-lg animate-fade-in">
                     <p className="text-red-700 text-sm font-medium flex items-center">
                       <i className="fas fa-exclamation-triangle mr-2"></i>
                       {programErrors[index]}
@@ -484,13 +565,16 @@ function InternshipForm({ internship, onSave, onCancel }) {
                     <select
                       value={program.mode || ''}
                       onChange={(e) => handleProgramChange(index, 'mode', e.target.value)}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 hover:border-gray-300 bg-white"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 hover:border-gray-300 bg-white appearance-none"
                     >
                       <option value="">Select Mode</option>
                       <option value="online">🌐 Online</option>
                       <option value="hybrid">🔄 Hybrid</option>
                       <option value="in-person">🏢 In-Person</option>
                     </select>
+                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                      <i className="fas fa-chevron-down text-gray-400"></i>
+                    </div>
                   </div>
                 </div>
                 
@@ -523,10 +607,10 @@ function InternshipForm({ internship, onSave, onCancel }) {
         </div>
 
         {/* Includes Section */}
-        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100">
+        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center mr-4 shadow-lg transform hover:scale-105 transition-transform">
                 <i className="fas fa-list-check text-white text-xl"></i>
               </div>
               <div>
@@ -537,7 +621,7 @@ function InternshipForm({ internship, onSave, onCancel }) {
             <button
               type="button"
               onClick={addInclude}
-              className="flex items-center px-5 py-2.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
+              className="flex items-center px-5 py-2.5 bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
             >
               <i className="fas fa-plus mr-2"></i>
               Add Item
@@ -581,9 +665,9 @@ function InternshipForm({ internship, onSave, onCancel }) {
         </div>
 
         {/* Additional Information Section */}
-        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100">
+        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <div className="flex items-center mb-6 pb-4 border-b border-gray-200">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+            <div className="w-14 h-14 bg-gradient-to-br from-orange-500 via-orange-600 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg transform hover:scale-105 transition-transform">
               <i className="fas fa-info-circle text-white text-xl"></i>
             </div>
             <div>
@@ -623,9 +707,9 @@ function InternshipForm({ internship, onSave, onCancel }) {
         </div>
 
         {/* Settings Section */}
-        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100">
+        <div className="glass-card rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <div className="flex items-center mb-6 pb-4 border-b border-gray-200">
-            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+            <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 via-indigo-600 to-blue-600 rounded-xl flex items-center justify-center mr-4 shadow-lg transform hover:scale-105 transition-transform">
               <i className="fas fa-cogs text-white text-xl"></i>
             </div>
             <div>
@@ -650,8 +734,8 @@ function InternshipForm({ internship, onSave, onCancel }) {
               </div>
               <div className={`px-4 py-2 rounded-lg font-semibold text-sm ${
                 formData.is_active
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-red-100 text-red-700'
+                  ? 'bg-green-100 text-green-700 border border-green-200'
+                  : 'bg-red-100 text-red-700 border border-red-200'
               }`}>
                 {formData.is_active ? 'Active' : 'Inactive'}
               </div>
@@ -680,27 +764,34 @@ function InternshipForm({ internship, onSave, onCancel }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end space-x-4 pt-6 border-t-2 border-gray-200">
+        <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-6 border-t-2 border-gray-200">
           <button
             type="button"
             onClick={onCancel}
-            className="px-8 py-3.5 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 transform hover:scale-105"
+            disabled={loading}
+            className="px-8 py-3.5 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             <i className="fas fa-times mr-2"></i>Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="px-8 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="px-8 py-3.5 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden group"
           >
-            {loading ? (
-              <>
-                <i className="fas fa-spinner fa-spin mr-2"></i>Saving...
-              </>
-            ) : (
-              <>
-                <i className="fas fa-save mr-2"></i>Save Internship
-              </>
+            <span className="relative z-10 flex items-center">
+              {loading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin mr-2"></i>Saving...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-save mr-2"></i>
+                  {internship?._id ? 'Update Internship' : 'Create Internship'}
+                </>
+              )}
+            </span>
+            {!loading && (
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             )}
           </button>
         </div>

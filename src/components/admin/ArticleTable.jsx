@@ -1,27 +1,52 @@
 import { useState, useEffect } from 'react'
 import api from '../../services/api'
 import Breadcrumb from '../common/Breadcrumb'
-import InternshipForm from './InternshipForm'
+import ArticleForm from './ArticleForm'
 
-function InternshipTable({ onBreadcrumbChange }) {
-  const [internships, setInternships] = useState([])
+function ArticleTable({ onBreadcrumbChange }) {
+  const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
-  const [cityFilter, setCityFilter] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('all')
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
-  const [editingInternship, setEditingInternship] = useState(null)
-  const [viewingInternship, setViewingInternship] = useState(null)
+  const [editingArticle, setEditingArticle] = useState(null)
+  const [viewingArticle, setViewingArticle] = useState(null)
   const [mode, setMode] = useState('list') // 'list', 'view', 'add', 'edit'
   const [breadcrumbItems, setBreadcrumbItems] = useState([
-    { label: 'Internships' },
+    { label: 'Articles' },
   ])
   const [actionLoading, setActionLoading] = useState(null)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const pageSize = 10
+
+  const ARTICLE_CATEGORIES = [
+    'Sleep',
+    'Exercise',
+    'Meditation',
+    'Mood Tracking',
+    'Fitness',
+    'Yoga',
+    'Anxiety',
+    'Depression',
+    'Stress Management',
+    'Self-Care',
+    'Relationships',
+    'Nutrition',
+    'Mindfulness',
+    'Therapy & Counseling',
+    'Personal Growth',
+    'Work-Life Balance',
+    'Addiction Recovery',
+    'Trauma Healing',
+    'Parenting & Family',
+    'Grief & Loss',
+    'Cognitive Behavioral Therapy (CBT)',
+    'Other',
+  ]
 
   useEffect(() => {
     if (onBreadcrumbChange) {
@@ -32,16 +57,16 @@ function InternshipTable({ onBreadcrumbChange }) {
   // Debounce search to avoid too many API calls
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchInternships()
+      fetchArticles()
     }, searchTerm ? 500 : 0) // 500ms debounce for search
 
     return () => clearTimeout(timer)
-  }, [searchTerm, statusFilter, cityFilter])
+  }, [searchTerm, statusFilter, categoryFilter])
 
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchTerm, statusFilter, cityFilter])
+  }, [searchTerm, statusFilter, categoryFilter])
 
   // Auto-hide messages after 5 seconds
   useEffect(() => {
@@ -58,55 +83,50 @@ function InternshipTable({ onBreadcrumbChange }) {
     }
   }, [errorMessage])
 
-  const fetchInternships = async () => {
+  const fetchArticles = async () => {
     setLoading(true)
     setErrorMessage('')
     try {
       const params = {
         page: 1,
         limit: 1000, // Fetch all for admin
-        includeInactive: 'true',
       }
 
       if (searchTerm && searchTerm.trim()) {
         params.search = searchTerm.trim()
       }
-      if (cityFilter && cityFilter.trim()) {
-        params.city = cityFilter.trim()
+      if (statusFilter && statusFilter !== 'all') {
+        params.status = statusFilter
+      }
+      if (categoryFilter && categoryFilter !== 'all') {
+        params.category = categoryFilter
       }
 
-      const response = await api.get('/internships', { params })
+      const response = await api.get('/articles/admin/all', { params })
       if (response.data.success) {
         let data = response.data.data || []
-        
-        // Apply client-side filters
-        if (statusFilter && statusFilter !== 'all') {
-          data = data.filter((i) => i.is_active === (statusFilter === 'true'))
-        }
 
         // Apply client-side search if backend search wasn't used
         if (searchTerm && searchTerm.trim() && !params.search) {
           const searchLower = searchTerm.toLowerCase().trim()
-          data = data.filter((i) => {
-            const mentorName = (i.mentorName || '').toLowerCase()
-            const profession = (i.profession || '').toLowerCase()
-            const specialization = (i.specialization || '').toLowerCase()
-            const city = (i.city || '').toLowerCase()
-            return mentorName.includes(searchLower) ||
-                   profession.includes(searchLower) ||
-                   specialization.includes(searchLower) ||
-                   city.includes(searchLower)
+          data = data.filter((article) => {
+            const title = (article.title || '').toLowerCase()
+            const category = (article.category || '').toLowerCase()
+            const authorName = (article.author?.name || '').toLowerCase()
+            return title.includes(searchLower) ||
+                   category.includes(searchLower) ||
+                   authorName.includes(searchLower)
           })
         }
 
-        setInternships(data)
+        setArticles(data)
         setTotalItems(data.length)
       }
     } catch (error) {
-      console.error('Error fetching internships:', error)
-      setInternships([])
+      console.error('Error fetching articles:', error)
+      setArticles([])
       setTotalItems(0)
-      setErrorMessage('Failed to load internships. Please try again.')
+      setErrorMessage('Failed to load articles. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -115,101 +135,98 @@ function InternshipTable({ onBreadcrumbChange }) {
   const handleBreadcrumbNavigate = (index) => {
     if (index === 0) {
       setMode('list')
-      setViewingInternship(null)
-      setEditingInternship(null)
-      setBreadcrumbItems([{ label: 'Internships' }])
+      setViewingArticle(null)
+      setEditingArticle(null)
+      setBreadcrumbItems([{ label: 'Articles' }])
     } else if (index === 1 && mode === 'view') {
       setMode('list')
-      setViewingInternship(null)
-      setBreadcrumbItems([{ label: 'Internships' }])
+      setViewingArticle(null)
+      setBreadcrumbItems([{ label: 'Articles' }])
     } else if (index === 1 && (mode === 'add' || mode === 'edit')) {
       setMode('list')
-      setEditingInternship(null)
-      setBreadcrumbItems([{ label: 'Internships' }])
+      setEditingArticle(null)
+      setBreadcrumbItems([{ label: 'Articles' }])
     }
   }
 
-  const handleView = (internship) => {
-    setViewingInternship(internship)
+  const handleView = (article) => {
+    setViewingArticle(article)
     setMode('view')
     setBreadcrumbItems([
-      { label: 'Internships', onClick: () => handleBreadcrumbNavigate(0) },
-      { label: internship.mentorName || 'Internship Details' },
+      { label: 'Articles', onClick: () => handleBreadcrumbNavigate(0) },
+      { label: article.title || 'Article Details' },
     ])
   }
 
-  const handleEdit = (internship) => {
-    setEditingInternship(internship)
+  const handleEdit = (article) => {
+    setEditingArticle(article)
     setMode('edit')
     setBreadcrumbItems([
-      { label: 'Internships', onClick: () => handleBreadcrumbNavigate(0) },
-      { label: 'Edit Internship' },
+      { label: 'Articles', onClick: () => handleBreadcrumbNavigate(0) },
+      { label: 'Edit Article' },
     ])
   }
 
-  const handleDelete = async (internship) => {
-    if (!window.confirm(`Are you sure you want to delete "${internship.mentorName}"?\n\nThis action cannot be undone.`)) {
+  const handleDelete = async (article) => {
+    if (!window.confirm(`Are you sure you want to delete "${article.title}"?\n\nThis action cannot be undone.`)) {
       return
     }
 
-    setActionLoading(`delete-${internship._id}`)
+    setActionLoading(`delete-${article._id}`)
     setErrorMessage('')
     try {
-      await api.delete(`/internships/${internship._id}`)
-      setSuccessMessage(`Internship "${internship.mentorName}" deleted successfully!`)
-      fetchInternships()
+      await api.delete(`/articles/admin/${article._id}`)
+      setSuccessMessage(`Article "${article.title}" deleted successfully!`)
+      fetchArticles()
     } catch (error) {
-      console.error('Error deleting internship:', error)
-      setErrorMessage('Failed to delete internship. Please try again.')
+      console.error('Error deleting article:', error)
+      setErrorMessage('Failed to delete article. Please try again.')
     } finally {
       setActionLoading(null)
     }
   }
 
-  const handleToggleStatus = async (internship) => {
-    setActionLoading(`toggle-${internship._id}`)
+  const handleToggleStatus = async (article) => {
+    setActionLoading(`toggle-${article._id}`)
     setErrorMessage('')
     try {
-      const newStatus = !internship.is_active
-      await api.put(`/internships/${internship._id}`, {
-        ...internship,
-        is_active: newStatus,
-      })
-      setSuccessMessage(`Internship ${newStatus ? 'activated' : 'deactivated'} successfully!`)
-      fetchInternships()
-      // Update viewing internship if we're viewing it
-      if (viewingInternship && viewingInternship._id === internship._id) {
-        setViewingInternship({ ...viewingInternship, is_active: newStatus })
+      await api.patch(`/articles/admin/${article._id}/toggle-status`)
+      const newStatus = article.status === 'published' ? 'draft' : 'published'
+      setSuccessMessage(`Article ${newStatus === 'published' ? 'published' : 'unpublished'} successfully!`)
+      fetchArticles()
+      // Update viewing article if we're viewing it
+      if (viewingArticle && viewingArticle._id === article._id) {
+        setViewingArticle({ ...viewingArticle, status: newStatus })
       }
     } catch (error) {
-      console.error('Error toggling internship status:', error)
-      setErrorMessage('Failed to update internship status. Please try again.')
+      console.error('Error toggling article status:', error)
+      setErrorMessage('Failed to update article status. Please try again.')
     } finally {
       setActionLoading(null)
     }
   }
 
   const handleAdd = () => {
-    setEditingInternship(null)
+    setEditingArticle(null)
     setMode('add')
     setBreadcrumbItems([
-      { label: 'Internships', onClick: () => handleBreadcrumbNavigate(0) },
-      { label: 'Add New Internship' },
+      { label: 'Articles', onClick: () => handleBreadcrumbNavigate(0) },
+      { label: 'Add New Article' },
     ])
   }
 
   const handleFormSave = () => {
-    setSuccessMessage(editingInternship ? 'Internship updated successfully!' : 'Internship created successfully!')
-    fetchInternships()
+    setSuccessMessage(editingArticle ? 'Article updated successfully!' : 'Article created successfully!')
+    fetchArticles()
     setMode('list')
-    setEditingInternship(null)
-    setBreadcrumbItems([{ label: 'Internships' }])
+    setEditingArticle(null)
+    setBreadcrumbItems([{ label: 'Articles' }])
   }
 
   const handleFormCancel = () => {
     setMode('list')
-    setEditingInternship(null)
-    setBreadcrumbItems([{ label: 'Internships' }])
+    setEditingArticle(null)
+    setBreadcrumbItems([{ label: 'Articles' }])
   }
 
   const handleSort = (key) => {
@@ -233,16 +250,16 @@ function InternshipTable({ onBreadcrumbChange }) {
   }
 
   // Sort and paginate data
-  const sortedInternships = [...internships].sort((a, b) => {
+  const sortedArticles = [...articles].sort((a, b) => {
     if (!sortConfig.key) return 0
 
     let aValue = a[sortConfig.key]
     let bValue = b[sortConfig.key]
 
     // Handle nested values
-    if (sortConfig.key === 'programs') {
-      aValue = Array.isArray(aValue) ? aValue.length : 0
-      bValue = Array.isArray(bValue) ? bValue.length : 0
+    if (sortConfig.key === 'author') {
+      aValue = a.author?.name || ''
+      bValue = b.author?.name || ''
     }
 
     // Handle null/undefined
@@ -257,7 +274,7 @@ function InternshipTable({ onBreadcrumbChange }) {
     }
 
     // Handle dates
-    if (sortConfig.key === 'created_at' || sortConfig.key === 'updated_at') {
+    if (sortConfig.key === 'created_at' || sortConfig.key === 'updated_at' || sortConfig.key === 'published_at') {
       const aDate = new Date(aValue).getTime()
       const bDate = new Date(bValue).getTime()
       if (!isNaN(aDate) && !isNaN(bDate)) {
@@ -272,85 +289,98 @@ function InternshipTable({ onBreadcrumbChange }) {
       return sortConfig.direction === 'asc' ? aNum - bNum : bNum - aNum
     }
 
-    // Handle booleans
-    if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
-      return sortConfig.direction === 'asc'
-        ? (aValue === bValue ? 0 : aValue ? 1 : -1)
-        : (aValue === bValue ? 0 : aValue ? -1 : 1)
-    }
-
     return 0
   })
 
   const startItem = (currentPage - 1) * pageSize
-  const endItem = Math.min(currentPage * pageSize, sortedInternships.length)
-  const paginatedInternships = sortedInternships.slice(startItem, endItem)
-  const totalPages = Math.ceil(sortedInternships.length / pageSize)
+  const endItem = Math.min(currentPage * pageSize, sortedArticles.length)
+  const paginatedArticles = sortedArticles.slice(startItem, endItem)
+  const totalPages = Math.ceil(sortedArticles.length / pageSize)
 
   const stats = {
-    total: internships.length,
-    active: internships.filter(i => i.is_active !== false).length,
-    inactive: internships.filter(i => i.is_active === false).length,
-    totalPrograms: internships.reduce((sum, i) => sum + (i.programs?.length || 0), 0),
+    total: articles.length,
+    published: articles.filter(a => a.status === 'published').length,
+    draft: articles.filter(a => a.status === 'draft').length,
+    totalViews: articles.reduce((sum, a) => sum + (a.views || 0), 0),
   }
 
   const columns = [
     {
-      key: 'mentorName',
-      label: 'Mentor Name',
+      key: 'title',
+      label: 'Title',
       sortable: true,
       render: (value, row) => (
         <div className="max-w-xs">
           <div className="text-sm font-semibold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
             {value || '-'}
           </div>
-          {row.profession && (
+          {row.category && (
             <div className="text-xs text-gray-500 mt-1 flex items-center">
-              <i className="fas fa-briefcase mr-1"></i>
-              {row.profession}
+              <i className="fas fa-tag mr-1"></i>
+              {row.category}
             </div>
           )}
         </div>
       ),
     },
     {
-      key: 'city',
-      label: 'City',
+      key: 'author',
+      label: 'Author',
       sortable: true,
       render: (value) => (
         <div className="text-sm text-gray-900 flex items-center">
-          <i className="fas fa-map-marker-alt text-gray-400 mr-2"></i>
-          {value || '-'}
+          {value?.profile_photo ? (
+            <img
+              src={value.profile_photo}
+              alt={value.name}
+              className="w-6 h-6 rounded-full mr-2 object-cover"
+            />
+          ) : (
+            <div className="w-6 h-6 rounded-full mr-2 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xs font-semibold">
+              {(value?.name || 'U')[0].toUpperCase()}
+            </div>
+          )}
+          <span>{value?.name || 'Unknown'}</span>
         </div>
       ),
     },
     {
-      key: 'programs',
-      label: 'Programs',
-      sortable: true,
-      render: (value) => (
-        <div className="text-sm text-gray-900 flex items-center">
-          <i className="fas fa-graduation-cap text-gray-400 mr-2"></i>
-          <span className="font-medium">{value && Array.isArray(value) ? value.length : 0}</span>
-          <span className="text-gray-500 ml-1">program{value && Array.isArray(value) && value.length !== 1 ? 's' : ''}</span>
-        </div>
-      ),
-    },
-    {
-      key: 'is_active',
+      key: 'status',
       label: 'Status',
       sortable: true,
       render: (value) => (
         <span
           className={`px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center ${
-            value !== false
+            value === 'published'
               ? 'bg-green-100 text-green-700 border border-green-200'
-              : 'bg-red-100 text-red-700 border border-red-200'
+              : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
           }`}
         >
-          <i className={`fas ${value !== false ? 'fa-check-circle' : 'fa-times-circle'} mr-1.5`}></i>
-          {value !== false ? 'Active' : 'Inactive'}
+          <i className={`fas ${value === 'published' ? 'fa-check-circle' : 'fa-clock'} mr-1.5`}></i>
+          {value === 'published' ? 'Published' : 'Draft'}
         </span>
+      ),
+    },
+    {
+      key: 'views',
+      label: 'Views',
+      sortable: true,
+      render: (value) => (
+        <div className="text-sm text-gray-900 flex items-center">
+          <i className="fas fa-eye text-gray-400 mr-2"></i>
+          <span className="font-medium">{value || 0}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'read_time_minutes',
+      label: 'Read Time',
+      sortable: true,
+      render: (value) => (
+        <div className="text-sm text-gray-600 flex items-center">
+          <i className="fas fa-clock text-gray-400 mr-2"></i>
+          {value || '-'} {value ? 'min' : ''}
+        </div>
       ),
     },
     {
@@ -389,8 +419,8 @@ function InternshipTable({ onBreadcrumbChange }) {
     return (
       <div className="animate-fade-in">
         <Breadcrumb items={breadcrumbItems} onNavigate={handleBreadcrumbNavigate} />
-        <InternshipForm
-          internship={editingInternship}
+        <ArticleForm
+          article={editingArticle}
           onSave={handleFormSave}
           onCancel={handleFormCancel}
         />
@@ -398,8 +428,8 @@ function InternshipTable({ onBreadcrumbChange }) {
     )
   }
 
-  // If viewing a single internship
-  if (mode === 'view' && viewingInternship) {
+  // If viewing a single article
+  if (mode === 'view' && viewingArticle) {
     return (
       <div className="animate-fade-in">
         <Breadcrumb items={breadcrumbItems} onNavigate={handleBreadcrumbNavigate} />
@@ -407,49 +437,47 @@ function InternshipTable({ onBreadcrumbChange }) {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 pb-6 border-b border-gray-200 space-y-4 md:space-y-0">
             <div className="flex-1">
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">{viewingInternship.mentorName}</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">{viewingArticle.title}</h2>
               <div className="flex flex-wrap items-center gap-3">
                 <span className={`px-4 py-1.5 rounded-full text-sm font-semibold inline-flex items-center ${
-                  viewingInternship.is_active !== false
+                  viewingArticle.status === 'published'
                     ? 'bg-green-100 text-green-700 border border-green-200'
-                    : 'bg-red-100 text-red-700 border border-red-200'
+                    : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
                 }`}>
-                  <i className={`fas ${viewingInternship.is_active !== false ? 'fa-check-circle' : 'fa-times-circle'} mr-2`}></i>
-                  {viewingInternship.is_active !== false ? 'Active' : 'Inactive'}
+                  <i className={`fas ${viewingArticle.status === 'published' ? 'fa-check-circle' : 'fa-clock'} mr-2`}></i>
+                  {viewingArticle.status === 'published' ? 'Published' : 'Draft'}
                 </span>
-                {viewingInternship.profession && (
-                  <span className="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
-                    <i className="fas fa-briefcase mr-2"></i>
-                    {viewingInternship.profession}
-                  </span>
-                )}
-                {viewingInternship.city && (
+                <span className="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                  <i className="fas fa-tag mr-2"></i>
+                  {viewingArticle.category}
+                </span>
+                {viewingArticle.read_time_minutes && (
                   <span className="px-4 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-semibold">
-                    <i className="fas fa-map-marker-alt mr-2"></i>
-                    {viewingInternship.city}
+                    <i className="fas fa-clock mr-2"></i>
+                    {viewingArticle.read_time_minutes} min read
                   </span>
                 )}
               </div>
             </div>
             <div className="flex space-x-2">
               <button
-                onClick={() => handleToggleStatus(viewingInternship)}
-                disabled={actionLoading === `toggle-${viewingInternship._id}`}
+                onClick={() => handleToggleStatus(viewingArticle)}
+                disabled={actionLoading === `toggle-${viewingArticle._id}`}
                 className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
-                  viewingInternship.is_active !== false
-                    ? 'bg-red-100 text-red-700 hover:bg-red-200 border border-red-300'
+                  viewingArticle.status === 'published'
+                    ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200 border border-yellow-300'
                     : 'bg-green-100 text-green-700 hover:bg-green-200 border border-green-300'
                 }`}
               >
-                {actionLoading === `toggle-${viewingInternship._id}` ? (
+                {actionLoading === `toggle-${viewingArticle._id}` ? (
                   <i className="fas fa-spinner fa-spin mr-2"></i>
                 ) : (
-                  <i className={`fas ${viewingInternship.is_active !== false ? 'fa-eye-slash' : 'fa-eye'} mr-2`}></i>
+                  <i className={`fas ${viewingArticle.status === 'published' ? 'fa-eye-slash' : 'fa-eye'} mr-2`}></i>
                 )}
-                {viewingInternship.is_active !== false ? 'Deactivate' : 'Activate'}
+                {viewingArticle.status === 'published' ? 'Unpublish' : 'Publish'}
               </button>
               <button
-                onClick={() => handleEdit(viewingInternship)}
+                onClick={() => handleEdit(viewingArticle)}
                 className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition-all transform hover:scale-105"
               >
                 <i className="fas fa-edit mr-2"></i>Edit
@@ -457,110 +485,104 @@ function InternshipTable({ onBreadcrumbChange }) {
             </div>
           </div>
 
-          {/* Meta Cards */}
+          {/* Featured Image */}
+          {viewingArticle.featured_image_url && (
+            <div className="mb-8">
+              <img
+                src={viewingArticle.featured_image_url}
+                alt={viewingArticle.title}
+                className="w-full h-96 object-cover rounded-2xl shadow-lg border-2 border-gray-200"
+                onError={(e) => {
+                  e.target.style.display = 'none'
+                }}
+              />
+            </div>
+          )}
+
+          {/* Article Images */}
+          {viewingArticle.image_urls && viewingArticle.image_urls.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i className="fas fa-images text-blue-600 mr-3"></i>
+                Article Images ({viewingArticle.image_urls.length})
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {viewingArticle.image_urls.map((url, index) => {
+                  const getImageUrl = (imageUrl) => {
+                    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+                      return imageUrl
+                    }
+                    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5002/api/v1'
+                    const baseUrl = API_BASE_URL.replace('/api/v1', '')
+                    return `${baseUrl}${imageUrl}`
+                  }
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="relative group bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200 transition-all duration-200"
+                    >
+                      <img
+                        src={getImageUrl(url)}
+                        alt={`Article image ${index + 1}`}
+                        className="w-full h-48 object-cover"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/300x200?text=Image+Error'
+                        }}
+                      />
+                      <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded pointer-events-none">
+                        {index + 1}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Article Meta */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-100">
               <div className="flex items-center mb-2">
                 <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
-                  <i className="fas fa-user-tie text-white"></i>
+                  <i className="fas fa-user text-white"></i>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Mentor</p>
-                  <p className="text-sm font-semibold text-gray-800">{viewingInternship.mentorName}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Author</p>
+                  <p className="text-sm font-semibold text-gray-800">{viewingArticle.author?.name || 'Unknown'}</p>
                 </div>
               </div>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border border-green-100">
               <div className="flex items-center mb-2">
                 <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
-                  <i className="fas fa-graduation-cap text-white"></i>
+                  <i className="fas fa-eye text-white"></i>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Programs</p>
-                  <p className="text-sm font-semibold text-gray-800">{viewingInternship.programs?.length || 0}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Views</p>
+                  <p className="text-sm font-semibold text-gray-800">{viewingArticle.views || 0}</p>
                 </div>
               </div>
             </div>
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border border-purple-100">
               <div className="flex items-center mb-2">
                 <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
-                  <i className="fas fa-map-marker-alt text-white"></i>
+                  <i className="fas fa-heart text-white"></i>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Location</p>
-                  <p className="text-sm font-semibold text-gray-800">{viewingInternship.city || 'N/A'}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Likes</p>
+                  <p className="text-sm font-semibold text-gray-800">{viewingArticle.likes || 0}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Details */}
-          <div className="space-y-6">
-            {viewingInternship.specialization && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
-                <p className="text-lg text-gray-900">{viewingInternship.specialization}</p>
-              </div>
-            )}
-
-            {viewingInternship.programs && viewingInternship.programs.length > 0 && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">Programs</label>
-                <div className="space-y-4">
-                  {viewingInternship.programs.map((program, index) => (
-                    <div key={index} className="bg-gradient-to-br from-white to-gray-50 p-5 rounded-xl border-2 border-gray-200 hover:border-green-300 transition-all">
-                      <div className="flex items-start justify-between mb-3">
-                        <h4 className="font-bold text-lg text-gray-900">{program.title}</h4>
-                        <span className="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-semibold">
-                          {program.mode || 'N/A'}
-                        </span>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                        <div className="flex items-center text-sm text-gray-600">
-                          <i className="fas fa-clock text-gray-400 mr-2"></i>
-                          <span className="font-medium">{program.duration}</span>
-                        </div>
-                        <div className="flex items-center text-sm text-gray-600">
-                          <i className="fas fa-money-bill-wave text-gray-400 mr-2"></i>
-                          <span className="font-medium">₨{program.fees || 0}</span>
-                        </div>
-                      </div>
-                      {program.description && (
-                        <p className="text-sm text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg">{program.description}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {viewingInternship.includes && viewingInternship.includes.length > 0 && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">What's Included</label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {viewingInternship.includes.map((item, index) => (
-                    <div key={index} className="flex items-center p-3 bg-green-50 rounded-lg border border-green-200">
-                      <i className="fas fa-check-circle text-green-600 mr-3"></i>
-                      <span className="text-sm text-gray-700">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {viewingInternship.cityNote && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">City Note</label>
-                <p className="text-gray-600 bg-gray-50 p-4 rounded-xl">{viewingInternship.cityNote}</p>
-              </div>
-            )}
-
-            {viewingInternship.additionalInfo && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Additional Information</label>
-                <p className="text-gray-600 bg-gray-50 p-4 rounded-xl">{viewingInternship.additionalInfo}</p>
-              </div>
-            )}
+          {/* Content */}
+          <div className="prose prose-lg max-w-none">
+            <div
+              className="bg-gray-50 p-8 rounded-2xl border border-gray-200"
+              dangerouslySetInnerHTML={{ __html: viewingArticle.content }}
+            />
           </div>
 
           {/* Footer Actions */}
@@ -572,10 +594,10 @@ function InternshipTable({ onBreadcrumbChange }) {
               <i className="fas fa-arrow-left mr-2"></i>Back to List
             </button>
             <button
-              onClick={() => handleEdit(viewingInternship)}
+              onClick={() => handleEdit(viewingArticle)}
               className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all transform hover:scale-105"
             >
-              <i className="fas fa-edit mr-2"></i>Edit Internship
+              <i className="fas fa-edit mr-2"></i>Edit Article
             </button>
           </div>
         </div>
@@ -626,14 +648,14 @@ function InternshipTable({ onBreadcrumbChange }) {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 space-y-4 lg:space-y-0">
         <div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Manage Internships</h2>
-          <p className="text-gray-600">Comprehensive internship management system</p>
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">Manage Articles</h2>
+          <p className="text-gray-600">Comprehensive article management system</p>
         </div>
         <button
           onClick={handleAdd}
           className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 px-6 py-3 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
         >
-          <i className="fas fa-plus mr-2"></i>Add New Internship
+          <i className="fas fa-plus mr-2"></i>Add New Article
         </button>
       </div>
 
@@ -642,19 +664,19 @@ function InternshipTable({ onBreadcrumbChange }) {
         <div className="glass-card rounded-xl p-5 border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Total Internships</p>
+              <p className="text-sm text-gray-500 mb-1">Total Articles</p>
               <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <i className="fas fa-graduation-cap text-blue-600 text-xl"></i>
+              <i className="fas fa-newspaper text-blue-600 text-xl"></i>
             </div>
           </div>
         </div>
         <div className="glass-card rounded-xl p-5 border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Active</p>
-              <p className="text-2xl font-bold text-green-600">{stats.active}</p>
+              <p className="text-sm text-gray-500 mb-1">Published</p>
+              <p className="text-2xl font-bold text-green-600">{stats.published}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <i className="fas fa-check-circle text-green-600 text-xl"></i>
@@ -664,22 +686,22 @@ function InternshipTable({ onBreadcrumbChange }) {
         <div className="glass-card rounded-xl p-5 border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Inactive</p>
-              <p className="text-2xl font-bold text-red-600">{stats.inactive}</p>
+              <p className="text-sm text-gray-500 mb-1">Drafts</p>
+              <p className="text-2xl font-bold text-yellow-600">{stats.draft}</p>
             </div>
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <i className="fas fa-times-circle text-red-600 text-xl"></i>
+            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <i className="fas fa-clock text-yellow-600 text-xl"></i>
             </div>
           </div>
         </div>
         <div className="glass-card rounded-xl p-5 border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Total Programs</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.totalPrograms}</p>
+              <p className="text-sm text-gray-500 mb-1">Total Views</p>
+              <p className="text-2xl font-bold text-purple-600">{stats.totalViews.toLocaleString()}</p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <i className="fas fa-list text-purple-600 text-xl"></i>
+              <i className="fas fa-eye text-purple-600 text-xl"></i>
             </div>
           </div>
         </div>
@@ -700,7 +722,7 @@ function InternshipTable({ onBreadcrumbChange }) {
                   setSearchTerm(e.target.value)
                   setCurrentPage(1)
                 }}
-                placeholder="Search by mentor, profession, city..."
+                placeholder="Search by title, category, author..."
                 className="w-full px-4 py-3 pl-10 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
               />
               <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -719,24 +741,29 @@ function InternshipTable({ onBreadcrumbChange }) {
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none bg-white"
             >
               <option value="all">All Status</option>
-              <option value="true">Active</option>
-              <option value="false">Inactive</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              <i className="fas fa-map-marker-alt mr-2 text-gray-400"></i>City
+              <i className="fas fa-tag mr-2 text-gray-400"></i>Category
             </label>
-            <input
-              type="text"
-              value={cityFilter}
+            <select
+              value={categoryFilter}
               onChange={(e) => {
-                setCityFilter(e.target.value)
+                setCategoryFilter(e.target.value)
                 setCurrentPage(1)
               }}
-              placeholder="Filter by city..."
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
-            />
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none bg-white"
+            >
+              <option value="all">All Categories</option>
+              {ARTICLE_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
@@ -747,7 +774,7 @@ function InternshipTable({ onBreadcrumbChange }) {
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600 font-medium">Loading internships...</p>
+              <p className="text-gray-600 font-medium">Loading articles...</p>
             </div>
           </div>
         ) : (
@@ -776,82 +803,82 @@ function InternshipTable({ onBreadcrumbChange }) {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {paginatedInternships.length === 0 ? (
+                  {paginatedArticles.length === 0 ? (
                     <tr>
                       <td colSpan={columns.length + 1} className="px-6 py-12 text-center">
                         <div className="flex flex-col items-center">
                           <i className="fas fa-inbox text-5xl text-gray-300 mb-4"></i>
-                          <p className="text-gray-500 font-medium text-lg mb-2">No internships found</p>
+                          <p className="text-gray-500 font-medium text-lg mb-2">No articles found</p>
                           <p className="text-gray-400 text-sm">
-                            {searchTerm || statusFilter !== 'all' || cityFilter
+                            {searchTerm || statusFilter !== 'all' || categoryFilter !== 'all'
                               ? 'Try adjusting your filters'
-                              : 'Get started by creating your first internship'}
+                              : 'Get started by creating your first article'}
                           </p>
-                          {!searchTerm && statusFilter === 'all' && !cityFilter && (
+                          {!searchTerm && statusFilter === 'all' && categoryFilter === 'all' && (
                             <button
                               onClick={handleAdd}
                               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
                             >
-                              <i className="fas fa-plus mr-2"></i>Create Internship
+                              <i className="fas fa-plus mr-2"></i>Create Article
                             </button>
                           )}
                         </div>
                       </td>
                     </tr>
                   ) : (
-                    paginatedInternships.map((internship, rowIndex) => (
+                    paginatedArticles.map((article, rowIndex) => (
                       <tr
-                        key={internship._id || rowIndex}
+                        key={article._id || rowIndex}
                         className="hover:bg-blue-50 transition-colors group"
                       >
                         {columns.map((column) => (
                           <td key={column.key} className="px-6 py-4 whitespace-nowrap">
                             {column.render ? (
-                              column.render(internship[column.key], internship)
+                              column.render(article[column.key], article)
                             ) : (
-                              <div className="text-sm text-gray-900">{internship[column.key] || '-'}</div>
+                              <div className="text-sm text-gray-900">{article[column.key] || '-'}</div>
                             )}
                           </td>
                         ))}
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center space-x-2">
                             <button
-                              onClick={() => handleView(internship)}
+                              onClick={() => handleView(article)}
                               className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-all transform hover:scale-110"
                               title="View"
                             >
                               <i className="fas fa-eye"></i>
                             </button>
                             <button
-                              onClick={() => handleEdit(internship)}
+                              onClick={() => handleEdit(article)}
                               className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-all transform hover:scale-110"
                               title="Edit"
                             >
                               <i className="fas fa-edit"></i>
                             </button>
                             <button
-                              onClick={() => handleToggleStatus(internship)}
-                              disabled={actionLoading === `toggle-${internship._id}`}
+                              onClick={() => handleToggleStatus(article)}
+                              disabled={actionLoading === `toggle-${article._id}`}
                               className={`p-2 rounded-lg transition-all transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed ${
-                                internship.is_active !== false
+                                article.status === 'published'
                                   ? 'text-yellow-600 hover:bg-yellow-100'
                                   : 'text-green-600 hover:bg-green-100'
                               }`}
-                              title={internship.is_active !== false ? 'Deactivate' : 'Activate'}
+                              title={article.status === 'published' ? 'Unpublish' : 'Publish'}
                             >
-                              {actionLoading === `toggle-${internship._id}` ? (
+                              {actionLoading === `toggle-${article._id}` ? (
                                 <i className="fas fa-spinner fa-spin"></i>
                               ) : (
-                                <i className={`fas ${internship.is_active !== false ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                <i className={`fas ${article.status === 'published' ? 'fa-eye-slash' : 'fa-eye'}`}></i>
                               )}
                             </button>
                             <button
-                              onClick={() => handleDelete(internship)}
-                              disabled={actionLoading === `delete-${internship._id}`}
+                              onClick={() => handleDelete(article)}
+                              disabled={actionLoading === `delete-${article._id}`}
                               className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-all transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
                               title="Delete"
                             >
-                              {actionLoading === `delete-${internship._id}` ? (
+                              {actionLoading === `delete-${article._id}` ? (
                                 <i className="fas fa-spinner fa-spin"></i>
                               ) : (
                                 <i className="fas fa-trash"></i>
@@ -872,7 +899,7 @@ function InternshipTable({ onBreadcrumbChange }) {
                 <div className="text-sm text-gray-700">
                   Showing <span className="font-medium">{startItem + 1}</span> to{' '}
                   <span className="font-medium">{endItem}</span> of{' '}
-                  <span className="font-medium">{sortedInternships.length}</span> results
+                  <span className="font-medium">{sortedArticles.length}</span> results
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
@@ -927,4 +954,4 @@ function InternshipTable({ onBreadcrumbChange }) {
   )
 }
 
-export default InternshipTable
+export default ArticleTable
