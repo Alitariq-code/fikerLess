@@ -1,113 +1,129 @@
-# FikrLess - Internship and Training Site
+# FikrLess React Frontend
 
-A beautiful and modern Node.js web application for the FikrLess internship and training platform.
+React frontend application for FikrLess, built with Vite and React Router.
 
-## 🚀 Features
+## 🚀 Getting Started
 
-- **Stunning Design**: Beautiful gradient backgrounds with smooth animations
-- **Responsive Layout**: Perfect on all devices with Tailwind CSS
-- **Interactive Elements**: Hover effects, smooth animations, and engaging UI
-- **Professional Mentor Cards**: Detailed information about each mentor and their programs
-- **Modern Technology Stack**: Node.js, Express, and Tailwind CSS
+### Prerequisites
+- Node.js 18+ and npm
 
-## 🎨 Design Highlights
+### Installation
 
-- **Gradient Backgrounds**: Beautiful teal to blue gradients matching the original design
-- **Card Hover Effects**: Smooth 3D transformations on mentor cards
-- **Floating Animations**: Subtle floating elements for visual appeal
-- **Fade-in Animations**: Progressive content loading with staggered animations
-- **Professional Typography**: Clean and modern fonts throughout
-
-## 📋 Mentor Programs
-
-The site showcases 6 different mentors and their internship programs:
-
-1. **Khadija Aslam** - Clinical Psychologist (3 months, ₨5000)
-2. **Afrah Arshad** - Clinical and Counselling Psychologist (2 programs)
-3. **Anas Malik** - Clinical Psychologist (3 months, Free)
-4. **Hira Fatima** - Clinical Psychologist (3 programs available)
-5. **Rabia Khan** - Mental Health Professional (1.5 months, ₨15000)
-6. **Saiqa Parveen** - Clinical Psychologist (2 months, ₨20000)
-
-## 🛠 Installation & Setup
-
-1. **Clone or navigate to the project directory:**
-   ```bash
-   cd /home/alicode/Desktop/fikerless
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Start the server:**
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser and visit:**
-   ```
-   http://localhost:3000
-   ```
-
-## 📁 Project Structure
-
-```
-fikerless/
-├── server.js          # Express server configuration
-├── package.json       # Project dependencies and scripts
-├── views/
-│   └── index.html     # Main HTML template with embedded CSS/JS
-├── public/            # Static assets directory
-│   ├── css/
-│   ├── js/
-│   └── images/
-└── README.md          # This file
+1. Install dependencies:
+```bash
+npm install
 ```
 
-## 🎯 Key Technologies
+2. Create `.env` file (optional, for custom API URL):
+```bash
+cp .env.example .env
+```
 
-- **Backend**: Node.js with Express framework
-- **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript
-- **Styling**: Custom CSS animations and Tailwind utility classes
-- **Icons**: Font Awesome for social media and UI icons
-- **Fonts**: Google Fonts (Inter family)
+Edit `.env` and set your NestJS backend URL:
+```
+VITE_API_BASE_URL=https://fikrless.com/api/v1
+```
 
-## ✨ Animation Features
+### Development
 
-- **Fade-in Effects**: Progressive content loading
-- **Hover Animations**: Interactive card transformations
-- **Floating Elements**: Subtle movement for visual interest
-- **Smooth Transitions**: CSS transitions for all interactive elements
-- **Scroll-triggered Animations**: Content animates as you scroll
-
-## 📞 Contact Information
-
-Get in touch with FikrLess:
-- **Email**: fikriess01@gmail.com
-- **Social Media**: LinkedIn, Instagram, Facebook
-
-## 🚀 Development
-
-To run in development mode with auto-restart:
+Start the development server:
 ```bash
 npm run dev
 ```
 
-## 📝 Notes
+The app will be available at `http://localhost:3000`
 
-- The design perfectly matches the original FikrLess branding
-- All mentor information is accurately represented
-- Responsive design works on mobile, tablet, and desktop
-- Smooth animations enhance user experience without being overwhelming
-- Professional color scheme maintains brand consistency
+### Build for Production
 
----
+Build the production bundle:
+```bash
+npm run build
+```
 
-**Built with ❤️ for FikrLess - Let Your Mind Breathe**
-# fikerLess
-# fikerLess
-# fikerLess
-# fikerLess
-# fikerLess
+The built files will be in the `dist` directory.
+
+### Preview Production Build
+
+Preview the production build:
+```bash
+npm run preview
+```
+
+## 📁 Project Structure
+
+```
+fikerLess/
+├── src/
+│   ├── components/      # Reusable React components
+│   ├── pages/          # Page components
+│   │   ├── HomePage.jsx
+│   │   ├── AdminLogin.jsx
+│   │   └── AdminDashboard.jsx
+│   ├── services/       # API services
+│   │   └── api.js      # Axios instance for backend API
+│   ├── styles/         # CSS styles
+│   │   └── index.css
+│   ├── App.jsx         # Main app component with routing
+│   └── main.jsx        # React entry point
+├── public/             # Static assets (images, etc.)
+├── index.html          # HTML template
+├── vite.config.js     # Vite configuration
+└── package.json
+```
+
+## 🔌 Connecting to NestJS Backend
+
+The API service is configured in `src/services/api.js`. It's set to connect to:
+- Default: `https://fikrless.com/api/v1`
+- Or set `VITE_API_BASE_URL` in `.env`
+
+### API Endpoints
+
+Update the components to use the API service:
+
+```javascript
+import api from '../services/api'
+
+// Example: Fetch data
+const response = await api.get('/endpoint')
+```
+
+## 🛣️ Routes
+
+- `/` - Home page
+- `/admin/login` - Admin login page
+- `/admin` - Admin dashboard (protected)
+
+## 📝 Next Steps
+
+1. **Expand HomePage**: Copy content from `views/index.html` to `src/pages/HomePage.jsx`
+2. **Connect API**: Update components to fetch data from NestJS backend
+3. **Add Authentication**: Implement proper auth flow with backend
+4. **Add More Pages**: Create additional pages as needed
+
+## 🗑️ Old Files
+
+The following directories are from the old Node.js setup and can be removed after migration:
+- `server.js`
+- `routes/`
+- `controllers/`
+- `models/`
+- `middleware/`
+- `config/`
+- `utils/`
+- `data/`
+- `views/` (keep for reference while migrating)
+
+## 📦 Dependencies
+
+- **React 18** - UI library
+- **React Router 6** - Routing
+- **Vite** - Build tool and dev server
+- **Axios** - HTTP client for API calls
+
+## 🎨 Styling
+
+The app uses:
+- Tailwind CSS (via CDN)
+- Custom CSS in `src/styles/index.css`
+- Font Awesome icons (via CDN)
