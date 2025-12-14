@@ -8,6 +8,7 @@ import UsersTab from '../components/admin/UsersTab'
 import QuotesTab from '../components/admin/QuotesTab'
 import NotificationsTab from '../components/admin/NotificationsTab'
 import AchievementsTab from '../components/admin/AchievementsTab'
+import AudiosTab from '../components/admin/AudiosTab'
 import AnalyticsTab from '../components/admin/AnalyticsTab'
 import SettingsTab from '../components/admin/SettingsTab'
 
@@ -108,6 +109,8 @@ function AdminDashboard() {
         return <NotificationsTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'achievements':
         return <AchievementsTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'audios':
+        return <AudiosTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'analytics':
         return <AnalyticsTab />
       case 'settings':

@@ -9,6 +9,7 @@ function AdminSidebar({ activeTab, onTabChange, onLogout, isMobileOpen, setIsMob
     { id: 'quotes', label: 'Quotes', icon: 'fa-quote-left' },
     { id: 'notifications', label: 'Notifications', icon: 'fa-bell' },
     { id: 'achievements', label: 'Achievements', icon: 'fa-trophy' },
+    { id: 'audios', label: 'Audios', icon: 'fa-music' },
     { id: 'analytics', label: 'Analytics', icon: 'fa-chart-bar' },
     { id: 'settings', label: 'Settings', icon: 'fa-cog' },
   ]
