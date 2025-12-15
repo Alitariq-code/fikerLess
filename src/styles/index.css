@@ -1407,3 +1407,161 @@ html {
   animation: shimmer 8s ease-in-out infinite;
 }
 
+/* Scroll to Top Button */
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  z-index: 10000;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e3a8a 0%, #0e7490 50%, #0891b2 100%);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4),
+              0 0 0 0 rgba(14, 165, 233, 0.7),
+              inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(100px) scale(0.5);
+  pointer-events: none;
+}
+
+.scroll-to-top-button.show {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+  pointer-events: all;
+  animation: button-appear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.scroll-to-top-button.hide {
+  opacity: 0;
+  transform: translateY(100px) scale(0.5) rotate(180deg);
+  pointer-events: none;
+  transition: all 0.3s ease-in;
+}
+
+@keyframes button-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(100px) scale(0.3) rotate(-180deg);
+  }
+  60% {
+    transform: translateY(-10px) scale(1.1) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.scroll-to-top-button:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 12px 35px rgba(14, 165, 233, 0.6),
+              0 0 0 8px rgba(14, 165, 233, 0.1),
+              inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #2563eb 0%, #0891b2 50%, #06b6d4 100%);
+}
+
+.scroll-to-top-button:active {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5),
+              0 0 0 4px rgba(14, 165, 233, 0.2);
+}
+
+.scroll-to-top-icon {
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-size: 24px;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-to-top-button:hover .scroll-to-top-icon {
+  transform: translateY(-3px);
+  animation: bounce-up 0.6s ease-in-out infinite;
+}
+
+@keyframes bounce-up {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.scroll-to-top-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.scroll-to-top-button:hover .scroll-to-top-ripple {
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+}
+
+.scroll-to-top-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: pulse-glow 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scroll-to-top-button {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .scroll-to-top-icon {
+    font-size: 20px;
+  }
+  
+  .scroll-to-top-button:hover {
+    transform: translateY(-3px) scale(1.08);
+  }
+}
+
+/* Hide on admin pages */
+.admin-page .scroll-to-top-button {
+  display: none;
+}
+

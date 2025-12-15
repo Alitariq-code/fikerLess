@@ -5,6 +5,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import DeleteUser from './pages/DeleteUser'
 import CustomCursor from './components/CustomCursor'
+import ScrollToTop from './components/ScrollToTop'
 
 function AppContent() {
   const location = useLocation()
@@ -13,6 +14,7 @@ function AppContent() {
   return (
     <>
       {!isAdminPage && <CustomCursor />}
+      {!isAdminPage && <ScrollToTop />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
