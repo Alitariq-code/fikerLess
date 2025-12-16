@@ -97,6 +97,11 @@ function UserForm({ user, onSave, onCancel }) {
   const [successMessage, setSuccessMessage] = useState('')
   const [showDemographics, setShowDemographics] = useState(false)
   const [showSpecialistProfile, setShowSpecialistProfile] = useState(false)
+  const [showPasswordChange, setShowPasswordChange] = useState(false)
+  const [passwordData, setPasswordData] = useState({
+    new_password: '',
+    confirm_password: '',
+  })
   const [specialistProfile, setSpecialistProfile] = useState({
     full_name: '',
     designation: '',
@@ -146,8 +151,17 @@ function UserForm({ user, onSave, onCancel }) {
           understands_emergency_disclaimer: false,
         },
       })
-      setShowDemographics(!!user.demographics)
+      // Show demographics when editing if user is not specialist
+      setShowDemographics(user.user_type !== 'specialist')
       setShowSpecialistProfile(user.user_type === 'specialist')
+      setShowPasswordChange(false)
+      setPasswordData({ new_password: '', confirm_password: '' })
+    } else {
+      // Reset when creating
+      setShowDemographics(false)
+      setShowSpecialistProfile(false)
+      setShowPasswordChange(false)
+      setPasswordData({ new_password: '', confirm_password: '' })
     }
   }, [user])
 
@@ -283,6 +297,17 @@ function UserForm({ user, onSave, onCancel }) {
       newErrors.password = 'Password must be at least 6 characters long'
     }
 
+    // Password change validation
+    if (!isCreating && showPasswordChange) {
+      if (!passwordData.new_password) {
+        newErrors.new_password = 'New password is required'
+      } else if (passwordData.new_password.length < 6) {
+        newErrors.new_password = 'Password must be at least 6 characters long'
+      } else if (passwordData.new_password !== passwordData.confirm_password) {
+        newErrors.confirm_password = 'Passwords do not match'
+      }
+    }
+
     if (!formData.user_type) {
       newErrors.user_type = 'User type is required'
     }
@@ -343,6 +368,14 @@ function UserForm({ user, onSave, onCancel }) {
         await api.post('/users/admin', payload)
         setSuccessMessage('User created successfully!')
       } else {
+        // Update mode - include password if changed
+        if (showPasswordChange && passwordData.new_password) {
+          payload.password = passwordData.new_password
+        }
+        // Include demographics if shown and user is not specialist
+        if (formData.user_type !== 'specialist' && showDemographics) {
+          payload.demographics = formData.demographics
+        }
         await api.put(`/users/admin/${user._id}`, payload)
         setSuccessMessage('User updated successfully!')
       }
@@ -663,6 +696,147 @@ function UserForm({ user, onSave, onCancel }) {
           )}
         </div>
 
+        {/* Password Change Section - Only for editing */}
+        {!isCreating && (
+          <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+              <div className="flex items-center">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-red-500 via-red-600 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                  <i className="fas fa-key text-white text-lg sm:text-xl"></i>
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Change Password</h3>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Update user password</p>
+                </div>
+              </div>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showPasswordChange}
+                  onChange={(e) => {
+                    setShowPasswordChange(e.target.checked)
+                    if (!e.target.checked) {
+                      setPasswordData({ new_password: '', confirm_password: '' })
+                      setErrors((prev) => {
+                        const newErrors = { ...prev }
+                        delete newErrors.new_password
+                        delete newErrors.confirm_password
+                        return newErrors
+                      })
+                    }
+                  }}
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-red-600 rounded focus:ring-red-500"
+                />
+                <span className="ml-3 text-sm sm:text-base text-gray-700 font-semibold">Change Password</span>
+              </label>
+            </div>
+
+            {showPasswordChange && (
+              <div className="space-y-4 sm:space-y-6 animate-fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      New Password <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                        <i className="fas fa-lock text-gray-400 text-sm sm:text-base"></i>
+                      </div>
+                      <input
+                        type="password"
+                        value={passwordData.new_password}
+                        onChange={(e) => {
+                          setPasswordData((prev) => ({ ...prev, new_password: e.target.value }))
+                          if (errors.new_password) {
+                            setErrors((prev) => {
+                              const newErrors = { ...prev }
+                              delete newErrors.new_password
+                              return newErrors
+                            })
+                          }
+                        }}
+                        onBlur={() => {
+                          setTouchedFields((prev) => ({ ...prev, new_password: true }))
+                          if (passwordData.new_password && passwordData.new_password !== passwordData.confirm_password) {
+                            setErrors((prev) => ({ ...prev, confirm_password: 'Passwords do not match' }))
+                          }
+                        }}
+                        placeholder="Minimum 6 characters"
+                        className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 text-sm sm:text-base ${
+                          errors.new_password
+                            ? 'border-red-300 focus:ring-red-400 focus:border-red-400 bg-red-50'
+                            : 'border-gray-200 focus:ring-red-400 focus:border-red-400 bg-white hover:border-gray-300'
+                        }`}
+                      />
+                    </div>
+                    {errors.new_password && (
+                      <p className="mt-1.5 text-xs sm:text-sm text-red-600 flex items-center animate-fade-in">
+                        <i className="fas fa-exclamation-circle mr-1.5"></i>
+                        {errors.new_password}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Confirm Password <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                        <i className="fas fa-lock text-gray-400 text-sm sm:text-base"></i>
+                      </div>
+                      <input
+                        type="password"
+                        value={passwordData.confirm_password}
+                        onChange={(e) => {
+                          setPasswordData((prev) => ({ ...prev, confirm_password: e.target.value }))
+                          if (errors.confirm_password) {
+                            setErrors((prev) => {
+                              const newErrors = { ...prev }
+                              delete newErrors.confirm_password
+                              return newErrors
+                            })
+                          }
+                          // Check match in real-time
+                          if (passwordData.new_password && e.target.value !== passwordData.new_password) {
+                            setErrors((prev) => ({ ...prev, confirm_password: 'Passwords do not match' }))
+                          } else if (passwordData.new_password && e.target.value === passwordData.new_password) {
+                            setErrors((prev) => {
+                              const newErrors = { ...prev }
+                              delete newErrors.confirm_password
+                              return newErrors
+                            })
+                          }
+                        }}
+                        onBlur={() => setTouchedFields((prev) => ({ ...prev, confirm_password: true }))}
+                        placeholder="Confirm new password"
+                        className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 text-sm sm:text-base ${
+                          errors.confirm_password
+                            ? 'border-red-300 focus:ring-red-400 focus:border-red-400 bg-red-50'
+                            : 'border-gray-200 focus:ring-red-400 focus:border-red-400 bg-white hover:border-gray-300'
+                        }`}
+                      />
+                    </div>
+                    {errors.confirm_password && (
+                      <p className="mt-1.5 text-xs sm:text-sm text-red-600 flex items-center animate-fade-in">
+                        <i className="fas fa-exclamation-circle mr-1.5"></i>
+                        {errors.confirm_password}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg">
+                  <p className="text-yellow-800 text-xs sm:text-sm font-medium flex items-center">
+                    <i className="fas fa-info-circle mr-2"></i>
+                    Password will only be updated if both fields are filled and match.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Specialist Profile Section - Only for specialists */}
         {isCreating && formData.user_type === 'specialist' && (
           <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
@@ -969,8 +1143,8 @@ function UserForm({ user, onSave, onCancel }) {
           </div>
         )}
 
-        {/* Demographics Section - Only for regular users */}
-        {isCreating && formData.user_type !== 'specialist' && (
+        {/* Demographics Section - For regular users (create and edit) */}
+        {formData.user_type !== 'specialist' && (
           <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 pb-4 border-b border-gray-200 gap-4">
               <div className="flex items-center">
@@ -978,22 +1152,28 @@ function UserForm({ user, onSave, onCancel }) {
                   <i className="fas fa-user-circle text-white text-lg sm:text-xl"></i>
                 </div>
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Demographics (Optional)</h3>
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Add comprehensive demographic information</p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
+                    {isCreating ? 'Demographics (Optional)' : 'Demographics'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    {isCreating ? 'Add comprehensive demographic information' : 'Edit demographic information'}
+                  </p>
                 </div>
               </div>
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showDemographics}
-                  onChange={(e) => setShowDemographics(e.target.checked)}
-                  className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 rounded focus:ring-purple-500"
-                />
-                <span className="ml-3 text-sm sm:text-base text-gray-700 font-semibold">Add Demographics</span>
-              </label>
+              {isCreating && (
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={showDemographics}
+                    onChange={(e) => setShowDemographics(e.target.checked)}
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 rounded focus:ring-purple-500"
+                  />
+                  <span className="ml-3 text-sm sm:text-base text-gray-700 font-semibold">Add Demographics</span>
+                </label>
+              )}
             </div>
 
-            {showDemographics && (
+            {(showDemographics || !isCreating) && (
               <div className="space-y-6 animate-fade-in">
                 {/* Basic Demographics */}
                 <div className="bg-purple-50 rounded-xl p-4 sm:p-5 border-2 border-purple-200">
