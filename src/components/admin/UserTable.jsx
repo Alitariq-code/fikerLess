@@ -186,7 +186,7 @@ function UserTable({ onBreadcrumbChange }) {
   }
 
   const handleFormSave = () => {
-    setSuccessMessage('User updated successfully!')
+    setSuccessMessage(editingUser ? 'User updated successfully!' : 'User created successfully!')
     fetchUsers()
     setMode('list')
     setEditingUser(null)
@@ -197,6 +197,15 @@ function UserTable({ onBreadcrumbChange }) {
     setMode('list')
     setEditingUser(null)
     setBreadcrumbItems([{ label: 'Users' }])
+  }
+
+  const handleCreate = () => {
+    setEditingUser(null)
+    setMode('edit')
+    setBreadcrumbItems([
+      { label: 'Users', onClick: () => handleBreadcrumbNavigate(0) },
+      { label: 'Create New User' },
+    ])
   }
 
   const handleSort = (key) => {
@@ -341,18 +350,35 @@ function UserTable({ onBreadcrumbChange }) {
     },
     {
       key: 'has_demographics',
-      label: 'Demographics',
+      label: 'Profile Status',
       sortable: true,
-      render: (value) => (
-        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center ${
-          value
-            ? 'bg-green-100 text-green-700 border border-green-200'
-            : 'bg-gray-100 text-gray-700 border border-gray-200'
-        }`}>
-          <i className={`fas ${value ? 'fa-check' : 'fa-times'} mr-1.5`}></i>
-          {value ? 'Complete' : 'Incomplete'}
-        </span>
-      ),
+      render: (value, row) => {
+        // For specialists, check specialist_profile.profile_completed
+        if (row.user_type === 'specialist') {
+          const isComplete = row.specialist_profile?.profile_completed || false
+          return (
+            <span className={`px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center ${
+              isComplete
+                ? 'bg-green-100 text-green-700 border border-green-200'
+                : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
+            }`}>
+              <i className={`fas ${isComplete ? 'fa-check-circle' : 'fa-exclamation-triangle'} mr-1.5`}></i>
+              {isComplete ? 'Complete' : 'Incomplete'}
+            </span>
+          )
+        }
+        // For regular users, check has_demographics
+        return (
+          <span className={`px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center ${
+            value
+              ? 'bg-green-100 text-green-700 border border-green-200'
+              : 'bg-gray-100 text-gray-700 border border-gray-200'
+          }`}>
+            <i className={`fas ${value ? 'fa-check' : 'fa-times'} mr-1.5`}></i>
+            {value ? 'Complete' : 'Incomplete'}
+          </span>
+        )
+      },
     },
     {
       key: 'is_disabled',
@@ -664,6 +690,15 @@ function UserTable({ onBreadcrumbChange }) {
           <h2 className="text-3xl font-bold text-gray-800 mb-2">Manage Users</h2>
           <p className="text-gray-600">Comprehensive user management system</p>
         </div>
+        {mode === 'list' && (
+          <button
+            onClick={handleCreate}
+            className="px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 flex items-center"
+          >
+            <i className="fas fa-plus mr-2"></i>
+            Create New User
+          </button>
+        )}
       </div>
 
       {/* Stats Cards */}
