@@ -185,7 +185,7 @@ function UserForm({ user, onSave, onCancel }) {
         },
       }))
     } else {
-      setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }))
     }
     setTouchedFields((prev) => ({ ...prev, [field]: true }))
     
@@ -376,8 +376,8 @@ function UserForm({ user, onSave, onCancel }) {
         if (formData.user_type !== 'specialist' && showDemographics) {
           payload.demographics = formData.demographics
         }
-        await api.put(`/users/admin/${user._id}`, payload)
-        setSuccessMessage('User updated successfully!')
+      await api.put(`/users/admin/${user._id}`, payload)
+      setSuccessMessage('User updated successfully!')
       }
 
       setTimeout(() => {
@@ -457,43 +457,43 @@ function UserForm({ user, onSave, onCancel }) {
 
           <div className="space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
                     <i className="fas fa-envelope text-gray-400 text-sm sm:text-base"></i>
-                  </div>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    onBlur={() => setTouchedFields(prev => ({ ...prev, email: true }))}
-                    required
-                    disabled={!isCreating}
-                    placeholder="user@example.com"
-                    className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 text-sm sm:text-base ${
-                      getFieldError('email')
-                        ? 'border-red-300 focus:ring-red-400 focus:border-red-400 bg-red-50'
-                        : 'border-gray-200 focus:ring-blue-400 focus:border-blue-400 bg-white hover:border-gray-300'
-                    } ${!isCreating ? 'bg-gray-50 cursor-not-allowed' : ''}`}
-                  />
                 </div>
-                {getFieldError('email') && (
-                  <p className="mt-1.5 text-xs sm:text-sm text-red-600 flex items-center animate-fade-in">
-                    <i className="fas fa-exclamation-circle mr-1.5"></i>
-                    {getFieldError('email')}
-                  </p>
-                )}
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleChange('email', e.target.value)}
+                  onBlur={() => setTouchedFields(prev => ({ ...prev, email: true }))}
+                  required
+                    disabled={!isCreating}
+                  placeholder="user@example.com"
+                    className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 text-sm sm:text-base ${
+                    getFieldError('email')
+                      ? 'border-red-300 focus:ring-red-400 focus:border-red-400 bg-red-50'
+                      : 'border-gray-200 focus:ring-blue-400 focus:border-blue-400 bg-white hover:border-gray-300'
+                    } ${!isCreating ? 'bg-gray-50 cursor-not-allowed' : ''}`}
+                />
               </div>
+              {getFieldError('email') && (
+                  <p className="mt-1.5 text-xs sm:text-sm text-red-600 flex items-center animate-fade-in">
+                  <i className="fas fa-exclamation-circle mr-1.5"></i>
+                  {getFieldError('email')}
+                </p>
+              )}
+            </div>
 
               {isCreating && (
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Password <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
+                </label>
+                <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
                       <i className="fas fa-lock text-gray-400 text-sm sm:text-base"></i>
                     </div>
@@ -589,41 +589,41 @@ function UserForm({ user, onSave, onCancel }) {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                User Type <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  User Type <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
                   <i className="fas fa-user-tag text-gray-400 text-sm sm:text-base"></i>
-                </div>
-                <select
-                  value={formData.user_type}
-                  onChange={(e) => handleChange('user_type', e.target.value)}
-                  onBlur={() => setTouchedFields(prev => ({ ...prev, user_type: true }))}
-                  required
+                  </div>
+                  <select
+                    value={formData.user_type}
+                    onChange={(e) => handleChange('user_type', e.target.value)}
+                    onBlur={() => setTouchedFields(prev => ({ ...prev, user_type: true }))}
+                    required
                   className={`w-full pl-10 sm:pl-12 pr-8 sm:pr-10 py-2.5 sm:py-3.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 appearance-none bg-white text-sm sm:text-base ${
                     errors.user_type
-                      ? 'border-red-300 focus:ring-red-400 focus:border-red-400 bg-red-50'
-                      : 'border-gray-200 focus:ring-blue-400 focus:border-blue-400 hover:border-gray-300'
-                  }`}
-                >
-                  {USER_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type.charAt(0).toUpperCase() + type.slice(1)}
-                    </option>
-                  ))}
-                </select>
+                        ? 'border-red-300 focus:ring-red-400 focus:border-red-400 bg-red-50'
+                        : 'border-gray-200 focus:ring-blue-400 focus:border-blue-400 hover:border-gray-300'
+                    }`}
+                  >
+                    {USER_TYPES.map((type) => (
+                      <option key={type} value={type}>
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                      </option>
+                    ))}
+                  </select>
                 <div className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center pointer-events-none">
-                  <i className="fas fa-chevron-down text-gray-400"></i>
+                    <i className="fas fa-chevron-down text-gray-400"></i>
+                  </div>
                 </div>
-              </div>
               {errors.user_type && (
                 <p className="mt-1.5 text-xs sm:text-sm text-red-600 flex items-center animate-fade-in">
-                  <i className="fas fa-exclamation-circle mr-1.5"></i>
+                    <i className="fas fa-exclamation-circle mr-1.5"></i>
                   {errors.user_type}
-                </p>
-              )}
+                  </p>
+                )}
             </div>
           </div>
         </div>

@@ -369,14 +369,14 @@ function UserTable({ onBreadcrumbChange }) {
         }
         // For regular users, check has_demographics
         return (
-          <span className={`px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center ${
-            value
-              ? 'bg-green-100 text-green-700 border border-green-200'
-              : 'bg-gray-100 text-gray-700 border border-gray-200'
-          }`}>
-            <i className={`fas ${value ? 'fa-check' : 'fa-times'} mr-1.5`}></i>
-            {value ? 'Complete' : 'Incomplete'}
-          </span>
+        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center ${
+          value
+            ? 'bg-green-100 text-green-700 border border-green-200'
+            : 'bg-gray-100 text-gray-700 border border-gray-200'
+        }`}>
+          <i className={`fas ${value ? 'fa-check' : 'fa-times'} mr-1.5`}></i>
+          {value ? 'Complete' : 'Incomplete'}
+        </span>
         )
       },
     },

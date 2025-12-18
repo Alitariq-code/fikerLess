@@ -9,6 +9,7 @@ import QuotesTab from '../components/admin/QuotesTab'
 import NotificationsTab from '../components/admin/NotificationsTab'
 import AchievementsTab from '../components/admin/AchievementsTab'
 import AudiosTab from '../components/admin/AudiosTab'
+import BookingsTab from '../components/admin/BookingsTab'
 import AnalyticsTab from '../components/admin/AnalyticsTab'
 import SettingsTab from '../components/admin/SettingsTab'
 
@@ -25,7 +26,7 @@ function AdminDashboard() {
   // Initialize activeTab from URL on mount and sync with URL changes
   useEffect(() => {
     const tabFromUrl = searchParams.get('tab')
-    const validTabs = ['dashboard', 'internships', 'articles', 'users', 'analytics', 'settings']
+    const validTabs = ['dashboard', 'internships', 'articles', 'users', 'quotes', 'notifications', 'achievements', 'audios', 'bookings', 'analytics', 'settings']
     
     if (tabFromUrl && validTabs.includes(tabFromUrl)) {
       setActiveTab(tabFromUrl)
@@ -111,6 +112,8 @@ function AdminDashboard() {
         return <AchievementsTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'audios':
         return <AudiosTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'bookings':
+        return <BookingsTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'analytics':
         return <AnalyticsTab />
       case 'settings':
