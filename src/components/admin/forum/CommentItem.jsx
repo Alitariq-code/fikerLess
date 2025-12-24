@@ -119,8 +119,16 @@ function CommentItem({
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center space-x-2 flex-wrap">
                               <p className="font-semibold text-gray-900 text-sm">
-                                {comment.user.first_name} {comment.user.last_name}
+                                {comment.user.first_name || comment.user.last_name 
+                                  ? `${comment.user.first_name} ${comment.user.last_name}`.trim()
+                                  : comment.user.username 
+                                    ? `@${comment.user.username}`
+                                    : 'User'
+                                }
                               </p>
+                              {comment.user.username && (comment.user.first_name || comment.user.last_name) && (
+                                <span className="text-gray-500 text-xs font-normal">(@{comment.user.username})</span>
+                              )}
                               {comment.admin_comment && (
                                 <span className="px-2 py-0.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full text-xs font-bold flex items-center shadow-sm" title="Verified Admin Comment">
                                   <i className="fas fa-check-circle mr-1 text-xs"></i>Admin
@@ -234,8 +242,20 @@ function CommentItem({
                         onCancel={() => setShowReplyForm(false)}
                         actionLoading={actionLoading}
                         parentCommentId={comment._id}
-                        parentCommentAuthor={comment.user ? `${comment.user.first_name} ${comment.user.last_name}` : 'User'}
-                        placeholder={`Reply to ${comment.user ? `${comment.user.first_name} ${comment.user.last_name}` : 'this comment'}...`}
+                        parentCommentAuthor={comment.user 
+                          ? (comment.user.first_name || comment.user.last_name 
+                              ? `${comment.user.first_name} ${comment.user.last_name}`.trim()
+                              : comment.user.username 
+                                ? `@${comment.user.username}`
+                                : 'User')
+                          : 'User'}
+                        placeholder={`Reply to ${comment.user 
+                          ? (comment.user.first_name || comment.user.last_name 
+                              ? `${comment.user.first_name} ${comment.user.last_name}`.trim()
+                              : comment.user.username 
+                                ? `@${comment.user.username}`
+                                : 'this comment')
+                          : 'this comment'}...`}
                       />
                     </div>
                   )}
