@@ -5,6 +5,7 @@ function AdminSidebar({ activeTab, onTabChange, onLogout, isMobileOpen, setIsMob
     { id: 'dashboard', label: 'Dashboard', icon: 'fa-tachometer-alt' },
     { id: 'internships', label: 'Internships', icon: 'fa-graduation-cap' },
     { id: 'articles', label: 'Articles', icon: 'fa-newspaper' },
+    { id: 'forum', label: 'Forum', icon: 'fa-comments' },
     { id: 'users', label: 'Users', icon: 'fa-users' },
     { id: 'quotes', label: 'Quotes', icon: 'fa-quote-left' },
     { id: 'notifications', label: 'Notifications', icon: 'fa-bell' },

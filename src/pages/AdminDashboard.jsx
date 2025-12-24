@@ -4,6 +4,7 @@ import AdminSidebar from '../components/admin/AdminSidebar'
 import DashboardTab from '../components/admin/DashboardTab'
 import InternshipsTab from '../components/admin/InternshipsTab'
 import ArticlesTab from '../components/admin/ArticlesTab'
+import ForumTab from '../components/admin/ForumTab'
 import UsersTab from '../components/admin/UsersTab'
 import QuotesTab from '../components/admin/QuotesTab'
 import NotificationsTab from '../components/admin/NotificationsTab'
@@ -26,7 +27,7 @@ function AdminDashboard() {
   // Initialize activeTab from URL on mount and sync with URL changes
   useEffect(() => {
     const tabFromUrl = searchParams.get('tab')
-    const validTabs = ['dashboard', 'internships', 'articles', 'users', 'quotes', 'notifications', 'achievements', 'audios', 'bookings', 'analytics', 'settings']
+    const validTabs = ['dashboard', 'internships', 'articles', 'forum', 'users', 'quotes', 'notifications', 'achievements', 'audios', 'bookings', 'analytics', 'settings']
     
     if (tabFromUrl && validTabs.includes(tabFromUrl)) {
       setActiveTab(tabFromUrl)
@@ -102,6 +103,8 @@ function AdminDashboard() {
         return <InternshipsTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'articles':
         return <ArticlesTab onBreadcrumbChange={setBreadcrumbItems} />
+      case 'forum':
+        return <ForumTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'users':
         return <UsersTab onBreadcrumbChange={setBreadcrumbItems} />
       case 'quotes':
