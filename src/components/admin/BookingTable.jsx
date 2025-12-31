@@ -57,6 +57,11 @@ function BookingTable({ onBreadcrumbChange }) {
   const [selectedRequestId, setSelectedRequestId] = useState(null)
   const [approvalNotes, setApprovalNotes] = useState('')
   const [showApproveModal, setShowApproveModal] = useState(false)
+  const [showStatusModal, setShowStatusModal] = useState(false)
+  const [selectedSessionId, setSelectedSessionId] = useState(null)
+  const [newStatus, setNewStatus] = useState('COMPLETED')
+  const [statusNotes, setStatusNotes] = useState('')
+  const [cancellationReason, setCancellationReason] = useState('')
   const pageSize = 10
 
   useEffect(() => {
@@ -222,6 +227,54 @@ function BookingTable({ onBreadcrumbChange }) {
     } catch (error) {
       console.error('Error rejecting request:', error)
       const errorMsg = error.response?.data?.message || 'Failed to reject request. Please try again.'
+      setErrorMessage(errorMsg)
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const handleUpdateStatus = (sessionId, currentStatus) => {
+    setSelectedSessionId(sessionId)
+    setNewStatus(currentStatus === 'CONFIRMED' ? 'COMPLETED' : currentStatus)
+    setStatusNotes('')
+    setCancellationReason('')
+    setShowStatusModal(true)
+  }
+
+  const confirmUpdateStatus = async () => {
+    if (!selectedSessionId) return
+
+    // Validate cancellation reason if cancelling
+    if (newStatus === 'CANCELLED' && !cancellationReason.trim()) {
+      setErrorMessage('Please provide a cancellation reason.')
+      return
+    }
+
+    setActionLoading(`status-${selectedSessionId}`)
+    setErrorMessage('')
+    try {
+      const payload = {
+        status: newStatus,
+      }
+      
+      if (statusNotes.trim()) {
+        payload.notes = statusNotes
+      }
+      
+      if (newStatus === 'CANCELLED' && cancellationReason.trim()) {
+        payload.cancellation_reason = cancellationReason
+      }
+
+      await api.put(`/booking/admin/sessions/${selectedSessionId}/status`, payload)
+      setSuccessMessage(`Session status updated to ${newStatus} successfully!`)
+      setShowStatusModal(false)
+      setStatusNotes('')
+      setCancellationReason('')
+      setSelectedSessionId(null)
+      fetchSessions()
+    } catch (error) {
+      console.error('Error updating session status:', error)
+      const errorMsg = error.response?.data?.message || 'Failed to update session status. Please try again.'
       setErrorMessage(errorMsg)
     } finally {
       setActionLoading(null)
@@ -394,6 +447,28 @@ function BookingTable({ onBreadcrumbChange }) {
                   <i className="fas fa-check mr-2"></i>Approve
                 </button>
               </>
+            )}
+            {view === 'sessions' && viewingItem.status === 'CONFIRMED' && (
+              <button
+                onClick={() => {
+                  setNewStatus('COMPLETED')
+                  handleUpdateStatus(viewingItem._id, viewingItem.status)
+                }}
+                className="px-6 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all transform hover:scale-105"
+              >
+                <i className="fas fa-check-double mr-2"></i>Mark as Completed
+              </button>
+            )}
+            {view === 'sessions' && (viewingItem.status === 'CONFIRMED' || viewingItem.status === 'COMPLETED') && (
+              <button
+                onClick={() => {
+                  setNewStatus('CANCELLED')
+                  handleUpdateStatus(viewingItem._id, viewingItem.status)
+                }}
+                className="px-6 py-2.5 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-all transform hover:scale-105"
+              >
+                <i className="fas fa-times-circle mr-2"></i>Cancel Session
+              </button>
             )}
           </div>
         </div>
@@ -741,6 +816,37 @@ function BookingTable({ onBreadcrumbChange }) {
                                 </button>
                               </>
                             )}
+                            {view === 'sessions' && item.status === 'CONFIRMED' && (
+                              <button
+                                onClick={() => handleUpdateStatus(item._id, item.status)}
+                                disabled={actionLoading === `status-${item._id}`}
+                                className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-all transform hover:scale-110 disabled:opacity-50"
+                                title="Mark as Completed"
+                              >
+                                {actionLoading === `status-${item._id}` ? (
+                                  <i className="fas fa-spinner fa-spin"></i>
+                                ) : (
+                                  <i className="fas fa-check-double"></i>
+                                )}
+                              </button>
+                            )}
+                            {view === 'sessions' && (item.status === 'CONFIRMED' || item.status === 'COMPLETED') && (
+                              <button
+                                onClick={() => {
+                                  setNewStatus('CANCELLED')
+                                  handleUpdateStatus(item._id, item.status)
+                                }}
+                                disabled={actionLoading === `status-${item._id}`}
+                                className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-all transform hover:scale-110 disabled:opacity-50"
+                                title="Cancel Session"
+                              >
+                                {actionLoading === `status-${item._id}` ? (
+                                  <i className="fas fa-spinner fa-spin"></i>
+                                ) : (
+                                  <i className="fas fa-times-circle"></i>
+                                )}
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -830,6 +936,86 @@ function BookingTable({ onBreadcrumbChange }) {
               >
                 {actionLoading ? <i className="fas fa-spinner fa-spin mr-2"></i> : null}
                 Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Update Status Modal */}
+      {showStatusModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              {newStatus === 'COMPLETED' ? 'Mark Session as Completed' : newStatus === 'CANCELLED' ? 'Cancel Session' : 'Update Session Status'}
+            </h3>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Status
+              </label>
+              <select
+                value={newStatus}
+                onChange={(e) => setNewStatus(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none bg-white"
+              >
+                <option value="CONFIRMED">Confirmed</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+                <option value="NO_SHOW">No Show</option>
+              </select>
+            </div>
+            {newStatus === 'CANCELLED' && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Cancellation Reason <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={cancellationReason}
+                  onChange={(e) => setCancellationReason(e.target.value)}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-400"
+                  rows="3"
+                  placeholder="Please provide a reason for cancellation..."
+                  required
+                />
+              </div>
+            )}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Notes (Optional)
+              </label>
+              <textarea
+                value={statusNotes}
+                onChange={(e) => setStatusNotes(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                rows="3"
+                placeholder="Add any notes about this session..."
+              />
+            </div>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => {
+                  setShowStatusModal(false)
+                  setStatusNotes('')
+                  setCancellationReason('')
+                  setSelectedSessionId(null)
+                }}
+                className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmUpdateStatus}
+                disabled={actionLoading || (newStatus === 'CANCELLED' && !cancellationReason.trim())}
+                className={`flex-1 px-4 py-2 text-white font-semibold rounded-xl disabled:opacity-50 ${
+                  newStatus === 'COMPLETED'
+                    ? 'bg-green-600 hover:bg-green-700'
+                    : newStatus === 'CANCELLED'
+                    ? 'bg-red-600 hover:bg-red-700'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                {actionLoading ? <i className="fas fa-spinner fa-spin mr-2"></i> : null}
+                {newStatus === 'COMPLETED' ? 'Mark as Completed' : newStatus === 'CANCELLED' ? 'Cancel Session' : 'Update Status'}
               </button>
             </div>
           </div>
